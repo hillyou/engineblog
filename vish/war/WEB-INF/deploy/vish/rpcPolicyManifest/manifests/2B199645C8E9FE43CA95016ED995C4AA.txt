@@ -1,0 +1,2 @@
+serviceClass: com.hico.vish.client.GreetingService
+path: D159DF7585B99405E7E8B78B3BA592A2.gwt.rpc
