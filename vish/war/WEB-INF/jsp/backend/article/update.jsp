@@ -12,13 +12,15 @@
 <body>
     <c:set var="contextPath"><%=request.getContextPath()%></c:set>
     <c:set var="acticle" value="${ARTICLE}"></c:set>
+    <div><a href="${contextPath}/article/user/createarticle.html">write another article</a></div>
+    <div>${MESSAGE}</div>
     <div>
         <form action="${contextPath}/article/user/updatearticle.html" method="post">
             <div>Title:<input name="title" type="text" value="${acticle.title}"/></div>
             <div>Content:<textarea id="ckeditor" name="content" rows="30" cols="80">${acticle.content}</textarea></div>
             <div>
 	            <input type="hidden" name="articleid" value="${acticle.id}"/>
-	            <input type="submit"/>
+	            <input type="submit"/><input type="button" id="canclesave" value="cancle"/>
             </div>
         </form>
     </div>

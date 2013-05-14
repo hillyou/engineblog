@@ -9,6 +9,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <c:set var="contextPath"><%=request.getContextPath()%></c:set>
 <c:set var="acticle" value="${ARTICLE}"></c:set>
+<c:set var="currentusername"><%=request.getUserPrincipal().getName() %></c:set>
 <script type="text/javascript" src="${contextPath}/js/jquery/jquery.js" type="text/javascript"></script>
 <script type="text/javascript" src="${contextPath}/js/jquery/jquery-ui.js"></script>
 <script type="text/javascript" src="${contextPath}/js/article.js"></script>
@@ -22,7 +23,7 @@
     <div class="commentslist">
         <c:forEach var="comment" items="${acticle.comments}">
             <div class="commentitem">
-	            <div>${comment.commentBy} at <fmt:formatDate value="${comment.commentDate}" pattern="MM/dd/yyyy hh:mm" /></div>
+	            <div>${comment.commentBy.email} at <fmt:formatDate value="${comment.commentDate}" pattern="MM/dd/yyyy hh:mm" /></div>
 	            <div><c:out escapeXml="true" value="${comment.content}"></c:out></div>
             </div>
         </c:forEach>
@@ -37,6 +38,7 @@
 	           <div>
 	               <input type="hidden" id="ajaxURL" value="${contextPath}/article/user/ajaxaddcomment.html"/>
 	               <input type="hidden" name="articleid" id="articleid" value="${acticle.id}"/>
+	                <input type="hidden" name="currentuser" id="currentuser" value="${currentusername}"/>
 	               <input type="submit"/>
 	           </div>
 	        </form>

@@ -1,5 +1,11 @@
 package com.hico.vish.view.controller;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,11 +23,18 @@ public class UserController {
 	private UserManager userManager;
 	
 	@RequestMapping("/setting/openblog")
-	public String updateUser() {
+	public void updateUser(HttpServletRequest request,HttpServletResponse response) {
 		UserEntity user=getCurrentUser();
 		user.setBloger(true);
 		userManager.saveOrUpdateUser(user);
-		return "backend/article/create";
+		try {
+			response.setContentType("text/html");
+			PrintWriter printWriter=response.getWriter();
+			printWriter.println("Blog opened successfully<br>");
+			printWriter.println("<a href=\""+request.getContextPath()+"/article/user/createarticle.html\">go write blog</a>");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	private UserEntity getCurrentUser() {

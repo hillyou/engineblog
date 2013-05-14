@@ -13,22 +13,30 @@ public class UserDao {
 	
 	public UserEntity getUserByEmail(String email) {
 		PersistenceManager  persistenceManager=persistenceManagerFactory.getPersistenceManager();
-		Query query=persistenceManager.newQuery(UserEntity.class);
-		query.setFilter("email== useremail");
-		query.declareParameters("String useremail");
-		query.setUnique(true);
-		UserEntity user=(UserEntity) query.execute(email);
-		return user;
+		try{
+			Query query=persistenceManager.newQuery(UserEntity.class);
+			query.setFilter("email== useremail");
+			query.declareParameters("String useremail");
+			query.setUnique(true);
+			UserEntity user=(UserEntity) query.execute(email);
+			return user;
+		}finally{
+			persistenceManager.close();
+		}
 	}
 	
 	public UserEntity getUserById(String id) {
 		PersistenceManager  persistenceManager=persistenceManagerFactory.getPersistenceManager();
-		Query query=persistenceManager.newQuery(UserEntity.class);
-		query.setFilter("userId== userIdValue");
-		query.declareParameters("String userIdValue");
-		query.setUnique(true);
-		UserEntity user=(UserEntity) query.execute(id);
-		return user;
+		try{
+			Query query=persistenceManager.newQuery(UserEntity.class);
+			query.setFilter("userId== userIdValue");
+			query.declareParameters("String userIdValue");
+			query.setUnique(true);
+			UserEntity user=(UserEntity) query.execute(id);
+			return user;
+		}finally{
+			persistenceManager.close();
+		}
 	}
 	
 	public void saveUser(UserEntity user) {
@@ -43,6 +51,8 @@ public class UserDao {
 			if(transaction.isActive()) {
 				transaction.rollback();
 			}
+		}finally{
+			persistenceManager.close();
 		}
 	}
 	

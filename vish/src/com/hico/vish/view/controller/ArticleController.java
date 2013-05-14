@@ -55,6 +55,7 @@ public class ArticleController {
 		Article article=new Article(title,content,user);
 		articleManager.save(article);
 		request.setAttribute("ARTICLE", article);
+		request.setAttribute("MESSAGE", "Save successfully");
 		return "backend/article/update";
 	}
 	
@@ -72,6 +73,7 @@ public class ArticleController {
 		article.setContent(content);
 		articleManager.update(article);
 		request.setAttribute("ARTICLE", article);
+		request.setAttribute("MESSAGE", "Update successfully");
 		return "backend/article/update";
 	}
 	
@@ -126,9 +128,9 @@ public class ArticleController {
 		String articleid=request.getParameter("articleid");
 		String content=request.getParameter("comment");
 		Article article=articleManager.getById(Long.valueOf(articleid).longValue());
-		List comments=article.getComments();
+		List<Comment> comments=article.getComments();
 		if(comments==null) {
-			comments=new ArrayList();
+			comments=new ArrayList<Comment>();
 		}
 		Comment comment=new Comment(content);
 		comment.setArticle(article);

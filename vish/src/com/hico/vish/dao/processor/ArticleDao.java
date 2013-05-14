@@ -26,6 +26,8 @@ public class ArticleDao {
 			if(transaction.isActive()) {
 				transaction.rollback();
 			}
+		}finally{
+			persistenceManager.close();
 		}
 	}
 	
@@ -42,26 +44,36 @@ public class ArticleDao {
 			if(transaction.isActive()) {
 				transaction.rollback();
 			}
+		}finally{
+			persistenceManager.close();
 		}
 	}
 
 	public Article get(Long id) {
 		PersistenceManager  persistenceManager=persistenceManagerFactory.getPersistenceManager();
-		persistenceManager.setDetachAllOnCommit(true); 
-		persistenceManager.getFetchPlan().addGroup("fullArticle");
-		Article article=persistenceManager.getObjectById(Article.class,id);
-		return article;
+		try{
+			persistenceManager.setDetachAllOnCommit(true); 
+			persistenceManager.getFetchPlan().addGroup("fullArticle");
+			Article article=persistenceManager.getObjectById(Article.class,id);
+			return article;
+		}finally{
+			persistenceManager.close();
+		}
 	}
 	
 	
 	public List<Article> getArticleList(){
 		PersistenceManager  persistenceManager=persistenceManagerFactory.getPersistenceManager();
-		Query query=persistenceManager.newQuery(Article.class);
-		List<Article> articles=(List<Article>) query.execute();
-		for(Article article:articles ) {
-			System.out.println(article);
+		try{
+			Query query=persistenceManager.newQuery(Article.class);
+			List<Article> articles=(List<Article>) query.execute();
+			for(Article article:articles ) {
+				System.out.println(article);
+			}
+			return articles;
+		}finally{
+			persistenceManager.close();
 		}
-		return articles;
 	}
 	
 	/**

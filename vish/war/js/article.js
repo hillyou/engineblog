@@ -4,6 +4,7 @@ $(document).ready(function(){
 		var url=$('#ajaxURL').val();
 		var articleId=$('#articleid').val();
 		var comment=$('#commentId').val();
+		var commiter=$('#currentuser').val();
 		$.ajax({
 			url: url,
 			type: "POST",
@@ -15,7 +16,7 @@ $(document).ready(function(){
 			var hour=current.getHours();       
 			var min=current.getMinutes();
 			var dt_to = $.datepicker.formatDate('mm/dd/yy', current)+" "+hour+":"+min;
-			var newcommentitme="<div class=\"commentitem\"><div> somebody at " +dt_to+"<div>"+escapecontent+"</div></div>"
+			var newcommentitme="<div class=\"commentitem\"><div> "+commiter+" at " +dt_to+"<div>"+escapecontent+"</div></div>"
 			if($('.commentitem').length > 0){
 				$('div .commentitem:first').before(newcommentitme)
 			}else{
@@ -27,6 +28,11 @@ $(document).ready(function(){
 		});
 		return false;
 	});
+	
+	$('#canclesave').on('click',function() {
+		
+	});
+	
 	
 	
 });
