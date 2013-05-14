@@ -2,12 +2,9 @@ package com.hico.vish.dao.table;
 
 import java.util.Date;
 
-import javax.jdo.annotations.IdGeneratorStrategy;
+import javax.jdo.annotations.Element;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
-import javax.jdo.annotations.PrimaryKey;
-
-import com.google.appengine.api.datastore.Key;
 
 @PersistenceCapable(detachable = "true")
 public class Comment {
@@ -22,13 +19,14 @@ public class Comment {
 	@Persistent
 	private Date commentDate;
 	@Persistent
-	private Key commentBy;
-	@Persistent
 	private boolean isDelete=false;
 	@Persistent
 	private boolean isValid=true;
 	@Persistent
 	private boolean isPublished=true;
+	@Persistent
+	@Element(dependent = "true")
+	private UserEntity commentBy;
 	
 	public Comment() {}
 	
@@ -89,13 +87,13 @@ public class Comment {
 	/**
 	 * @return the commentBy
 	 */
-	public Key getCommentBy() {
+	public UserEntity getCommentBy() {
 		return commentBy;
 	}
 	/**
 	 * @param commentBy the commentBy to set
 	 */
-	public void setCommentBy(Key commentBy) {
+	public void setCommentBy(UserEntity commentBy) {
 		this.commentBy = commentBy;
 	}
 	/**

@@ -11,7 +11,7 @@
 <body>
 	<c:set var="contextPath"><%=request.getContextPath()%></c:set>
 	<div style="width: 800px;">
-		<form action="${contextPath}/article/savearticle.html" method="post">
+		<form action="${contextPath}/article/user/savearticle.html" method="post">
 			<div>Title:<input name="title" type="text" style="width: 90%"/></div>
 			<div>Content:<textarea id="ckeditor" name="content" rows="30" cols="80"></textarea></div>
 			<div><input type="submit"/></div>

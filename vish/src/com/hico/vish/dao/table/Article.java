@@ -14,7 +14,7 @@ import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 
 @PersistenceCapable(detachable = "true")
-@FetchGroup(name = "fullArticle", members = { @Persistent(name = "comments") }) 
+@FetchGroup(name = "fullArticle", members = { @Persistent(name = "comments")}) 
 public class Article {
 	@PrimaryKey
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
@@ -37,7 +37,9 @@ public class Article {
 	private boolean isPublished;
 	@Persistent
 	private boolean isOpenComment=true;
-	
+	@Persistent
+	@Element(dependent = "true")
+	private UserEntity author;
 	@Persistent(mappedBy = "article")
 	@Element(dependent = "true")
 	private List<Comment> comments;
@@ -46,9 +48,10 @@ public class Article {
 		
 	}
 	
-	public Article(String title, String content) {
+	public Article(String title, String content,UserEntity author) {
 		this.title = title;
 		this.content = content;
+		this.author=author;
 	}
 	/**
 	 * @return the key

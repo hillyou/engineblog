@@ -13,7 +13,7 @@
     <c:set var="contextPath"><%=request.getContextPath()%></c:set>
     <c:set var="acticle" value="${ARTICLE}"></c:set>
     <div>
-        <form action="${contextPath}/article/updatearticle.html" method="post">
+        <form action="${contextPath}/article/user/updatearticle.html" method="post">
             <div>Title:<input name="title" type="text" value="${acticle.title}"/></div>
             <div>Content:<textarea id="ckeditor" name="content" rows="30" cols="80">${acticle.content}</textarea></div>
             <div>

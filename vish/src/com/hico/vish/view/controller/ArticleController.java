@@ -14,9 +14,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.hico.vish.dao.table.AppUser;
 import com.hico.vish.dao.table.Article;
 import com.hico.vish.dao.table.Comment;
+import com.hico.vish.dao.table.UserEntity;
 import com.hico.vish.manager.ArticleManager;
+import com.hico.vish.manager.UserManager;
+import com.hico.vish.util.UserUtil;
 
 @Controller
 @RequestMapping(value = "/article")
@@ -25,23 +29,41 @@ public class ArticleController {
 	@Autowired
 	private ArticleManager articleManager;
 	
-	@RequestMapping("/createarticle")
-	public String createArticle() {
+	@Autowired
+	private UserManager userManager;
+	
+	private final static String REQ_ATTR_MESSAGE="MESSAGE";
+	
+	@RequestMapping("/user/createarticle")
+	public String createArticle(HttpServletRequest request) {
+		if(!isValidBlogger()) {
+			request.setAttribute(REQ_ATTR_MESSAGE, "User forbidden");
+			return "frontend/message";
+		}
 		return "backend/article/create";
 	}
 	
-	@RequestMapping("/savearticle")
+	@RequestMapping("/user/savearticle")
 	public String saveArticle(HttpServletRequest request) {
+		UserEntity user=getCurrentUser();
+		if(!isValidBlogger(user)) {
+			request.setAttribute(REQ_ATTR_MESSAGE, "User forbidden");
+			return "frontend/message";
+		}
 		String title=request.getParameter("title");
 		String content=request.getParameter("content");
-		Article article=new Article(title,content);
+		Article article=new Article(title,content,user);
 		articleManager.save(article);
 		request.setAttribute("ARTICLE", article);
 		return "backend/article/update";
 	}
 	
-	@RequestMapping("/updatearticle")
+	@RequestMapping("/user/updatearticle")
 	public String updateArticle(HttpServletRequest request) {
+		if(!isValidBlogger()) {
+			request.setAttribute(REQ_ATTR_MESSAGE, "User forbidden");
+			return "frontend/message";
+		}
 		String articleid=request.getParameter("articleid");
 		String title=request.getParameter("title");
 		String content=request.getParameter("content");
@@ -53,20 +75,28 @@ public class ArticleController {
 		return "backend/article/update";
 	}
 	
-	@RequestMapping("/ajaxsavearticle")
+	@RequestMapping("/user/ajaxsavearticle")
 	public void saveArticleWithAjax(HttpServletRequest request,HttpServletResponse response) {
-		saveArticle(request);
+		String message="Save successfully";
+		if(!isValidBlogger()) {
+			message="User forbidden";
+		}else {
+			saveArticle(request);
+		}
 		try {
 			response.setContentType("text/plain");
 			PrintWriter printWriter=response.getWriter();
-			printWriter.print("Save successfully");
+			printWriter.print(message);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	@RequestMapping("/ajaxupdatearticle")
+	@RequestMapping("/user/ajaxupdatearticle")
 	public void updateArticleWithAjax(HttpServletRequest request,HttpServletResponse response) {
+		if(!isValidBlogger()) {
+			request.setAttribute(REQ_ATTR_MESSAGE, "user forbidden");
+		}
 		updateArticle(request);
 		try {
 			response.setContentType("text/plain");
@@ -91,7 +121,7 @@ public class ArticleController {
 		return "frontend/showarticle";
 	}
 	
-	@RequestMapping("/addcomment")
+	@RequestMapping("/user/addcomment")
 	public String addComment(HttpServletRequest request) {
 		String articleid=request.getParameter("articleid");
 		String content=request.getParameter("comment");
@@ -102,6 +132,7 @@ public class ArticleController {
 		}
 		Comment comment=new Comment(content);
 		comment.setArticle(article);
+		comment.setCommentBy(getCurrentUser());
 		comment.setCommentDate(new Date());
 		comments.add(comment);
 		articleManager.save(article);
@@ -109,7 +140,7 @@ public class ArticleController {
 		return "frontend/showarticle";
 	}
 	
-	@RequestMapping("/ajaxaddcomment")
+	@RequestMapping("/user/ajaxaddcomment")
 	public void addCommentWithAjax(HttpServletRequest request,HttpServletResponse response) {
 		addComment(request);
 		try {
@@ -122,4 +153,27 @@ public class ArticleController {
 		}
 	}
 	
+	private UserEntity getCurrentUser() {
+		AppUser user=UserUtil.getAppUser();
+		UserEntity loginUser=userManager.getUserByEmail(user.getEmail());
+		if(loginUser==null) {
+			loginUser=new UserEntity();
+			loginUser.setUserName(user.getEmail());
+			loginUser.setEmail(user.getEmail());
+			loginUser.setNickName(user.getNickName());
+			loginUser.setUserId(user.getUserId());
+			userManager.saveOrUpdateUser(loginUser);
+		}
+		return loginUser;
+	}
+	
+	
+	private boolean isValidBlogger() {
+		UserEntity user=getCurrentUser();
+		return isValidBlogger(user);
+	}
+	
+	private boolean isValidBlogger(UserEntity user) {
+		return user.isBloger() && !user.isDeleted() && !user.isLocked() && user.isValid();
+	}
 }

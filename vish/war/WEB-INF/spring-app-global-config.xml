@@ -46,6 +46,14 @@
 	<bean id="articleManager" class="com.hico.vish.manager.ArticleManager">
        <property name="articleDao" ref="articleDao"/>
     </bean>
+    
+    <bean id="userDao" class="com.hico.vish.dao.processor.UserDao">
+       <property name="persistenceManagerFactory" ref="persistenceManagerFactory"/>
+    </bean>
+    
+    <bean id="userManager" class="com.hico.vish.manager.UserManager">
+       <property name="userDao" ref="userDao"/>
+    </bean>
 
 	<bean id="messageSource"
 		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
