@@ -21,10 +21,11 @@ import com.hico.vish.dao.table.UserEntity;
 import com.hico.vish.manager.ArticleManager;
 import com.hico.vish.manager.UserManager;
 import com.hico.vish.util.UserUtil;
+import com.hico.vish.view.BaseController;
 
 @Controller
 @RequestMapping(value = "/article")
-public class ArticleController {
+public class ArticleController extends BaseController{
 
 	@Autowired
 	private ArticleManager articleManager;
@@ -37,7 +38,7 @@ public class ArticleController {
 	@RequestMapping("/user/createarticle")
 	public String createArticle(HttpServletRequest request) {
 		if(!isValidBlogger()) {
-			request.setAttribute(REQ_ATTR_MESSAGE, "User forbidden");
+			request.setAttribute(REQ_ATTR_MESSAGE, "User forbidden</br>Currently you don't have a blog, please click <a href=\""+request.getContextPath()+"/user/setting/openblog.html\">here</a> to open");
 			return "frontend/message";
 		}
 		return "backend/article/create";
@@ -53,7 +54,12 @@ public class ArticleController {
 		String title=request.getParameter("title");
 		String content=request.getParameter("content");
 		Article article=new Article(title,content,user);
-		articleManager.save(article);
+		List<Article> articles=user.getArticles();
+		if(articles==null) {
+			articles=new ArrayList();
+		}
+		articles.add(article);
+		userManager.saveOrUpdateUser(user);
 		request.setAttribute("ARTICLE", article);
 		request.setAttribute("MESSAGE", "Save successfully");
 		return "backend/article/update";
@@ -97,7 +103,7 @@ public class ArticleController {
 	@RequestMapping("/user/ajaxupdatearticle")
 	public void updateArticleWithAjax(HttpServletRequest request,HttpServletResponse response) {
 		if(!isValidBlogger()) {
-			request.setAttribute(REQ_ATTR_MESSAGE, "user forbidden");
+			request.setAttribute(REQ_ATTR_MESSAGE, "User forbidden");
 		}
 		updateArticle(request);
 		try {
@@ -133,9 +139,9 @@ public class ArticleController {
 			comments=new ArrayList<Comment>();
 		}
 		Comment comment=new Comment(content);
-		comment.setArticle(article);
 		comment.setCommentBy(getCurrentUser());
 		comment.setCommentDate(new Date());
+		comment.setArticle(article);
 		comments.add(comment);
 		articleManager.save(article);
 		request.setAttribute("ARTICLE", article);

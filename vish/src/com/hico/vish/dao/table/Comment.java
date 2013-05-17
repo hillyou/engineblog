@@ -2,16 +2,19 @@ package com.hico.vish.dao.table;
 
 import java.util.Date;
 
-import javax.jdo.annotations.Element;
+import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
+import javax.jdo.annotations.PrimaryKey;
 
-@PersistenceCapable(detachable = "true")
+import com.google.appengine.api.datastore.Key;
+
+@PersistenceCapable
 public class Comment {
 
-//	@PrimaryKey
-//    @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-//	private Key key;
+	@PrimaryKey
+    @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
+	private Key key;
 	@Persistent
 	private Article article;
 	@Persistent
@@ -25,7 +28,6 @@ public class Comment {
 	@Persistent
 	private boolean isPublished=true;
 	@Persistent
-	@Element(dependent = "true")
 	private UserEntity commentBy;
 	
 	public Comment() {}
@@ -33,19 +35,20 @@ public class Comment {
 	public Comment(String content) {
 		this.content=content;
 	}
-//	/**
-//	 * @return the key
-//	 */
-//	public Key getKey() {
-//		return key;
-//	}
-//	/**
-//	 * @param key the key to set
-//	 */
-//	public void setKey(Key key) {
-//		this.key = key;
-//	}
 	
+	/**
+	 * @return the key
+	 */
+	public Key getKey() {
+		return key;
+	}
+	/**
+	 * @param key the key to set
+	 */
+	public void setKey(Key key) {
+		this.key = key;
+	}
+
 	/**
 	 * @return the article
 	 */

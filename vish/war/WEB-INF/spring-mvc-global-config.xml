@@ -41,9 +41,14 @@
 	</bean>
 
 	<mvc:interceptors>
+	   <bean class="com.hico.vish.view.interceptor.BaseInterceptor"></bean>
 		<bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
 			<property name="paramName" value="language" />
 		</bean>
+	   <mvc:interceptor>
+	       <mvc:mapping path="/article/**"/>
+	       <bean class="com.hico.vish.view.interceptor.ArticleInterceptor"></bean>
+	   </mvc:interceptor>
 	</mvc:interceptors>
 
 	<bean id="viewResolver"
@@ -57,7 +62,8 @@
 	<bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		<property name="defaultEncoding" value="utf-8"></property>
-		
 	</bean>	
+	
+	<mvc:resources location="/js/**" mapping="/js/" cache-period="31556926"/>
 	
 </beans>

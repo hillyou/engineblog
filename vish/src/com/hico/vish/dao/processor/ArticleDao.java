@@ -52,9 +52,11 @@ public class ArticleDao {
 	public Article get(Long id) {
 		PersistenceManager  persistenceManager=persistenceManagerFactory.getPersistenceManager();
 		try{
-			persistenceManager.setDetachAllOnCommit(true); 
-			persistenceManager.getFetchPlan().addGroup("fullArticle");
+//			persistenceManager.setDetachAllOnCommit(true); 
+//			persistenceManager.getFetchPlan().addGroup("fullArticle");
+//			persistenceManager.getExtent(arg0);
 			Article article=persistenceManager.getObjectById(Article.class,id);
+			System.out.println(article);
 			return article;
 		}finally{
 			persistenceManager.close();

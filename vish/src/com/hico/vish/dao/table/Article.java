@@ -13,8 +13,7 @@ import javax.jdo.annotations.PrimaryKey;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 
-@PersistenceCapable(detachable = "true")
-@FetchGroup(name = "fullArticle", members = { @Persistent(name = "comments")}) 
+@PersistenceCapable
 public class Article {
 	@PrimaryKey
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
@@ -38,10 +37,9 @@ public class Article {
 	@Persistent
 	private boolean isOpenComment=true;
 	@Persistent
-	@Element(dependent = "true")
 	private UserEntity author;
-	@Persistent(mappedBy = "article")
-	@Element(dependent = "true")
+	@Persistent(defaultFetchGroup = "true",mappedBy = "article")
+	@Element(dependent = "true") 
 	private List<Comment> comments;
 	
 	public Article() {
@@ -205,6 +203,20 @@ public class Article {
 	 */
 	public void setOpenComment(boolean isOpenComment) {
 		this.isOpenComment = isOpenComment;
+	}
+
+	/**
+	 * @return the author
+	 */
+	public UserEntity getAuthor() {
+		return author;
+	}
+
+	/**
+	 * @param author the author to set
+	 */
+	public void setAuthor(UserEntity author) {
+		this.author = author;
 	}
 
 	@Override

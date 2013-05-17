@@ -1,7 +1,9 @@
 package com.hico.vish.dao.table;
 
 import java.util.Date;
+import java.util.List;
 
+import javax.jdo.annotations.Element;
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
@@ -11,7 +13,7 @@ import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.hico.vish.util.EmailUtil;
 
-@PersistenceCapable(detachable = "true")
+@PersistenceCapable
 public class UserEntity {
 	@PrimaryKey
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
@@ -34,6 +36,10 @@ public class UserEntity {
 	private boolean isLocked=false;
 	@Persistent
 	private boolean isBloger=false;
+	@Persistent(defaultFetchGroup = "true",mappedBy = "author")
+	@Element(dependent = "true")
+	private List<Article> articles;
+
 	/**
 	 * @return the key
 	 */
@@ -176,6 +182,18 @@ public class UserEntity {
 	 */
 	public void setBloger(boolean isBloger) {
 		this.isBloger = isBloger;
+	}
+	/**
+	 * @return the articles
+	 */
+	public List<Article> getArticles() {
+		return articles;
+	}
+	/**
+	 * @param articles the articles to set
+	 */
+	public void setArticles(List<Article> articles) {
+		this.articles = articles;
 	}
 	
 }
