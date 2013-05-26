@@ -1,10 +1,10 @@
 package com.hico.vish.dao.table;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
 import javax.jdo.annotations.Element;
-import javax.jdo.annotations.FetchGroup;
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
@@ -12,16 +12,17 @@ import javax.jdo.annotations.PrimaryKey;
 
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
+import com.google.appengine.api.datastore.Text;
 
 @PersistenceCapable
-public class Article {
+public class Article implements Comparable<Article>{
 	@PrimaryKey
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
 	private Key key;
 	@Persistent
 	private String title;
 	@Persistent
-	private String content;
+	private Text content;
 	@Persistent
 	private Date publishDate;
 	@Persistent
@@ -37,7 +38,8 @@ public class Article {
 	@Persistent
 	private boolean isOpenComment=true;
 	@Persistent
-	private UserEntity author;
+	private Key author;
+	
 	@Persistent(defaultFetchGroup = "true",mappedBy = "article")
 	@Element(dependent = "true") 
 	private List<Comment> comments;
@@ -46,9 +48,9 @@ public class Article {
 		
 	}
 	
-	public Article(String title, String content,UserEntity author) {
+	public Article(String title, String contents,Key author) {
 		this.title = title;
-		this.content = content;
+		this.content = new Text(contents);
 		this.author=author;
 	}
 	/**
@@ -96,15 +98,37 @@ public class Article {
 	/**
 	 * @return the content
 	 */
-	public String getContent() {
+	public Text getContent() {
 		return content;
 	}
+	
+	public String getContentValue() {
+		return content==null?"":content.getValue();
+	}
+	
 	/**
 	 * @param content the content to set
 	 */
 	public void setContent(String content) {
+		this.content = new Text(content);
+	}
+	
+	public void setContent(Text content) {
 		this.content = content;
 	}
+	
+	public String getSnipptContent(){
+		if(this.content!=null){
+			String contentvalue = content.getValue();
+			String noHTMLContent = contentvalue.replaceAll("\\<.*?\\>", "");
+			if(noHTMLContent.length()>70){
+				return noHTMLContent.substring(0, 70)+"...";
+			}
+			return noHTMLContent;
+		}
+		return "";
+	}
+	
 	/**
 	 * @return the publishDate
 	 */
@@ -146,6 +170,9 @@ public class Article {
 	 * @return the comments
 	 */
 	public List<Comment> getComments() {
+		if(comments!=null){
+			Collections.sort(comments);
+		}
 		return comments;
 	}
 	/**
@@ -208,16 +235,17 @@ public class Article {
 	/**
 	 * @return the author
 	 */
-	public UserEntity getAuthor() {
+	public Key getAuthor() {
 		return author;
 	}
 
 	/**
 	 * @param author the author to set
 	 */
-	public void setAuthor(UserEntity author) {
+	public void setAuthor(Key author) {
 		this.author = author;
 	}
+	
 
 	@Override
 	public String toString() {
@@ -226,6 +254,11 @@ public class Article {
 				+ createDate + ", modifyDate=" + modifyDate + ", isDelete="
 				+ isDelete + ", isValid=" + isValid + ", isPublished="
 				+ isPublished + "]";
+	}
+
+	@Override
+	public int compareTo(Article article) {
+		return article.createDate.compareTo(createDate);
 	}
 	
  }

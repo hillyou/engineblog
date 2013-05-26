@@ -25,15 +25,11 @@ public class UserDao {
 		}
 	}
 	
-	public UserEntity getUserById(String id) {
+	public UserEntity getUserById(Long id) {
 		PersistenceManager  persistenceManager=persistenceManagerFactory.getPersistenceManager();
 		try{
-			Query query=persistenceManager.newQuery(UserEntity.class);
-			query.setFilter("userId== userIdValue");
-			query.declareParameters("String userIdValue");
-			query.setUnique(true);
-			UserEntity user=(UserEntity) query.execute(id);
-			return user;
+			UserEntity userEntity=persistenceManager.getObjectById(UserEntity.class,id);
+			return userEntity;
 		}finally{
 			persistenceManager.close();
 		}

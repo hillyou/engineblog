@@ -1,0 +1,10 @@
+body{
+	font-size: 16px;
+	font-weight: normal;
+	font-family: sans-serif;
+}
+
+#divbody{
+	width: 60%;
+	margin: 0 auto 0 auto;
+}

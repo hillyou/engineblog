@@ -3,6 +3,7 @@ package com.hico.vish.dao.table;
 import java.util.Date;
 
 import javax.jdo.annotations.IdGeneratorStrategy;
+import javax.jdo.annotations.NotPersistent;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
@@ -10,7 +11,7 @@ import javax.jdo.annotations.PrimaryKey;
 import com.google.appengine.api.datastore.Key;
 
 @PersistenceCapable
-public class Comment {
+public class Comment implements Comparable<Comment>{
 
 	@PrimaryKey
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
@@ -28,7 +29,11 @@ public class Comment {
 	@Persistent
 	private boolean isPublished=true;
 	@Persistent
+	private String commentEmail;
+	@NotPersistent
 	private UserEntity commentBy;
+	@NotPersistent
+	private UserEntity reviewer;
 	
 	public Comment() {}
 	
@@ -135,6 +140,26 @@ public class Comment {
 	public void setPublished(boolean isPublished) {
 		this.isPublished = isPublished;
 	}
-	
+
+	public UserEntity getReviewer() {
+		return reviewer;
+	}
+
+	public void setReviewer(UserEntity reviewer) {
+		this.reviewer = reviewer;
+	}
+
+	public String getCommentEmail() {
+		return this.commentEmail;
+	}
+
+	public void setCommentEmail(String commentEmail) {
+		this.commentEmail = commentEmail;
+	}
+
+	@Override
+	public int compareTo(Comment o) {
+		return o.commentDate.compareTo(commentDate);
+	}
 	
 }

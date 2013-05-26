@@ -3,8 +3,8 @@ package com.hico.vish.dao.table;
 import java.util.Date;
 import java.util.List;
 
-import javax.jdo.annotations.Element;
 import javax.jdo.annotations.IdGeneratorStrategy;
+import javax.jdo.annotations.NotPersistent;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
@@ -36,8 +36,9 @@ public class UserEntity {
 	private boolean isLocked=false;
 	@Persistent
 	private boolean isBloger=false;
-	@Persistent(defaultFetchGroup = "true",mappedBy = "author")
-	@Element(dependent = "true")
+//	@Persistent(mappedBy = "author")
+//	@Element(dependent = "true")
+	@NotPersistent
 	private List<Article> articles;
 
 	/**

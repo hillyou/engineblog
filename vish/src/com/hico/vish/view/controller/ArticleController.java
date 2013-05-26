@@ -11,8 +11,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.hico.vish.dao.table.AppUser;
 import com.hico.vish.dao.table.Article;
@@ -44,6 +46,18 @@ public class ArticleController extends BaseController{
 		return "backend/article/create";
 	}
 	
+	@RequestMapping(value="/user/updatearticle/{articleId}", method=RequestMethod.GET)
+	public String gotoUpdateArticle(@PathVariable String articleId,HttpServletRequest request) {
+		if(!isValidBlogger()) {
+			request.setAttribute(REQ_ATTR_MESSAGE, "User forbidden");
+			return "frontend/message";
+		}
+		Assert.hasText(articleId);
+		Article article=articleManager.getById(Long.valueOf(articleId).longValue());
+		request.setAttribute("ARTICLE", article);
+		return "backend/article/update";
+	}
+	
 	@RequestMapping("/user/savearticle")
 	public String saveArticle(HttpServletRequest request) {
 		UserEntity user=getCurrentUser();
@@ -53,19 +67,14 @@ public class ArticleController extends BaseController{
 		}
 		String title=request.getParameter("title");
 		String content=request.getParameter("content");
-		Article article=new Article(title,content,user);
-		List<Article> articles=user.getArticles();
-		if(articles==null) {
-			articles=new ArrayList();
-		}
-		articles.add(article);
-		userManager.saveOrUpdateUser(user);
+		Article article=new Article(title,content,user.getKey());
+		articleManager.save(article);
 		request.setAttribute("ARTICLE", article);
 		request.setAttribute("MESSAGE", "Save successfully");
 		return "backend/article/update";
 	}
 	
-	@RequestMapping("/user/updatearticle")
+	@RequestMapping(value="/user/updatearticle", method=RequestMethod.POST)
 	public String updateArticle(HttpServletRequest request) {
 		if(!isValidBlogger()) {
 			request.setAttribute(REQ_ATTR_MESSAGE, "User forbidden");
@@ -118,14 +127,20 @@ public class ArticleController extends BaseController{
 	public String showArticleList(HttpServletRequest request) {
 		List<Article> articles=articleManager.getArticleList();
 		request.setAttribute("ARTICLES", articles);
+		UserEntity user=getCurrentUser();
+		request.setAttribute("AUTHOR", user);
 		return "frontend/articlelist";
 	}
 	
 	
 	@RequestMapping("/showarticle/{articleid}")
 	public String showArticle(@PathVariable String articleid,HttpServletRequest request) {
+		Assert.hasText(articleid);
 		Article article=articleManager.getById(Long.valueOf(articleid).longValue());
+		Assert.notNull(article);
+		UserEntity user=userManager.getUserById(article.getAuthor().getId());
 		request.setAttribute("ARTICLE", article);
+		request.setAttribute("AUTHOR", user);
 		return "frontend/showarticle";
 	}
 	
@@ -139,7 +154,7 @@ public class ArticleController extends BaseController{
 			comments=new ArrayList<Comment>();
 		}
 		Comment comment=new Comment(content);
-		comment.setCommentBy(getCurrentUser());
+		comment.setCommentEmail(getCurrentUser().getEmail());
 		comment.setCommentDate(new Date());
 		comment.setArticle(article);
 		comments.add(comment);

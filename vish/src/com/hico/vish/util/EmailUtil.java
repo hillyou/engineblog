@@ -1,7 +1,8 @@
 package com.hico.vish.util;
 
+import java.util.Random;
+
 import com.google.appengine.api.datastore.Email;
-import com.google.gwt.user.client.Random;
 
 public class EmailUtil {
 
@@ -27,7 +28,7 @@ public class EmailUtil {
 	}
 	
 	private static String getMessString(String s) {
-		int size=Random.nextInt(s.length());
+		int size=new Random().nextInt(s.length());
 		StringBuilder ss=new StringBuilder();
 		for (int i = 0; i < size; i++) {
 			ss.append(MESS_STRING_SEED);

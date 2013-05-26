@@ -22,6 +22,7 @@ public class LoginFilter implements Filter{
 			FilterChain chain) throws IOException, ServletException {
 		HttpServletRequest request=(HttpServletRequest)req;
 		System.out.println("Filter-> "+request.getRequestURL());
+		String uri=request.getRequestURI();
 		chain.doFilter(req, resp);
 	}
 

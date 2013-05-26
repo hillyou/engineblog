@@ -22,6 +22,8 @@ public class UserController {
 	@Autowired
 	private UserManager userManager;
 	
+	
+	
 	@RequestMapping("/setting/openblog")
 	public void updateUser(HttpServletRequest request,HttpServletResponse response) {
 		UserEntity user=getCurrentUser();

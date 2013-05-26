@@ -64,6 +64,4 @@
 		<property name="defaultEncoding" value="utf-8"></property>
 	</bean>	
 	
-	<mvc:resources location="/js/**" mapping="/js/" cache-period="31556926"/>
-	
 </beans>
