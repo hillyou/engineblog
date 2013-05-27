@@ -1,5 +1,6 @@
 package com.hico.vish.dao.table;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.jdo.annotations.IdGeneratorStrategy;
@@ -11,8 +12,8 @@ import javax.jdo.annotations.PrimaryKey;
 import com.google.appengine.api.datastore.Key;
 
 @PersistenceCapable
-public class Comment implements Comparable<Comment>{
-
+public class Comment implements Comparable<Comment>,Serializable{
+	private static final long serialVersionUID = -2968102350245609016L;
 	@PrimaryKey
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
 	private Key key;

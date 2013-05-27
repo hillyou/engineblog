@@ -8,19 +8,16 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.hico.vish.dao.table.AppUser;
 import com.hico.vish.dao.table.Article;
-import com.hico.vish.dao.table.UserEntity;
 import com.hico.vish.manager.ArticleManager;
 import com.hico.vish.manager.UserManager;
-import com.hico.vish.util.UserUtil;
+import com.hico.vish.view.BaseController;
 
 @Controller
 @RequestMapping("/home")
-public class HomeController {
+public class HomeController extends BaseController{
 	@Autowired
 	private ArticleManager articleManager;
 	@Autowired
@@ -40,18 +37,5 @@ public class HomeController {
 	}
 
 	
-	@ModelAttribute("AUTHOR")
-	private UserEntity getCurrentUser() {
-		AppUser user=UserUtil.getAppUser();
-		UserEntity loginUser=userManager.getUserByEmail(user.getEmail());
-		if(loginUser==null) {
-			loginUser=new UserEntity();
-			loginUser.setUserName(user.getEmail());
-			loginUser.setEmail(user.getEmail());
-			loginUser.setNickName(user.getNickName());
-			loginUser.setUserId(user.getUserId());
-			userManager.saveOrUpdateUser(loginUser);
-		}
-		return loginUser;
-	}
+	
 }

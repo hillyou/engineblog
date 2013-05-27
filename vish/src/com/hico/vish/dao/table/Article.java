@@ -1,5 +1,6 @@
 package com.hico.vish.dao.table;
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -15,7 +16,8 @@ import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.Text;
 
 @PersistenceCapable
-public class Article implements Comparable<Article>{
+public class Article implements Comparable<Article>,Serializable{
+	private static final long serialVersionUID = 3813488904204157021L;
 	@PrimaryKey
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
 	private Key key;
@@ -43,6 +45,10 @@ public class Article implements Comparable<Article>{
 	@Persistent(defaultFetchGroup = "true",mappedBy = "article")
 	@Element(dependent = "true") 
 	private List<Comment> comments;
+	
+	@Persistent(defaultFetchGroup = "true",mappedBy = "article")
+	@Element(dependent = "true") 
+	private Category category;
 	
 	public Article() {
 		
@@ -258,7 +264,24 @@ public class Article implements Comparable<Article>{
 
 	@Override
 	public int compareTo(Article article) {
+		if(createDate==null || article.createDate==null) {
+			return -1;
+		}
 		return article.createDate.compareTo(createDate);
+	}
+
+	/**
+	 * @return the category
+	 */
+	public Category getCategory() {
+		return category;
+	}
+
+	/**
+	 * @param category the category to set
+	 */
+	public void setCategory(Category category) {
+		this.category = category;
 	}
 	
  }

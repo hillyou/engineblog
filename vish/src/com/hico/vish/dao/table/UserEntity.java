@@ -1,5 +1,6 @@
 package com.hico.vish.dao.table;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -14,7 +15,8 @@ import com.google.appengine.api.datastore.KeyFactory;
 import com.hico.vish.util.EmailUtil;
 
 @PersistenceCapable
-public class UserEntity {
+public class UserEntity implements Serializable{
+	private static final long serialVersionUID = 1L;
 	@PrimaryKey
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
 	private Key key;

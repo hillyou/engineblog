@@ -9,6 +9,7 @@ import javax.jdo.Transaction;
 
 import com.hico.vish.dao.table.Article;
 import com.hico.vish.dao.table.Comment;
+import com.hico.vish.dao.table.UserEntity;
 
 public class ArticleDao {
 
@@ -63,12 +64,28 @@ public class ArticleDao {
 		}
 	}
 	
-	
 	public List<Article> getArticleList(){
 		PersistenceManager  persistenceManager=persistenceManagerFactory.getPersistenceManager();
 		try{
 			Query query=persistenceManager.newQuery(Article.class);
 			List<Article> articles=(List<Article>) query.execute();
+			for(Article article:articles ) {
+				System.out.println(article);
+			}
+			return articles;
+		}finally{
+			persistenceManager.close();
+		}
+	}
+	
+	
+	public List<Article> getArticleList(UserEntity user){
+		PersistenceManager  persistenceManager=persistenceManagerFactory.getPersistenceManager();
+		try{
+			Query query=persistenceManager.newQuery(Article.class);
+			query.setFilter("author == paramAuthor");
+			query.declareParameters("Key paramAuthor");
+			List<Article> articles=(List<Article>) query.execute(user.getKey());
 			for(Article article:articles ) {
 				System.out.println(article);
 			}

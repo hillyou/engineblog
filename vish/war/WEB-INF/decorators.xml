@@ -5,6 +5,8 @@
 	
    <excludes>
         <pattern>/_*</pattern>
+        <pattern>/index.jsp</pattern>
+        <pattern>/error*</pattern>
     </excludes>
     
     <decorator name="backend" page="backend.jsp">

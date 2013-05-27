@@ -2,7 +2,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <script type="text/javascript" src="${contextPath}/js/article.js"></script>
 <c:set var="acticle" value="${ARTICLE}"></c:set>
-<c:set var="author" value="${AUTHOR}"></c:set>
+<c:set var="author" value="${CURRENT_USER}"></c:set>
 <title>${acticle.title}</title>
 <div id="divarticle">
     <div id="mainarticle">
