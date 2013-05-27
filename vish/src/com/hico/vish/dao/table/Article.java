@@ -46,7 +46,7 @@ public class Article implements Comparable<Article>,Serializable{
 	@Element(dependent = "true") 
 	private List<Comment> comments;
 	
-	@Persistent(defaultFetchGroup = "true",mappedBy = "article")
+	@Persistent(defaultFetchGroup = "true")
 	@Element(dependent = "true") 
 	private Category category;
 	

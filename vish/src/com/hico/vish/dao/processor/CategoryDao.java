@@ -1,10 +1,14 @@
 package com.hico.vish.dao.processor;
 
+import java.util.List;
+
 import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
+import javax.jdo.Query;
 import javax.jdo.Transaction;
 
 import com.hico.vish.dao.table.Category;
+import com.hico.vish.dao.table.UserEntity;
 
 
 public class CategoryDao {
@@ -17,6 +21,19 @@ public class CategoryDao {
 		try{
 			Category category=persistenceManager.getObjectById(Category.class,id);
 			return category;
+		}finally{
+			persistenceManager.close();
+		}
+	}
+	
+	public List<Category> getUserCategory(UserEntity owner){
+		PersistenceManager  persistenceManager=persistenceManagerFactory.getPersistenceManager();
+		try{
+			Query query=persistenceManager.newQuery(Category.class);
+			query.setFilter("ower == paramOwer");
+			query.declareParameters("Key paramOwer");
+			Object result=query.execute(owner.getKey());
+			return result!=null?(List<Category>)result:null;
 		}finally{
 			persistenceManager.close();
 		}

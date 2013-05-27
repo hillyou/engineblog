@@ -85,13 +85,14 @@
 		    <web-resource-name>article</web-resource-name> 
 			<url-pattern>/article/user/*</url-pattern>
 			<url-pattern>/user/setting/*</url-pattern>
+			<url-pattern>/admin/*</url-pattern>
 		</web-resource-collection>
 		<auth-constraint>
 			<role-name>*</role-name>
 		</auth-constraint>
 	</security-constraint>
 
-	<security-constraint>
+<!-- 	<security-constraint>
 		<web-resource-collection>
 		    <web-resource-name>admin</web-resource-name> 
 			<url-pattern>/admin/*</url-pattern>
@@ -99,7 +100,7 @@
 		<auth-constraint>
 			<role-name>admin</role-name>
 		</auth-constraint>
-	</security-constraint>
+	</security-constraint> -->
 
 	<!-- Default page to serve -->
 	<welcome-file-list>

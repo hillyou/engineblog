@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.jdo.annotations.Element;
 import javax.jdo.annotations.IdGeneratorStrategy;
+import javax.jdo.annotations.NotPersistent;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
@@ -25,11 +25,17 @@ public class Category implements Comparable<Category>,Serializable{
 	private Date createDate;
 	@Persistent
 	private Category parent;
-	@Persistent(defaultFetchGroup = "true")
-	@Element(dependent = "true") 
+//	@Persistent(defaultFetchGroup = "true")
+//	@Element(dependent = "true") 
+	@NotPersistent
 	private List<Category> subCategory;
 	@Persistent(defaultFetchGroup = "true")
 	private Sequence position;
+	@Persistent
+	private Key owner;
+	
+	public Category() {
+	}
 	
 	public Category(String name) {
 		this.name=name;
@@ -141,4 +147,12 @@ public class Category implements Comparable<Category>,Serializable{
 		this.position = position;
 	}
 
+	public Key getOwner() {
+		return owner;
+	}
+
+	public void setOwner(Key owner) {
+		this.owner = owner;
+	}
+	
 }

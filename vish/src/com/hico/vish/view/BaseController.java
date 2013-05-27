@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import com.hico.vish.dao.table.AppUser;
@@ -45,6 +46,10 @@ public abstract class BaseController {
 		}
 		session.setAttribute(userEmail, loginUser);
 		return loginUser;
+	}
+	
+	protected UserEntity getCurrentUser(Model model) {
+		return (UserEntity)model.asMap().get(REQ_ATTR_CURRENT_USER);
 	}
 	
 	protected UserEntity getCurrentUser(HttpServletRequest request) {
