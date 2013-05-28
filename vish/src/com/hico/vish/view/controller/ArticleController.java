@@ -84,7 +84,8 @@ public class ArticleController extends BaseController{
 		String content=request.getParameter("content");
 		String categoryId=request.getParameter("category");
 		Article article=articleManager.getById(Long.valueOf(articleid).longValue());
-		if(article.getCategory()!=null && categoryId !=null && !"".equals(categoryId) && !String.valueOf(article.getCategory().getId()).equals(categoryId)) {
+		if(categoryId !=null && !"".equals(categoryId) && 
+				(article.getCategory()==null || !categoryId.equals(String.valueOf(article.getCategory().getId())))) {
 			Category category=categoryManager.getById(Long.valueOf(categoryId));
 			if(category!=null) {
 				article.setCategory(category.getKey());

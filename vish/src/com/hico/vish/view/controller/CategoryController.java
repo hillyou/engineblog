@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.hico.vish.dao.table.Category;
@@ -30,9 +31,20 @@ public class CategoryController extends BaseController{
 		return "backend/category/categorylist";
 	}
 	
-	@RequestMapping(value = "/newcategory")
+	@RequestMapping(value = "/new")
 	public String createCategory(){
 		return "backend/category/createcategory";
+	}
+	
+	@RequestMapping(value = "/del/{categoryId}")
+	public String deleteCategory(@PathVariable Long categoryId,HttpServletRequest request){
+		String isDel=request.getParameter("isdelrelatedarticles");
+		boolean delArticle=false;
+		if(isDel!=null && "TRUE".equals(isDel.toUpperCase())){
+			delArticle=true;
+		}
+		categoryManager.deleteCategoryById(categoryId,delArticle);
+		return "redirect:/admin/category/list.html";
 	}
 	
 	@RequestMapping(value = "/create")

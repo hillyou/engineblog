@@ -30,5 +30,8 @@ public class CategoryManager {
 		this.categoryDao = categoryDao;
 	}
 	
+	public void deleteCategoryById(Long id,boolean delRelatedArticle){
+		categoryDao.deleteCategoryById(id,delRelatedArticle);
+	}
 	
 }
