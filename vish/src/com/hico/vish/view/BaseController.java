@@ -28,23 +28,25 @@ public abstract class BaseController {
 	
 	@ModelAttribute("CURRENT_USER")
 	public UserEntity retriveCurrentUser(HttpServletRequest request) {
+		UserEntity loginUser=null;
 		AppUser user=UserUtil.getAppUser();
 		String userEmail = user.getEmail();
 		HttpSession session=request.getSession();
 		Object usero=session.getAttribute(userEmail);
 		if(usero!=null) {
-			return (UserEntity)usero;
+			loginUser=(UserEntity)usero;
+		}else {
+			loginUser=userManager.getUserByEmail(userEmail);
+			if(loginUser==null) {
+				loginUser=new UserEntity();
+				loginUser.setUserName(userEmail);
+				loginUser.setEmail(userEmail);
+				loginUser.setNickName(user.getNickName());
+				loginUser.setUserId(user.getUserId());
+				userManager.saveOrUpdateUser(loginUser);
+			}
+			session.setAttribute(userEmail, loginUser);
 		}
-		UserEntity loginUser=userManager.getUserByEmail(userEmail);
-		if(loginUser==null) {
-			loginUser=new UserEntity();
-			loginUser.setUserName(userEmail);
-			loginUser.setEmail(userEmail);
-			loginUser.setNickName(user.getNickName());
-			loginUser.setUserId(user.getUserId());
-			userManager.saveOrUpdateUser(loginUser);
-		}
-		session.setAttribute(userEmail, loginUser);
 		return loginUser;
 	}
 	
@@ -52,12 +54,8 @@ public abstract class BaseController {
 		return (UserEntity)model.asMap().get(REQ_ATTR_CURRENT_USER);
 	}
 	
-	protected UserEntity getCurrentUser(HttpServletRequest request) {
-		return (UserEntity)request.getAttribute(REQ_ATTR_CURRENT_USER);
-	}
-	
-	protected boolean isValidBlogger(HttpServletRequest request) {
-		UserEntity currentUser=getCurrentUser(request);
+	protected boolean isValidBlogger(Model model) {
+		UserEntity currentUser=getCurrentUser(model);
 		return currentUser.isBloger() && !currentUser.isDeleted() && !currentUser.isLocked() && currentUser.isValid();
 	}
 	

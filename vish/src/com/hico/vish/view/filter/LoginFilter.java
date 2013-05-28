@@ -49,7 +49,7 @@ public class LoginFilter implements Filter{
 		}
 		for (String forbidden : forbiddens) {
 			if((email==null || user==null || (isInvalidBlogger(user))) && uri.startsWith(contextPath+forbidden)) {
-				request.setAttribute(REQ_ATTR_MESSAGE, "User forbidden");
+				request.setAttribute(REQ_ATTR_MESSAGE, "User forbidden,Click <a href=\""+contextPath+"/home.html\">here</a> go to home page.");
 				request.getRequestDispatcher("/error.html").forward(request, response);
 				return;
 			}

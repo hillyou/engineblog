@@ -7,6 +7,7 @@ import javax.jdo.PersistenceManagerFactory;
 import javax.jdo.Query;
 import javax.jdo.Transaction;
 
+import com.google.appengine.api.datastore.Key;
 import com.hico.vish.dao.table.Category;
 import com.hico.vish.dao.table.UserEntity;
 
@@ -30,8 +31,8 @@ public class CategoryDao {
 		PersistenceManager  persistenceManager=persistenceManagerFactory.getPersistenceManager();
 		try{
 			Query query=persistenceManager.newQuery(Category.class);
-			query.setFilter("ower == paramOwer");
-			query.declareParameters("Key paramOwer");
+			query.setFilter("owner == paramOwner");
+			query.declareParameters(Key.class.getName()+" paramOwner");
 			Object result=query.execute(owner.getKey());
 			return result!=null?(List<Category>)result:null;
 		}finally{

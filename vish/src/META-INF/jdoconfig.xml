@@ -14,7 +14,7 @@
        <property name="datanucleus.appengine.singletonPMFForName" value="true"/>
    </persistence-manager-factory>
    
-   <persistence-manager-factory name="eventual-reads-short-deadlines">
+<!--    <persistence-manager-factory name="eventual-reads-short-deadlines">
         <property name="javax.jdo.PersistenceManagerFactoryClass"
             value="org.datanucleus.store.appengine.jdo.DatastoreJDOPersistenceManagerFactory"/>
         <property name="javax.jdo.option.ConnectionURL" value="appengine"/>
@@ -26,5 +26,5 @@
         <property name="datanucleus.appengine.datastoreReadConsistency" value="EVENTUAL" />
         <property name="javax.jdo.option.DatastoreReadTimeoutMillis" value="5000" />
         <property name="javax.jdo.option.DatastoreWriteTimeoutMillis" value="10000" />
-    </persistence-manager-factory>
+    </persistence-manager-factory> -->
 </jdoconfig>

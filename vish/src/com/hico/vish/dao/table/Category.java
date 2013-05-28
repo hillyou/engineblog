@@ -24,7 +24,7 @@ public class Category implements Comparable<Category>,Serializable{
 	@Persistent
 	private Date createDate;
 	@Persistent
-	private Category parent;
+	private Key parent;
 //	@Persistent(defaultFetchGroup = "true")
 //	@Element(dependent = "true") 
 	@NotPersistent
@@ -39,11 +39,6 @@ public class Category implements Comparable<Category>,Serializable{
 	
 	public Category(String name) {
 		this.name=name;
-	}
-	
-	public Category(String name,Category parent) {
-		this.name=name;
-		this.parent=parent;
 	}
 	
 	/**
@@ -89,20 +84,18 @@ public class Category implements Comparable<Category>,Serializable{
 	}
 
 	/**
-	 * @return the parent
+	 * @return the parentId
 	 */
-	public Category getParent() {
+	public Key getParent() {
 		return parent;
 	}
 
 	/**
-	 * @param parent the parent to set
+	 * @param parentId the parentId to set
 	 */
-	public void setParent(Category parent) {
+	public void setParent(Key parent) {
 		this.parent = parent;
 	}
-
-
 
 	/**
 	 * @return the subCategory

@@ -1,9 +1,7 @@
 package com.hico.vish.dao.processor;
 
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Logger;
 
 import javax.annotation.Resource;
 
@@ -17,108 +15,76 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.google.appengine.api.datastore.EntityNotFoundException;
+import com.google.appengine.api.datastore.Key;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
-import com.hico.vish.dao.table.Article;
 import com.hico.vish.dao.table.Category;
 import com.hico.vish.dao.table.UserEntity;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations={"/resource/spring-app-global-config.xml"})
-public class ArticleDaoTest{
-
+@ContextConfiguration(locations = { "/resource/spring-app-global-config.xml" })
+public class CategoryDaoTest {
 	private final LocalServiceTestHelper helper = new LocalServiceTestHelper(
 			new LocalDatastoreServiceTestConfig());
-	private static Logger logger=Logger.getLogger(ArticleDaoTest.class.getName());
-	@Resource(name="articleDao")
-	private ArticleDao articleDao;
+
+	@Resource(name = "categoryDao")
+	private CategoryDao categoryDao;
 	
 	@Resource(name="userDao")
 	private UserDao userDao;
-	
-	@Resource(name="categoryDao")
-	private CategoryDao categoryDao;
-	
 	private UserEntity user;
-	
+
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		
 	}
 
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
 	}
-	
+
 	@Before
-	public void setUp() {
+	public void setUp() throws Exception {
 		helper.setUp();
 		Assert.assertNotNull(userDao);
-		Assert.assertNotNull(articleDao);
+		Assert.assertNotNull(categoryDao);
 		user=saveUser();
 	}
 
 	@After
-	public void tearDown() {
+	public void tearDown() throws Exception {
 		user=null;
 		helper.tearDown();
 	}
 
 	@Test
-	public void testSaveOrUpdate() {
-		Article first=getArticle("Title1","Content1");
-		Assert.assertNotNull(first.getKey());
-	}
-	
-//	@Test
-	public void testSaveComment() {
-
-	}
-
-//	@Test
-	public void testGet() {
-
+	public void testGetById() {
+		Category category=saveCategory();
+		Assert.assertNotNull(category.getKey());
+		Assert.assertNotNull(category.getParent());
+		Category loadCategory=categoryDao.getById(category.getParent().getId());
+		Assert.assertNull(loadCategory.getParent());
+		Assert.assertEquals("Parent", loadCategory.getName());
 	}
 
 	@Test
-	public void testGetArticleList() throws EntityNotFoundException {
-		Article first=getArticle("Title1","Content1");
-		List<Article> list1=articleDao.getArticleList(getUser("colin@gmail.com"));
-		printList(list1);
-		Assert.assertEquals(1, list1.size());
-		Article second=getArticle("Title2","Content2");
-		List<Article> list2=articleDao.getArticleList(getUser("colin@gmail.com"));
-		printList(list2);
-		Assert.assertEquals(2, list2.size());
-	}
-	
-	private static void printList(List<?> list) {
-		for (Object object : list) {
-			System.out.println(object);
-		}
+	public void testGetUserCategory() {
+		saveCategory();
+		List<Category> category=categoryDao.getUserCategory(getUser("colin@gmail.com"));
+		Assert.assertEquals(2, category.size());
 	}
 
-	private Article getArticle(String title,String content) {
-		Article article=new Article(title,content,getUser("colin@gmail.com").getKey());
-		Category cas=saveCategory();
-		Category loaded=categoryDao.getById(cas.getKey().getId());
-		article.setCategory(loaded.getKey());
-		articleDao.saveOrUpdate(article);
-		logger.severe(loaded.getKey().getId()+" <> "+ article.getCategory().getId());
-		Assert.assertNotNull(article.getKey());
-		Assert.assertEquals(cas.getKey().getId(), article.getCategory().getId());
-		return article;
+	@Test
+	public void testSaveCategory() {
+		saveCategory();
 	}
-	
-	
-	
+
 	private UserEntity saveUser() {
 		UserEntity user=new UserEntity();
 		user.setEmail("colin@gmail.com");
 		user.setUserName("colin");
 		user.setLastLogin(new Date());
 		userDao.saveUser(user);
+		Assert.assertNotNull(user.getKey());
 		return user;
 	}
 	
@@ -132,9 +98,11 @@ public class ArticleDaoTest{
 		Category category=new Category();
 		category.setName("Test");
 		category.setOwner(getUser("colin@gmail.com").getKey());
-		category.setParent(saveParentCategory().getKey());
+		Key parentKey=saveParentCategory().getKey();
+		category.setParent(parentKey);
 		categoryDao.saveCategory(category);
 		Assert.assertNotNull(category.getKey());
+		Assert.assertEquals(parentKey.getId(), category.getParent().getId());
 		return category;
 	}
 	

@@ -5,6 +5,7 @@ import javax.jdo.PersistenceManagerFactory;
 import javax.jdo.Query;
 import javax.jdo.Transaction;
 
+import com.google.appengine.api.datastore.Key;
 import com.hico.vish.dao.table.UserEntity;
 
 public class UserDao {
@@ -34,6 +35,7 @@ public class UserDao {
 			persistenceManager.close();
 		}
 	}
+	
 	
 	public void saveUser(UserEntity user) {
 		PersistenceManager  persistenceManager=persistenceManagerFactory.getPersistenceManager();

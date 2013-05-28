@@ -42,6 +42,9 @@ public class UserEntity implements Serializable{
 //	@Element(dependent = "true")
 	@NotPersistent
 	private List<Article> articles;
+	
+	@NotPersistent
+	private List<Category> categories;
 
 	/**
 	 * @return the key
@@ -198,5 +201,28 @@ public class UserEntity implements Serializable{
 	public void setArticles(List<Article> articles) {
 		this.articles = articles;
 	}
+	
+	/**
+	 * @return the categories
+	 */
+	public List<Category> getCategories() {
+		return categories;
+	}
+	/**
+	 * @param categories the categories to set
+	 */
+	public void setCategories(List<Category> categories) {
+		this.categories = categories;
+	}
+	@Override
+	public String toString() {
+		return "UserEntity [key=" + key + ", userId=" + userId + ", userName="
+				+ userName + ", nickName=" + nickName + ", email=" + email
+				+ ", lastLogin=" + lastLogin + ", isValid=" + isValid
+				+ ", isDeleted=" + isDeleted + ", isLocked=" + isLocked
+				+ ", isBloger=" + isBloger + ", articles=" + articles + "]";
+	}
+	
+	
 	
 }

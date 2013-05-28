@@ -48,7 +48,7 @@ public class Article implements Comparable<Article>,Serializable{
 	
 	@Persistent(defaultFetchGroup = "true")
 	@Element(dependent = "true") 
-	private Category category;
+	private Key category;
 	
 	public Article() {
 		
@@ -273,14 +273,14 @@ public class Article implements Comparable<Article>,Serializable{
 	/**
 	 * @return the category
 	 */
-	public Category getCategory() {
+	public Key getCategory() {
 		return category;
 	}
 
 	/**
 	 * @param category the category to set
 	 */
-	public void setCategory(Category category) {
+	public void setCategory(Key category) {
 		this.category = category;
 	}
 	

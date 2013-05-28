@@ -9,5 +9,8 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/sitemesh"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/spring3"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/apptest"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/springmock"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/common"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.hico.vish.dao.table.Article;
@@ -36,8 +37,8 @@ public class UserController extends BaseController{
 	
 	
 	@RequestMapping("/setting/openblog")
-	public void updateUser(HttpServletRequest request,HttpServletResponse response) {
-		UserEntity user=getCurrentUser(request);
+	public void updateUser(Model model,HttpServletRequest request,HttpServletResponse response) {
+		UserEntity user=getCurrentUser(model);
 		user.setBloger(true);
 		userManager.saveOrUpdateUser(user);
 		try {

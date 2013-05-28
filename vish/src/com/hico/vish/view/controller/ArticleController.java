@@ -12,15 +12,18 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.hico.vish.dao.table.Article;
+import com.hico.vish.dao.table.Category;
 import com.hico.vish.dao.table.Comment;
 import com.hico.vish.dao.table.UserEntity;
 import com.hico.vish.manager.ArticleManager;
+import com.hico.vish.manager.CategoryManager;
 import com.hico.vish.manager.UserManager;
 import com.hico.vish.view.BaseController;
 
@@ -34,51 +37,72 @@ public class ArticleController extends BaseController{
 	@Autowired
 	private UserManager userManager;
 	
+	@Autowired
+	private CategoryManager categoryManager;
+	
 	private final static String REQ_ATTR_MESSAGE="MESSAGE";
 	
 	@RequestMapping("/user/createarticle")
-	public String createArticle(HttpServletRequest request) {
+	public String createArticle(Model model,HttpServletRequest request) {
+		loadCategory(model);
 		return "backend/article/create";
 	}
 	
 	@RequestMapping(value="/user/updatearticle/{articleId}", method=RequestMethod.GET)
-	public String gotoUpdateArticle(@PathVariable String articleId,HttpServletRequest request) {
+	public String gotoUpdateArticle(@PathVariable String articleId,Model model,HttpServletRequest request) {
 		Assert.hasText(articleId);
 		Article article=articleManager.getById(Long.valueOf(articleId).longValue());
 		request.setAttribute("ARTICLE", article);
+		loadCategory(model);
 		return "backend/article/update";
 	}
 	
 	@RequestMapping("/user/savearticle")
-	public String saveArticle(HttpServletRequest request) {
-		UserEntity user=getCurrentUser(request);
+	public String saveArticle(Model model,HttpServletRequest request) {
+		UserEntity user=getCurrentUser(model);
 		String title=request.getParameter("title");
 		String content=request.getParameter("content");
+		String categoryId=request.getParameter("category");
 		Article article=new Article(title,content,user.getKey());
+		if(categoryId !=null && !"".equals(categoryId)) {
+			Category category=categoryManager.getById(Long.valueOf(categoryId));
+			if(category!=null) {
+				article.setCategory(category.getKey());
+			}
+		}
 		articleManager.save(article);
 		request.setAttribute("ARTICLE", article);
 		request.setAttribute("MESSAGE", "Save successfully");
+		loadCategory(model);
 		return "backend/article/update";
 	}
 	
 	@RequestMapping(value="/user/updatearticle", method=RequestMethod.POST)
-	public String updateArticle(HttpServletRequest request) {
+	public String updateArticle(Model model,HttpServletRequest request) {
 		String articleid=request.getParameter("articleid");
 		String title=request.getParameter("title");
 		String content=request.getParameter("content");
+		String categoryId=request.getParameter("category");
 		Article article=articleManager.getById(Long.valueOf(articleid).longValue());
+		if(article.getCategory()!=null && categoryId !=null && !"".equals(categoryId) && !String.valueOf(article.getCategory().getId()).equals(categoryId)) {
+			Category category=categoryManager.getById(Long.valueOf(categoryId));
+			if(category!=null) {
+				article.setCategory(category.getKey());
+			}
+		}
 		article.setTitle(title);
 		article.setContent(content);
 		articleManager.update(article);
 		request.setAttribute("ARTICLE", article);
 		request.setAttribute("MESSAGE", "Update successfully");
+		loadCategory(model);
 		return "backend/article/update";
 	}
 	
 	@RequestMapping("/user/ajaxsavearticle")
-	public void saveArticleWithAjax(HttpServletRequest request,HttpServletResponse response) {
+	public void saveArticleWithAjax(Model model,HttpServletRequest request,HttpServletResponse response) {
 		String message="Save successfully";
-		saveArticle(request);
+		saveArticle(model,request);
 		try {
 			response.setContentType("text/plain");
 			PrintWriter printWriter=response.getWriter();
@@ -89,8 +113,8 @@ public class ArticleController extends BaseController{
 	}
 	
 	@RequestMapping("/user/ajaxupdatearticle")
-	public void updateArticleWithAjax(HttpServletRequest request,HttpServletResponse response) {
-		updateArticle(request);
+	public void updateArticleWithAjax(Model model,HttpServletRequest request,HttpServletResponse response) {
+		updateArticle(model,request);
 		try {
 			response.setContentType("text/plain");
 			PrintWriter printWriter=response.getWriter();
@@ -100,7 +124,7 @@ public class ArticleController extends BaseController{
 		}
 	}
 	@RequestMapping("/articlelist")
-	public String showArticleList(HttpServletRequest request) {
+	public String showArticleList(Model model,HttpServletRequest request) {
 		List<Article> articles=articleManager.getArticleList();
 		Collections.sort(articles);
 		request.setAttribute("ARTICLES", articles);
@@ -118,7 +142,7 @@ public class ArticleController extends BaseController{
 	}
 	
 	@RequestMapping("/user/addcomment")
-	public String addComment(HttpServletRequest request) {
+	public String addComment(Model model,HttpServletRequest request) {
 		String articleid=request.getParameter("articleid");
 		String content=request.getParameter("comment");
 		Article article=articleManager.getById(Long.valueOf(articleid).longValue());
@@ -127,7 +151,7 @@ public class ArticleController extends BaseController{
 			comments=new ArrayList<Comment>();
 		}
 		Comment comment=new Comment(content);
-		comment.setCommentEmail(getCurrentUser(request).getEmail());
+		comment.setCommentEmail(getCurrentUser(model).getEmail());
 		comment.setCommentDate(new Date());
 		comment.setArticle(article);
 		comments.add(comment);
@@ -137,8 +161,8 @@ public class ArticleController extends BaseController{
 	}
 	
 	@RequestMapping("/user/ajaxaddcomment")
-	public void addCommentWithAjax(HttpServletRequest request,HttpServletResponse response) {
-		addComment(request);
+	public void addCommentWithAjax(Model model,HttpServletRequest request,HttpServletResponse response) {
+		addComment(model,request);
 		try {
 			response.setContentType("text/plain");
 			PrintWriter printWriter=response.getWriter();
@@ -147,5 +171,10 @@ public class ArticleController extends BaseController{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	private void loadCategory(Model model) {
+		List<Category> categories=categoryManager.getUserCategory(getCurrentUser(model));
+		model.addAttribute("CATEGORIES", categories);
 	}
 }

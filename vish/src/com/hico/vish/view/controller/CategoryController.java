@@ -27,30 +27,30 @@ public class CategoryController extends BaseController{
 		UserEntity owner=getCurrentUser(model);
 		List<Category> category=categoryManager.getUserCategory(owner);
 		model.addAttribute("CATEGORIES", category);
-		return "backend/article/category";
+		return "backend/category/categorylist";
 	}
 	
 	@RequestMapping(value = "/newcategory")
 	public String createCategory(){
-		return "backend/article/createcategory";
+		return "backend/category/createcategory";
 	}
 	
 	@RequestMapping(value = "/create")
-	public String createCategory(HttpServletRequest request){
-		UserEntity owner=getCurrentUser(request);
+	public String createCategory(HttpServletRequest request,Model model){
+		UserEntity owner=getCurrentUser(model);
 		String categoryName=request.getParameter("categoryname");
 		String parentCategory=request.getParameter("parentcategory");
 		Category category=new Category(categoryName);
 		category.setOwner(owner.getKey());
 		category.setCreateDate(new Date());
 		boolean errprFlag=false;
-		if(parentCategory!=null){
+		if(parentCategory!=null && !"".equals(parentCategory.trim())){
 			Category parent=categoryManager.getById(Long.valueOf(parentCategory));
 			if(parent==null){
 				request.setAttribute("MESSAGES", "Failed to save, Invalid parent category");
 				errprFlag=true;
 			}else{
-				category.setParent(parent);
+				category.setParent(parent.getKey());
 			}
 		}
 		if(!errprFlag){
@@ -58,7 +58,7 @@ public class CategoryController extends BaseController{
 			List<Category> categories=categoryManager.getUserCategory(owner);
 			request.setAttribute("CATEGORIES", categories);
 		}
-		return "backend/article/category";
+		return "redirect:/admin/category/list.html";
 	}
 	
 }

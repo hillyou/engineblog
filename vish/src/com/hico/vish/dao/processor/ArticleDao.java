@@ -7,6 +7,7 @@ import javax.jdo.PersistenceManagerFactory;
 import javax.jdo.Query;
 import javax.jdo.Transaction;
 
+import com.google.appengine.api.datastore.Key;
 import com.hico.vish.dao.table.Article;
 import com.hico.vish.dao.table.Comment;
 import com.hico.vish.dao.table.UserEntity;
@@ -53,9 +54,6 @@ public class ArticleDao {
 	public Article get(Long id) {
 		PersistenceManager  persistenceManager=persistenceManagerFactory.getPersistenceManager();
 		try{
-//			persistenceManager.setDetachAllOnCommit(true); 
-//			persistenceManager.getFetchPlan().addGroup("fullArticle");
-//			persistenceManager.getExtent(arg0);
 			Article article=persistenceManager.getObjectById(Article.class,id);
 			System.out.println(article);
 			return article;
@@ -84,7 +82,7 @@ public class ArticleDao {
 		try{
 			Query query=persistenceManager.newQuery(Article.class);
 			query.setFilter("author == paramAuthor");
-			query.declareParameters("Key paramAuthor");
+			query.declareParameters(Key.class.getName()+" paramAuthor");
 			List<Article> articles=(List<Article>) query.execute(user.getKey());
 			for(Article article:articles ) {
 				System.out.println(article);
