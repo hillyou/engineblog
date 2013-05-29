@@ -7,12 +7,11 @@
         <pattern>/_*</pattern>
         <pattern>/index.jsp</pattern>
         <pattern>/error*</pattern>
+        <pattern>/site*</pattern>
     </excludes>
     
     <decorator name="backend" page="backend.jsp">
-        <pattern>/article/user/*</pattern>
-        <pattern>/user/setting/*</pattern>
-        <pattern>/admin/*</pattern>
+        <pattern>/admin*</pattern>
     </decorator>
 
     <decorator name="frontend" page="frontend.jsp">

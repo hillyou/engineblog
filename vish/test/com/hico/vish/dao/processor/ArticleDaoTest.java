@@ -104,7 +104,7 @@ public class ArticleDaoTest{
 		Category cas=saveCategory();
 		Category loaded=categoryDao.getById(cas.getKey().getId());
 		article.setCategory(loaded.getKey());
-		articleDao.saveOrUpdate(article);
+		articleDao.update(article);
 		logger.severe(loaded.getKey().getId()+" <> "+ article.getCategory().getId());
 		Assert.assertNotNull(article.getKey());
 		Assert.assertEquals(cas.getKey().getId(), article.getCategory().getId());

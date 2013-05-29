@@ -40,6 +40,8 @@ public class Article implements Comparable<Article>,Serializable{
 	@Persistent
 	private boolean isOpenComment=true;
 	@Persistent
+	private String keywords;
+	@Persistent
 	private Key author;
 	
 	@Persistent(defaultFetchGroup = "true",mappedBy = "article")
@@ -252,6 +254,19 @@ public class Article implements Comparable<Article>,Serializable{
 		this.author = author;
 	}
 	
+	/**
+	 * @return the keywords
+	 */
+	public String getKeywords() {
+		return keywords;
+	}
+
+	/**
+	 * @param keywords the keywords to set
+	 */
+	public void setKeywords(String keywords) {
+		this.keywords = keywords;
+	}
 
 	@Override
 	public String toString() {

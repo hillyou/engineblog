@@ -9,4 +9,6 @@ public interface AppUser {
 	String getEmail();
 	
 	String getUserId();
+	
+	boolean isLogin();
 }

@@ -2,3 +2,7 @@
 	word-wrap: break-word;
 	word-break: break-all;
 }
+
+#divlogin{
+    text-align: right;
+}

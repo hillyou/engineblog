@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,16 +12,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.hico.vish.dao.table.Category;
 import com.hico.vish.dao.table.UserEntity;
-import com.hico.vish.manager.CategoryManager;
 import com.hico.vish.view.BaseController;
 
 @Controller
 @RequestMapping(value = "/admin/category")
 public class CategoryController extends BaseController{
 
-	@Autowired
-	private CategoryManager categoryManager;
-	
 	@RequestMapping(value = "/list")
 	public String managerCategory(Model model){
 		UserEntity owner=getCurrentUser(model);

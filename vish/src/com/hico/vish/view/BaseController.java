@@ -9,14 +9,25 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 
 import com.hico.vish.dao.table.AppUser;
 import com.hico.vish.dao.table.UserEntity;
+import com.hico.vish.manager.ArticleManager;
+import com.hico.vish.manager.CategoryManager;
 import com.hico.vish.manager.UserManager;
 import com.hico.vish.util.UserUtil;
 
 public abstract class BaseController {
 
-	@Autowired
-	private UserManager userManager;
+	protected final static String REQ_ATTR_MESSAGE="MESSAGE";
 	protected final static String REQ_ATTR_CURRENT_USER="CURRENT_USER";
+	
+	@Autowired
+	protected ArticleManager articleManager;
+	
+	@Autowired
+	protected UserManager userManager;
+	
+	@Autowired
+	protected CategoryManager categoryManager;
+	
 	
 	private static int counter=0;
 	@ModelAttribute("CONTER")
@@ -30,6 +41,9 @@ public abstract class BaseController {
 	public UserEntity retriveCurrentUser(HttpServletRequest request) {
 		UserEntity loginUser=null;
 		AppUser user=UserUtil.getAppUser();
+		if(!user.isLogin()) {
+			return loginUser;
+		}
 		String userEmail = user.getEmail();
 		HttpSession session=request.getSession();
 		Object usero=session.getAttribute(userEmail);

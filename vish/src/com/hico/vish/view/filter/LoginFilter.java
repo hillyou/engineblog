@@ -17,7 +17,7 @@ import com.hico.vish.dao.table.UserEntity;
 
 public class LoginFilter implements Filter{
 
-	private final static String FORBIDDEN_URIS="/article/user/|/user/setting/|/admin/";
+	private final static String FORBIDDEN_URIS="/user|/admin";
 	private final static String REQ_ATTR_MESSAGE="MESSAGE";
 	
 	@Override

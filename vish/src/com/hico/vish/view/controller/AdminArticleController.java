@@ -3,7 +3,6 @@ package com.hico.vish.view.controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -24,16 +23,29 @@ import com.hico.vish.dao.table.UserEntity;
 import com.hico.vish.view.BaseController;
 
 @Controller
-@RequestMapping(value = "/article")
-public class ArticleController extends BaseController{
+@RequestMapping(value = "/admin/article")
+public class AdminArticleController extends BaseController{
 
-	@RequestMapping("/user/createarticle")
+	
+	@RequestMapping(value="/del/{articleId}")
+	public String delArticle(@PathVariable Long articleId,Model model) {
+		Article persisted=articleManager.getById(articleId);
+		UserEntity user=getCurrentUser(model);
+		if(persisted.getAuthor().equals(user.getKey())) {
+			articleManager.delete(persisted);
+		}else {
+			model.addAttribute(REQ_ATTR_MESSAGE, "You are not allowed to delete this article.");
+		}
+		return "backend/home";
+	}
+	
+	@RequestMapping("/createarticle")
 	public String createArticle(Model model,HttpServletRequest request) {
 		loadCategory(model);
 		return "backend/article/create";
 	}
 	
-	@RequestMapping(value="/user/updatearticle/{articleId}", method=RequestMethod.GET)
+	@RequestMapping(value="/updatearticle/{articleId}", method=RequestMethod.GET)
 	public String gotoUpdateArticle(@PathVariable String articleId,Model model,HttpServletRequest request) {
 		Assert.hasText(articleId);
 		Article article=articleManager.getById(Long.valueOf(articleId).longValue());
@@ -42,7 +54,7 @@ public class ArticleController extends BaseController{
 		return "backend/article/update";
 	}
 	
-	@RequestMapping("/user/savearticle")
+	@RequestMapping("/savearticle")
 	public String saveArticle(Model model,Article article) {
 		UserEntity user=getCurrentUser(model);
 		article.setAuthor(user.getKey());
@@ -53,7 +65,7 @@ public class ArticleController extends BaseController{
 		return "backend/article/update";
 	}
 	
-	@RequestMapping(value="/user/updatearticle", method=RequestMethod.POST)
+	@RequestMapping(value="/updatearticle", method=RequestMethod.POST)
 	public String updateArticle(Model model,Article article) {
 		Article persisted=articleManager.getById(article.getId());
 		persisted.setCategory(article.getCategory());
@@ -67,7 +79,7 @@ public class ArticleController extends BaseController{
 		return "backend/article/update";
 	}
 	
-	@RequestMapping("/user/ajaxsavearticle")
+	@RequestMapping("/ajaxsavearticle")
 	public void saveArticleWithAjax(Model model,Article article,HttpServletResponse response) {
 		String message="Save successfully";
 		saveArticle(model,article);
@@ -80,7 +92,7 @@ public class ArticleController extends BaseController{
 		}
 	}
 	
-	@RequestMapping("/user/ajaxupdatearticle")
+	@RequestMapping("/ajaxupdatearticle")
 	public void updateArticleWithAjax(Model model,Article article,HttpServletResponse response) {
 		updateArticle(model,article);
 		try {
@@ -91,25 +103,8 @@ public class ArticleController extends BaseController{
 			e.printStackTrace();
 		}
 	}
-	@RequestMapping("/articlelist")
-	public String showArticleList(Model model,HttpServletRequest request) {
-		List<Article> articles=articleManager.getArticleList();
-		Collections.sort(articles);
-		request.setAttribute("ARTICLES", articles);
-		return "frontend/articlelist";
-	}
 	
-	
-	@RequestMapping("/showarticle/{articleid}")
-	public String showArticle(@PathVariable String articleid,HttpServletRequest request) {
-		Assert.hasText(articleid);
-		Article article=articleManager.getById(Long.valueOf(articleid).longValue());
-		Assert.notNull(article);
-		request.setAttribute("ARTICLE", article);
-		return "frontend/showarticle";
-	}
-	
-	@RequestMapping("/user/addcomment")
+	@RequestMapping("/addcomment")
 	public String addComment(Model model,HttpServletRequest request) {
 		String articleid=request.getParameter("articleid");
 		String content=request.getParameter("comment");
@@ -128,7 +123,7 @@ public class ArticleController extends BaseController{
 		return "frontend/showarticle";
 	}
 	
-	@RequestMapping("/user/ajaxaddcomment")
+	@RequestMapping("/ajaxaddcomment")
 	public void addCommentWithAjax(Model model,HttpServletRequest request,HttpServletResponse response) {
 		addComment(model,request);
 		try {
@@ -145,4 +140,6 @@ public class ArticleController extends BaseController{
 		List<Category> categories=categoryManager.getUserCategory(getCurrentUser(model));
 		model.addAttribute("CATEGORIES", categories);
 	}
+	
+	
 }

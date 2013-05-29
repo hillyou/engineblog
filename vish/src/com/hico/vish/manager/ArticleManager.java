@@ -29,69 +29,61 @@ public class ArticleManager {
 	
 	public void save(Article article) {
 		setDefault(article);
-		article.setCreateDate(new Date());
-		articleDao.saveOrUpdate(article);
+		articleDao.save(article);
 	}
 
 	public void update(Article article) {
-		article.setModifyDate(new Date());
-		articleDao.saveOrUpdate(article);
+		articleDao.update(article);
 	}
 	
 	public void saveAndPublish(Article article) {
-		article.setCreateDate(new Date());
 		article.setPublishDate(new Date());
 		article.setPublished(true);
-		articleDao.saveOrUpdate(article);
+		articleDao.save(article);
 	}
 	
 	public void updateAndPublish(Article article) {
-		article.setModifyDate(new Date());
 		article.setPublishDate(new Date());
 		article.setPublished(true);
-		articleDao.saveOrUpdate(article);
+		articleDao.update(article);
 	}
 	
 	public void publish(Article article) {
-		article.setModifyDate(new Date());
 		article.setPublishDate(new Date());
 		article.setPublished(true);
-		articleDao.saveOrUpdate(article);
+		articleDao.update(article);
 	}
 	
 	public void withdrawPublish(Article article) {
-		article.setModifyDate(new Date());
 		article.setPublishDate(new Date());
 		article.setPublished(false);
-		articleDao.saveOrUpdate(article);
+		articleDao.update(article);
 	}
 
 
 	public void valid(Article article) {
-		article.setModifyDate(new Date());
 		article.setValid(true);
-		articleDao.saveOrUpdate(article);
+		articleDao.update(article);
 	}
 	
 	public void inValid(Article article) {
-		article.setModifyDate(new Date());
 		article.setValid(false);
-		articleDao.saveOrUpdate(article);
+		articleDao.update(article);
 	}
 
 	public void delete(Article article) {
-		article.setModifyDate(new Date());
 		article.setDelete(true);
-		articleDao.saveOrUpdate(article);
+		articleDao.update(article);
 	}
 	
 	public void restore(Article article) {
-		article.setModifyDate(new Date());
 		article.setDelete(false);
-		articleDao.saveOrUpdate(article);
+		articleDao.update(article);
 	}
 	
 	private void setDefault(Article article) {
+		article.setPublishDate(new Date());
+		article.setPublished(true);
 		article.setValid(true);
 		article.setDelete(false);
 	}

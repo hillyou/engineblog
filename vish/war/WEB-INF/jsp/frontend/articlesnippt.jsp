@@ -4,7 +4,7 @@
 	<div class="posttitle"><a href="${contextPath}/article/showarticle/${instance.id}.html" target="blank">${instance.title}</a></div>
 	<div class="date"><fmt:formatDate value="${instance.createDate}" pattern="MM/dd" /></div>
 	<c:if test="${not empty author and author.key eq instance.author }">
-		<div><a target="blank" href="${contextPath}/article/user/updatearticle/${instance.id}.html">edit</a></div>
+		<div><a target="blank" href="${contextPath}/admin/article/updatearticle/${instance.id}.html">edit</a></div>
 	</c:if>	
 	<div class="postcontent">
 		${instance.snipptContent}

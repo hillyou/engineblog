@@ -28,6 +28,14 @@ public class AppUserImpl implements AppUser {
 	private User getUser() {
 		return userService.getCurrentUser();
 	}
+	
+	public boolean isLogin() {
+		User user=getUser();
+		if(user!=null && user.getEmail()!=null) {
+			return true;
+		}
+		return false;
+	}
 
 	@Override
 	public String getUserId() {

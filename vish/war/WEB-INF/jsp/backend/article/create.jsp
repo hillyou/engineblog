@@ -5,16 +5,19 @@
 <title>Create Article</title>
 
 <div id="divcreatearticle">
-	<form action="${contextPath}/article/user/savearticle.html" method="post">
+	<form action="${contextPath}/admin/article/savearticle.html" method="post">
 		<div>Title:<input name="title" id="title" type="text"/></div>
 		<div>Content:<textarea id="ckeditor" name="content" rows="50" cols="80"></textarea></div>
 		<div>
-		<select name="category">
-		  <option value="">Please select</option>
-		  <c:forEach var="category" items="${categories}">
-		      <option value="${category.key.id}">${category.name}</option>
-		  </c:forEach>
-		</select>
+			<select name="category">
+			  <option value="">Please select</option>
+			  <c:forEach var="category" items="${categories}">
+			      <option value="${category.class.simpleName}:${category.key.id}">${category.name}</option>
+			  </c:forEach>
+			</select>
+		</div>
+		<div>
+		  <input type="text" id="keywords" name="keywords">
 		</div>
 		<div><input type="submit"/></div>
 	</form>
