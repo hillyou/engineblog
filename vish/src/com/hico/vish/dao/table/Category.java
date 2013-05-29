@@ -107,7 +107,7 @@ public class Category implements Comparable<Category>,Serializable{
 
 	public void addSubCategory(Category sub) {
 		if(this.subCategory ==null) {
-			this.subCategory=new ArrayList();
+			this.subCategory=new ArrayList<Category>();
 		}
 		this.subCategory.add(sub);
 	}

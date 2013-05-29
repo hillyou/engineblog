@@ -11,16 +11,16 @@ $(document).ready(function(){
 			data: "articleid="+articleId+"&comment="+comment,
 			context: document.body
 		}).success(function(){
-			var escapecontent=escape(comment);
+			var escapecontent=$("<div />").text(comment).html();
 			var current=new Date();
 			var hour=current.getHours();       
 			var min=current.getMinutes();
 			var dt_to = $.datepicker.formatDate('mm/dd/yy', current)+" "+hour+":"+min;
-			var newcommentitme="<div class=\"commentitem\"><div> "+commiter+" at " +dt_to+"<div>"+escapecontent+"</div></div>"
+			var newcommentitme="<div class=\"commentitem\"><div> "+commiter+" at " +dt_to+"<div  class=\"bigblock\">"+escapecontent+"</div></div>";
 			if($('.commentitem').length > 0){
-				$('div .commentitem:first').before(newcommentitme)
+				$('div .commentitem:first').before(newcommentitme);
 			}else{
-				$('.commentslist').append(newcommentitme)
+				$('.commentslist').append(newcommentitme);
 			}
 			$('#commentId').val("");
 		}).done(function(msg) {

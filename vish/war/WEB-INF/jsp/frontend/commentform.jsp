@@ -9,7 +9,7 @@
 			<div>
 				<input type="hidden" id="ajaxURL" value="${contextPath}/user/comment/ajaxaddcomment.html" /> 
 				<input type="hidden" name="articleid" id="articleid" value="${acticle.id}" />
-				<input type="hidden" name="currentuser" id="currentuser" value="${loginuser}" />
+				<input type="hidden" name="currentuser" id="currentuser" value="${loginuser.email}" />
 				<input type="submit" />
 			</div>
 		</form>

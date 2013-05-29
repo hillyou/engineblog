@@ -31,12 +31,28 @@ public class AdminArticleController extends BaseController{
 	public String delArticle(@PathVariable Long articleId,Model model) {
 		Article persisted=articleManager.getById(articleId);
 		UserEntity user=getCurrentUser(model);
+		String url="";
 		if(persisted.getAuthor().equals(user.getKey())) {
 			articleManager.delete(persisted);
+			url="redirect:/admin.html";
 		}else {
 			model.addAttribute(REQ_ATTR_MESSAGE, "You are not allowed to delete this article.");
 		}
-		return "backend/home";
+		return url;
+	}
+	
+	@RequestMapping(value="/publish/{articleId}")
+	public String publishArticle(@PathVariable Long articleId,Model model) {
+		Article article=articleManager.getById(articleId);
+		UserEntity user=getCurrentUser(model);
+		String url="";
+		if(article.getAuthor().equals(user.getKey())) {
+			articleManager.publish(article);
+			url="redirect:/admin.html";
+		}else {
+			model.addAttribute(REQ_ATTR_MESSAGE, "You are not allowed to delete this article.");
+		}
+		return url;
 	}
 	
 	@RequestMapping("/createarticle")

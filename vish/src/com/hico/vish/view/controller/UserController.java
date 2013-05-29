@@ -21,8 +21,8 @@ import com.hico.vish.view.BaseController;
 public class UserController extends BaseController{
 	
 	@RequestMapping
-	public String gotoUserHome(HttpServletRequest request) {
-		loadArticleList(request);
+	public String gotoUserHome(Model model) {
+		loadArticleList(model);
 		return "backend/home";
 	}
 	
@@ -41,10 +41,11 @@ public class UserController extends BaseController{
 		}
 	}
 	
-	private void loadArticleList(HttpServletRequest request) {
-		List<Article> articles=articleManager.getArticleList();
+	private void loadArticleList(Model model) {
+		UserEntity user=getCurrentUser(model);
+		List<Article> articles=articleManager.getArticleList(user);
 		Collections.sort(articles);
-		request.setAttribute("ARTICLES", articles);
+		model.addAttribute("ARTICLES",articles);
 	}
 	
 }

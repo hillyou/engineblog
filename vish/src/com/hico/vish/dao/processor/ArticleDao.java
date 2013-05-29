@@ -102,7 +102,7 @@ public class ArticleDao {
 		PersistenceManager  persistenceManager=persistenceManagerFactory.getPersistenceManager();
 		try{
 			Query query=persistenceManager.newQuery(Article.class);
-			query.setFilter("author == paramAuthor");
+			query.setFilter("author == paramAuthor && isDelete == false && isValid == true");
 			query.declareParameters(Key.class.getName()+" paramAuthor");
 			List<Article> articles=(List<Article>) query.execute(user.getKey());
 			for(Article article:articles ) {
