@@ -19,10 +19,6 @@ public abstract class BaseManager<T extends BaseEntity> {
 		dao.delete(t);
 	}
 
-	public T get(Object id) {
-		return (T) dao.get(id);
-	}
-	
 	/**
 	 * @return the baseDao
 	 */

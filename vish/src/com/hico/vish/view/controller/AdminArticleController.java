@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.hico.vish.dao.table.Article;
 import com.hico.vish.dao.table.Blog;
+import com.hico.vish.dao.table.Category;
 import com.hico.vish.dao.table.Comment;
 import com.hico.vish.dao.table.UserEntity;
 import com.hico.vish.view.BaseController;
@@ -74,10 +75,15 @@ public class AdminArticleController extends BaseController{
 		UserEntity owner=getCurrentUser(model);
 		article.setAuthor(owner.getKey());
 		Blog blog=blogManager.get(owner.getCurrentBlog().getId());
+		List<Category> categories=blog.getCategories();
 		List<Article> articleList=blog.getArticles();
 		if(articleList==null) {
 			articleList=new ArrayList<Article>();
 		}
+		Category category=new Category();
+		category.setKey(article.getCategoryId());
+		Category perCate=categories.get(categories.indexOf(category));
+		article.setCategory(perCate);
 		article.setBlog(blog);
 		articleList.add(article);
 		blogManager.update(blog);

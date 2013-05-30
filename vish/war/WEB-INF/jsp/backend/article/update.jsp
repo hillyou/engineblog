@@ -14,7 +14,7 @@
         <div>Content:<textarea id="ckeditor" name="content" rows="50" cols="80">${acticle.contentValue}</textarea></div>
         <div>
          <div>
-	        <select name="category">
+	        <select name="categoryId">
 	          <option value="">Please select</option>
 	          <c:forEach var="category" items="${categories}">
 	              <option value="${category.class.simpleName}:${category.key.id}" ${(acticle.category.id eq category.key.id)?'selected=\"selected\"':''}>${category.name}</option>

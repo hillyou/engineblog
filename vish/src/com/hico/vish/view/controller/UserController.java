@@ -3,6 +3,7 @@ package com.hico.vish.view.controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -34,13 +35,17 @@ public class UserController extends BaseController{
 	
 	@RequestMapping(value="/openblog",method=RequestMethod.POST)
 	public String openBlog(Blog blog,Model model,HttpServletRequest request) {
-		UserEntity user=getCurrentUser(model);
-		UserEntity persisted=userManager.get(user.getId());
+		UserEntity persisted=getCurrentUser(model);
+		blog.setBlogger(persisted);
+		blog.setCreateDate(new Date());
 		persisted.addBlog(blog);
-		blog.setOwner(user.getKey());
-		userManager.updateUser(persisted);
-		updateUserInSession(request,persisted);
-		return "redirect:/admin.html";
+		try{
+			userManager.updateUser(persisted);
+			updateUserInSession(request,persisted);
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		return "redirect:/home.html";
 	}
 	
 	@RequestMapping(value="/ajaxopenblog",method=RequestMethod.POST)
@@ -58,7 +63,7 @@ public class UserController extends BaseController{
 	
 	private void loadArticleList(Model model) {
 		UserEntity user=getCurrentUser(model);
-		if(!user.isDeleted() && !user.isLocked() && user.isValid() && user.isBloger()) {
+		if(!user.isDeleted() && !user.isLocked() && user.isValid() && user.isHasBlog()) {
 			List<Article> articles=articleManager.getArticleList(user);
 			Collections.sort(articles);
 			model.addAttribute("ARTICLES",articles);

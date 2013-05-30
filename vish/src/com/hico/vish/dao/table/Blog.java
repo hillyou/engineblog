@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.jdo.annotations.Element;
 import javax.jdo.annotations.Inheritance;
+import javax.jdo.annotations.NotPersistent;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 
@@ -17,13 +18,13 @@ public class Blog extends StatusEntity{
 	private String name;
 	@Persistent
 	private String title;
-	@Persistent(defaultFetchGroup = "true",mappedBy = "blog")
+	@Persistent(mappedBy = "blog")
 	@Element(dependent = "true") 
 	private List<Article> articles;
-	@Persistent(defaultFetchGroup = "true",mappedBy = "blog")
+	@Persistent(mappedBy = "blog")
 	@Element(dependent = "true") 
 	private List<Category> categories;
-	@Persistent
+	@NotPersistent
 	private Key owner;
 	@Persistent
 	private UserEntity blogger;
@@ -113,5 +114,16 @@ public class Blog extends StatusEntity{
 	public void setBlogger(UserEntity blogger) {
 		this.blogger = blogger;
 	}
+
+	@Override
+	public String toString() {
+		return "Blog [name=" + name + ", title=" + title + ", articles="
+				+ articles + ", categories=" + categories + ", owner=" + owner
+				+ ", blogger=" + blogger + ", isDeleted=" + isDeleted
+				+ ", isValid=" + isValid + ", isLocked=" + isLocked
+				+ ", createDate=" + createDate + "]";
+	}
+	
+	
 	
 }

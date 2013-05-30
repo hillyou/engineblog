@@ -97,10 +97,11 @@ public class UserEntity extends StatusEntity{
 	public void setLastLogin(Date lastLogin) {
 		this.lastLogin = lastLogin;
 	}
+	
 	/**
 	 * @return the isBloger
 	 */
-	public boolean isBloger() {
+	public boolean isHasBlog() {
 		return (blogs==null || blogs.isEmpty())?false:true;
 	}
 	
@@ -138,5 +139,14 @@ public class UserEntity extends StatusEntity{
 		}
 		blogs.add(blog);
 	}
+	@Override
+	public String toString() {
+		return "UserEntity [userId=" + userId + ", userName=" + userName
+				+ ", nickName=" + nickName + ", email=" + email
+				+ ", lastLogin=" + lastLogin + ", blogs=" + blogs
+				+ ", isDeleted=" + isDeleted + ", isValid=" + isValid
+				+ ", isLocked=" + isLocked + ", createDate=" + createDate+ ", hasBlog()=" + isHasBlog() + "]";
+	}
+	
 	
 }

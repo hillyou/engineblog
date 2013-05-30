@@ -76,5 +76,11 @@ public abstract class BaseEntity implements Comparable<BaseEntity>,Serializable{
 		}
 		return entity.getCreateDate().compareTo(createDate);
 	}
+
+	@Override
+	public boolean equals(Object entity) {
+		return this.key.equals(((BaseEntity)entity).getKey());
+	}
+	
 	
 }

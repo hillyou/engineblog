@@ -119,5 +119,14 @@ public class Category extends BaseEntity{
 	public void setBlog(Blog blog) {
 		this.blog = blog;
 	}
+
+	@Override
+	public String toString() {
+		return "Category [name=" + name + ", parent=" + parent + ", blog="
+				+ blog + ", subCategory=" + subCategory + ", position="
+				+ position + ", owner=" + owner + ", createDate=" + createDate
+				+ "]";
+	}
+	
 	
 }

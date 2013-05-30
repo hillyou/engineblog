@@ -1,5 +1,6 @@
 package com.hico.vish.dao.table;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -40,10 +41,10 @@ public class Article extends StatusEntity{
 	@Persistent(defaultFetchGroup = "true",mappedBy = "article")
 	@Element(dependent = "true") 
 	private List<Comment> comments;
-	
-	@Persistent(defaultFetchGroup = "true")
-	@Element(dependent = "true") 
-	private Key category;
+	@NotPersistent
+	private Key categoryId;
+	@Persistent
+	private Category category;
 	
 	public Article() {
 		
@@ -200,14 +201,14 @@ public class Article extends StatusEntity{
 	/**
 	 * @return the category
 	 */
-	public Key getCategory() {
+	public Category getCategory() {
 		return category;
 	}
 
 	/**
 	 * @param category the category to set
 	 */
-	public void setCategory(Key category) {
+	public void setCategory(Category category) {
 		this.category = category;
 	}
 
@@ -238,5 +239,42 @@ public class Article extends StatusEntity{
 	public void setBlogId(Long blogId) {
 		this.blogId = blogId;
 	}
+	
+
+	/**
+	 * @return the categoryId
+	 */
+	public Key getCategoryId() {
+		return categoryId;
+	}
+
+	/**
+	 * @param categoryId the categoryId to set
+	 */
+	public void setCategoryId(Key categoryId) {
+		this.categoryId = categoryId;
+	}
+	
+	
+	public void addComment(Comment comment) {
+		if(comments==null) {
+			comments=new ArrayList<Comment>();
+		}
+		comments.add(comment);
+	}
+
+	@Override
+	public String toString() {
+		return "Article [title=" + title + ", content=" + content
+				+ ", publishDate=" + publishDate + ", modifyDate=" + modifyDate
+				+ ", isPublished=" + isPublished + ", isOpenComment="
+				+ isOpenComment + ", keywords=" + keywords + ", author="
+				+ author + ", blog=" + blog + ", blogId=" + blogId
+				+ ", comments=" + comments + ", category=" + category
+				+ ", isDeleted=" + isDeleted + ", isValid=" + isValid
+				+ ", isLocked=" + isLocked + ", createDate=" + createDate + "]";
+	}
+	
+	
 	
  }

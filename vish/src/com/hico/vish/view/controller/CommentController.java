@@ -27,16 +27,12 @@ public class CommentController extends BaseController{
 		String articleid=request.getParameter("articleid");
 		String content=request.getParameter("comment");
 		Article article=articleManager.get(Long.valueOf(articleid).longValue());
-		List<Comment> comments=article.getComments();
-		if(comments==null) {
-			comments=new ArrayList<Comment>();
-		}
 		Comment comment=new Comment(content);
 		comment.setCommentEmail(getCurrentUser(model).getEmail());
 		comment.setCreateDate(new Date());
 		comment.setArticle(article);
-		comments.add(comment);
-		articleManager.save(article);
+		article.addComment(comment);
+		articleManager.update(article);
 		request.setAttribute("ARTICLE", article);
 		return "frontend/showarticle";
 	}

@@ -14,6 +14,16 @@ import com.hico.vish.dao.table.UserEntity;
 
 public class CategoryDao extends BaseDao<Category>{
 
+	public Category get(Object id) {
+		PersistenceManager  persistenceManager=persistenceManagerFactory.getPersistenceManager();
+		try{
+			Category category=persistenceManager.getObjectById(Category.class, id);
+			return category;
+		}finally{
+			persistenceManager.close();
+		}
+	}
+	
 	public synchronized void deleteCategoryById(Long id,boolean delRelatedArticle){
 		List<Category> allCategories=retriveSubCategoryById(id);
 		deleteArticleFromCategory(allCategories,delRelatedArticle);

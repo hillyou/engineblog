@@ -10,7 +10,7 @@
 		<div>Title:<input name="title" id="title" type="text"/></div>
 		<div>Content:<textarea id="ckeditor" name="content" rows="50" cols="80"></textarea></div>
 		<div>
-			<select name="category">
+			<select name="categoryId">
 			  <option value="">Please select</option>
 			  <c:forEach var="category" items="${categories}">
 			      <option value="${category.class.simpleName}:${category.key.id}">${category.name}</option>

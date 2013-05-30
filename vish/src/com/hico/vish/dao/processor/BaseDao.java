@@ -11,7 +11,6 @@ import com.hico.vish.dao.table.BaseEntity;
 public abstract class BaseDao<T extends BaseEntity> {
 
 	protected PersistenceManagerFactory persistenceManagerFactory;
-	protected Class clazz;
 	
 	
 	public void save(T t) {
@@ -65,16 +64,6 @@ public abstract class BaseDao<T extends BaseEntity> {
 		}
 	}
 
-	public T get(Object id) {
-		PersistenceManager  persistenceManager=persistenceManagerFactory.getPersistenceManager();
-		try{
-			T t=(T) persistenceManager.getObjectById(clazz, id);
-			return t;
-		}finally{
-			persistenceManager.close();
-		}
-	}
-	
 	/**
 	 * @return the persistenceManagerFactory
 	 */
@@ -90,19 +79,4 @@ public abstract class BaseDao<T extends BaseEntity> {
 		this.persistenceManagerFactory = persistenceManagerFactory;
 	}
 
-	/**
-	 * @return the clazz
-	 */
-	public Class getClazz() {
-		return clazz;
-	}
-
-	/**
-	 * @param clazz the clazz to set
-	 */
-	public void setClazz(Class clazz) {
-		this.clazz = clazz;
-	}
-	
-	
 }

@@ -72,7 +72,7 @@ public abstract class BaseController {
 	
 	protected boolean isValidBlogger(Model model) {
 		UserEntity currentUser=getCurrentUser(model);
-		return currentUser.isBloger() && !currentUser.isDeleted() && !currentUser.isLocked() && currentUser.isValid();
+		return currentUser.isHasBlog() && !currentUser.isDeleted() && !currentUser.isLocked() && currentUser.isValid();
 	}
 	
 	protected void updateUserInSession(HttpServletRequest request,UserEntity loginUser) {
