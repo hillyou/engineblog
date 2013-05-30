@@ -9,7 +9,7 @@
 		<tr>
 			<td>${category.name}</td>
 			<td><fmt:formatDate value="${category.createDate}" pattern="MM/dd" /></td>
-			<td><a href="${contextPath}/admin/category/new.html?parent=${category.key.id}">Create a sub category</a></td>
+			<td><a href="${contextPath}/admin/category/new.html?parent=${category.class.simpleName}:${category.key.id}">Create a sub category</a></td>
 			<td><a href="${contextPath}/admin/category/del/${category.key.id}.html">Delete</a></td>
 		</tr>
 	</c:forEach>

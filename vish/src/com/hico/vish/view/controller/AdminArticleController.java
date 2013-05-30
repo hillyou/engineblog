@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.hico.vish.dao.table.Article;
-import com.hico.vish.dao.table.Category;
+import com.hico.vish.dao.table.Blog;
 import com.hico.vish.dao.table.Comment;
 import com.hico.vish.dao.table.UserEntity;
 import com.hico.vish.view.BaseController;
@@ -25,11 +25,10 @@ import com.hico.vish.view.BaseController;
 @Controller
 @RequestMapping(value = "/admin/article")
 public class AdminArticleController extends BaseController{
-
 	
 	@RequestMapping(value="/del/{articleId}")
 	public String delArticle(@PathVariable Long articleId,Model model) {
-		Article persisted=articleManager.getById(articleId);
+		Article persisted=articleManager.get(articleId);
 		UserEntity user=getCurrentUser(model);
 		String url="";
 		if(persisted.getAuthor().equals(user.getKey())) {
@@ -43,7 +42,7 @@ public class AdminArticleController extends BaseController{
 	
 	@RequestMapping(value="/publish/{articleId}")
 	public String publishArticle(@PathVariable Long articleId,Model model) {
-		Article article=articleManager.getById(articleId);
+		Article article=articleManager.get(articleId);
 		UserEntity user=getCurrentUser(model);
 		String url="";
 		if(article.getAuthor().equals(user.getKey())) {
@@ -64,7 +63,7 @@ public class AdminArticleController extends BaseController{
 	@RequestMapping(value="/updatearticle/{articleId}", method=RequestMethod.GET)
 	public String gotoUpdateArticle(@PathVariable String articleId,Model model,HttpServletRequest request) {
 		Assert.hasText(articleId);
-		Article article=articleManager.getById(Long.valueOf(articleId).longValue());
+		Article article=articleManager.get(Long.valueOf(articleId).longValue());
 		request.setAttribute("ARTICLE", article);
 		loadCategory(model);
 		return "backend/article/update";
@@ -72,26 +71,36 @@ public class AdminArticleController extends BaseController{
 	
 	@RequestMapping("/savearticle")
 	public String saveArticle(Model model,Article article) {
-		UserEntity user=getCurrentUser(model);
-		article.setAuthor(user.getKey());
-		articleManager.save(article);
+		UserEntity owner=getCurrentUser(model);
+		article.setAuthor(owner.getKey());
+		Blog blog=blogManager.get(owner.getCurrentBlog().getId());
+		List<Article> articleList=blog.getArticles();
+		if(articleList==null) {
+			articleList=new ArrayList<Article>();
+		}
+		article.setBlog(blog);
+		articleList.add(article);
+		blogManager.update(blog);
 		model.addAttribute("ARTICLE", article);
 		model.addAttribute("MESSAGE", "Save successfully");
-		loadCategory(model);
+		model.addAttribute("CATEGORIES", blog.getCategories());
 		return "backend/article/update";
 	}
 	
 	@RequestMapping(value="/updatearticle", method=RequestMethod.POST)
 	public String updateArticle(Model model,Article article) {
-		Article persisted=articleManager.getById(article.getId());
+		UserEntity owner=getCurrentUser(model);
+		Blog blog=blogManager.get(owner.getCurrentBlog().getId());
+		model.addAttribute("CATEGORIES", blog.getCategories());
+		List<Article> articles=blog.getArticles();
+		Article persisted=articles.get(articles.indexOf(article));		
 		persisted.setCategory(article.getCategory());
 		persisted.setTitle(article.getTitle());
 		persisted.setContent(article.getContent());
 		persisted.setKeywords(article.getKeywords());
-		articleManager.update(persisted);
+		blogManager.update(blog);
 		model.addAttribute("ARTICLE", persisted);
 		model.addAttribute("MESSAGE", "Update successfully");
-		loadCategory(model);
 		return "backend/article/update";
 	}
 	
@@ -124,14 +133,14 @@ public class AdminArticleController extends BaseController{
 	public String addComment(Model model,HttpServletRequest request) {
 		String articleid=request.getParameter("articleid");
 		String content=request.getParameter("comment");
-		Article article=articleManager.getById(Long.valueOf(articleid).longValue());
+		Article article=articleManager.get(Long.valueOf(articleid).longValue());
 		List<Comment> comments=article.getComments();
 		if(comments==null) {
 			comments=new ArrayList<Comment>();
 		}
 		Comment comment=new Comment(content);
 		comment.setCommentEmail(getCurrentUser(model).getEmail());
-		comment.setCommentDate(new Date());
+		comment.setCreateDate(new Date());
 		comment.setArticle(article);
 		comments.add(comment);
 		articleManager.save(article);
@@ -152,9 +161,11 @@ public class AdminArticleController extends BaseController{
 		}
 	}
 	
+	
 	private void loadCategory(Model model) {
-		List<Category> categories=categoryManager.getUserCategory(getCurrentUser(model));
-		model.addAttribute("CATEGORIES", categories);
+		UserEntity owner=getCurrentUser(model);
+		Blog blog=blogManager.get(owner.getCurrentBlog().getId());
+		model.addAttribute("CATEGORIES", blog.getCategories());
 	}
 	
 	

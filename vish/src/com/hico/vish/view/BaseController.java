@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import com.hico.vish.dao.table.AppUser;
 import com.hico.vish.dao.table.UserEntity;
 import com.hico.vish.manager.ArticleManager;
+import com.hico.vish.manager.BlogManager;
 import com.hico.vish.manager.CategoryManager;
 import com.hico.vish.manager.UserManager;
 import com.hico.vish.util.UserUtil;
@@ -28,12 +29,13 @@ public abstract class BaseController {
 	@Autowired
 	protected CategoryManager categoryManager;
 	
+	@Autowired
+	protected BlogManager blogManager;
 	
 	private static int counter=0;
 	@ModelAttribute("CONTER")
 	public String beforeController() {
 		String counters=String.valueOf(++counter);
-		System.out.println(counters);
 		return counters;
 	}
 	
@@ -57,7 +59,7 @@ public abstract class BaseController {
 				loginUser.setEmail(userEmail);
 				loginUser.setNickName(user.getNickName());
 				loginUser.setUserId(user.getUserId());
-				userManager.saveOrUpdateUser(loginUser);
+				userManager.saveUser(loginUser);
 			}
 			session.setAttribute(userEmail, loginUser);
 		}
@@ -73,5 +75,10 @@ public abstract class BaseController {
 		return currentUser.isBloger() && !currentUser.isDeleted() && !currentUser.isLocked() && currentUser.isValid();
 	}
 	
+	protected void updateUserInSession(HttpServletRequest request,UserEntity loginUser) {
+		HttpSession session=request.getSession();
+		session.removeAttribute(loginUser.getEmail());
+		session.setAttribute(loginUser.getEmail(), loginUser);
+	}
 
 }

@@ -15,7 +15,7 @@ public class ArticleManager {
 		articleDao.saveComment(comment);
 	}
 	
-	public Article getById(Long id) {
+	public Article get(Long id) {
 		return articleDao.get(id);
 	}
 	
@@ -72,12 +72,12 @@ public class ArticleManager {
 	}
 
 	public void delete(Article article) {
-		article.setDelete(true);
+		article.setDeleted(true);
 		articleDao.update(article);
 	}
 	
 	public void restore(Article article) {
-		article.setDelete(false);
+		article.setDeleted(false);
 		articleDao.update(article);
 	}
 	
@@ -85,7 +85,7 @@ public class ArticleManager {
 		article.setPublishDate(new Date());
 		article.setPublished(true);
 		article.setValid(true);
-		article.setDelete(false);
+		article.setDeleted(false);
 	}
 	
 	/**

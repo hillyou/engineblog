@@ -38,9 +38,9 @@
 	<!-- <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 	   <property name="dataSource" ref="persistenceManagerFactoryProxy" />
 	</bean> -->
-    
     <bean id="articleDao" class="com.hico.vish.dao.processor.ArticleDao">
 	   <property name="persistenceManagerFactory" ref="persistenceManagerFactory"/>
+	   <property name="clazz" value="Article.class"></property>
 	</bean>
 	
 	<bean id="articleManager" class="com.hico.vish.manager.ArticleManager">
@@ -49,6 +49,7 @@
     
     <bean id="userDao" class="com.hico.vish.dao.processor.UserDao">
        <property name="persistenceManagerFactory" ref="persistenceManagerFactory"/>
+       <property name="clazz" value="UserEntity.class"></property>       
     </bean>
     
     <bean id="userManager" class="com.hico.vish.manager.UserManager">
@@ -57,10 +58,20 @@
     
     <bean id="categoryDao" class="com.hico.vish.dao.processor.CategoryDao">
         <property name="persistenceManagerFactory" ref="persistenceManagerFactory"></property>
+        <property name="clazz" value="Category.class"></property>    
     </bean>
     
     <bean id="categoryManager" class="com.hico.vish.manager.CategoryManager">
         <property name="categoryDao" ref="categoryDao"></property>
+    </bean>
+    
+    <bean id="blogDao" class="com.hico.vish.dao.processor.BlogDao">
+        <property name="persistenceManagerFactory" ref="persistenceManagerFactory"></property>
+        <property name="clazz" value="Blog.class"></property>
+    </bean>
+    
+    <bean id="blogManager" class="com.hico.vish.manager.BlogManager">
+        <property name="blogDao" ref="blogDao"></property>
     </bean>
 
 	<bean id="messageSource"

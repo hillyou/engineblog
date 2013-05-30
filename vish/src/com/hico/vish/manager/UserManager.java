@@ -10,12 +10,16 @@ public class UserManager {
 		return userDao.getUserByEmail(email);
 	}
 	
-	public UserEntity getUserById(Long id) {
-		return userDao.getUserById(id);
+	public UserEntity get(Object id) {
+		return userDao.get(id);
 	}
 	
-	public void saveOrUpdateUser(UserEntity user) {
-		userDao.saveUser(user);
+	public void saveUser(UserEntity user) {
+		userDao.save(user);
+	}
+	
+	public void updateUser(UserEntity user) {
+		userDao.update(user);
 	}
 	/**
 	 * @return the userDao

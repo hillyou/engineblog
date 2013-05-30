@@ -1,5 +1,6 @@
 package com.hico.vish.view.controller;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -10,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.hico.vish.dao.table.Blog;
 import com.hico.vish.dao.table.Category;
 import com.hico.vish.dao.table.UserEntity;
 import com.hico.vish.view.BaseController;
@@ -21,8 +23,15 @@ public class CategoryController extends BaseController{
 	@RequestMapping(value = "/list")
 	public String managerCategory(Model model){
 		UserEntity owner=getCurrentUser(model);
-		List<Category> category=categoryManager.getUserCategory(owner);
-		model.addAttribute("CATEGORIES", category);
+		Blog blog=blogManager.get(owner.getCurrentBlog().getId());
+		if(blog==null) {
+			model.addAttribute(REQ_ATTR_MESSAGE, "Invalid blog");
+		}else if(!blog.getOwner().equals(owner.getKey())) {
+			model.addAttribute(REQ_ATTR_MESSAGE, "Invalid user for this blog ");
+		}else {
+			List<Category> categories=blog.getCategories();
+			model.addAttribute("CATEGORIES", categories);
+		}
 		return "backend/category/categorylist";
 	}
 	
@@ -43,27 +52,31 @@ public class CategoryController extends BaseController{
 	}
 	
 	@RequestMapping(value = "/create")
-	public String createCategory(HttpServletRequest request,Model model){
+	public String createCategory(Category category,Model model){
 		UserEntity owner=getCurrentUser(model);
-		String categoryName=request.getParameter("categoryname");
-		String parentCategory=request.getParameter("parentcategory");
-		Category category=new Category(categoryName);
 		category.setOwner(owner.getKey());
 		category.setCreateDate(new Date());
 		boolean errprFlag=false;
-		if(parentCategory!=null && !"".equals(parentCategory.trim())){
-			Category parent=categoryManager.getById(Long.valueOf(parentCategory));
+		if(category.getParent()!=null){
+			Category parent=categoryManager.get(category.getId());
 			if(parent==null){
-				request.setAttribute("MESSAGES", "Failed to save, Invalid parent category");
+				model.addAttribute("MESSAGES", "Failed to save, Invalid parent category");
 				errprFlag=true;
 			}else{
 				category.setParent(parent.getKey());
 			}
 		}
+		
+		Blog blog=blogManager.get(owner.getCurrentBlog().getId());
+		List<Category> categories=blog.getCategories();
+		if(categories==null) {
+			categories=new ArrayList<Category>();
+		}
+		category.setBlog(blog);
+		categories.add(category);
+		blogManager.update(blog);
 		if(!errprFlag){
-			categoryManager.saveCategory(category);
-			List<Category> categories=categoryManager.getUserCategory(owner);
-			request.setAttribute("CATEGORIES", categories);
+			model.addAttribute("CATEGORIES", categories);
 		}
 		return "redirect:/admin/category/list.html";
 	}

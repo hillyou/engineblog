@@ -1,7 +1,6 @@
 package com.hico.vish.dao.processor;
 
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -102,7 +101,7 @@ public class ArticleDaoTest{
 	private Article getArticle(String title,String content) {
 		Article article=new Article(title,content,getUser("colin@gmail.com").getKey());
 		Category cas=saveCategory();
-		Category loaded=categoryDao.getById(cas.getKey().getId());
+		Category loaded=categoryDao.get(cas.getKey().getId());
 		article.setCategory(loaded.getKey());
 		articleDao.update(article);
 		logger.severe(loaded.getKey().getId()+" <> "+ article.getCategory().getId());
@@ -118,7 +117,7 @@ public class ArticleDaoTest{
 		user.setEmail("colin@gmail.com");
 		user.setUserName("colin");
 		user.setLastLogin(new Date());
-		userDao.saveUser(user);
+		userDao.save(user);
 		return user;
 	}
 	
@@ -133,7 +132,7 @@ public class ArticleDaoTest{
 		category.setName("Test");
 		category.setOwner(getUser("colin@gmail.com").getKey());
 		category.setParent(saveParentCategory().getKey());
-		categoryDao.saveCategory(category);
+		categoryDao.save(category);
 		Assert.assertNotNull(category.getKey());
 		return category;
 	}
@@ -142,7 +141,7 @@ public class ArticleDaoTest{
 		Category category=new Category();
 		category.setName("Parent");
 		category.setOwner(getUser("colin@gmail.com").getKey());
-		categoryDao.saveCategory(category);
+		categoryDao.save(category);
 		Assert.assertNotNull(category.getKey());
 		return category;
 	}

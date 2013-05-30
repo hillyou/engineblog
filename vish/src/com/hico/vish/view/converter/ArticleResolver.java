@@ -21,7 +21,7 @@ public class ArticleResolver implements HandlerMethodArgumentResolver{
 		String id=request.getParameter("keysid");
 		if(id!=null) {
 			try {
-				Article article=articleManager.getById(Long.valueOf(id));
+				Article article=articleManager.get(Long.valueOf(id));
 				return article;
 			}catch(Exception ex) {
 				ex.printStackTrace();

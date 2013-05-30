@@ -61,7 +61,7 @@ public class CategoryDaoTest {
 		Category category=saveCategory();
 		Assert.assertNotNull(category.getKey());
 		Assert.assertNotNull(category.getParent());
-		Category loadCategory=categoryDao.getById(category.getParent().getId());
+		Category loadCategory=categoryDao.get(category.getParent().getId());
 		Assert.assertNull(loadCategory.getParent());
 		Assert.assertEquals("Parent", loadCategory.getName());
 	}
@@ -83,7 +83,7 @@ public class CategoryDaoTest {
 		user.setEmail("colin@gmail.com");
 		user.setUserName("colin");
 		user.setLastLogin(new Date());
-		userDao.saveUser(user);
+		userDao.save(user);
 		Assert.assertNotNull(user.getKey());
 		return user;
 	}
@@ -100,7 +100,7 @@ public class CategoryDaoTest {
 		category.setOwner(getUser("colin@gmail.com").getKey());
 		Key parentKey=saveParentCategory().getKey();
 		category.setParent(parentKey);
-		categoryDao.saveCategory(category);
+		categoryDao.save(category);
 		Assert.assertNotNull(category.getKey());
 		Assert.assertEquals(parentKey.getId(), category.getParent().getId());
 		return category;
@@ -110,7 +110,7 @@ public class CategoryDaoTest {
 		Category category=new Category();
 		category.setName("Parent");
 		category.setOwner(getUser("colin@gmail.com").getKey());
-		categoryDao.saveCategory(category);
+		categoryDao.save(category);
 		Assert.assertNotNull(category.getKey());
 		return category;
 	}

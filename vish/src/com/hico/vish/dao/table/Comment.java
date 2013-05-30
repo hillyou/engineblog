@@ -1,38 +1,24 @@
 package com.hico.vish.dao.table;
 
-import java.io.Serializable;
-import java.util.Date;
-
-import javax.jdo.annotations.IdGeneratorStrategy;
+import javax.jdo.annotations.Inheritance;
 import javax.jdo.annotations.NotPersistent;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
-import javax.jdo.annotations.PrimaryKey;
 
 import com.google.appengine.api.datastore.Key;
 
 @PersistenceCapable
-public class Comment implements Comparable<Comment>,Serializable{
+@Inheritance(customStrategy = "complete-table")
+public class Comment extends StatusEntity{
 	private static final long serialVersionUID = -2968102350245609016L;
-	@PrimaryKey
-    @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-	private Key key;
 	@Persistent
 	private Article article;
 	@Persistent
 	private String content;
 	@Persistent
-	private Date commentDate;
-	@Persistent
-	private boolean isDelete=false;
-	@Persistent
-	private boolean isValid=true;
-	@Persistent
-	private boolean isPublished=true;
-	@Persistent
 	private String commentEmail;
-	@NotPersistent
-	private UserEntity commentBy;
+	@Persistent
+	private Key commentBy;
 	@NotPersistent
 	private UserEntity reviewer;
 	
@@ -42,19 +28,6 @@ public class Comment implements Comparable<Comment>,Serializable{
 		this.content=content;
 	}
 	
-	/**
-	 * @return the key
-	 */
-	public Key getKey() {
-		return key;
-	}
-	/**
-	 * @param key the key to set
-	 */
-	public void setKey(Key key) {
-		this.key = key;
-	}
-
 	/**
 	 * @return the article
 	 */
@@ -82,64 +55,23 @@ public class Comment implements Comparable<Comment>,Serializable{
 		this.content = content;
 	}
 	/**
-	 * @return the commentDate
-	 */
-	public Date getCommentDate() {
-		return commentDate;
-	}
-	/**
-	 * @param commentDate the commentDate to set
-	 */
-	public void setCommentDate(Date commentDate) {
-		this.commentDate = commentDate;
-	}
-	/**
 	 * @return the commentBy
 	 */
-	public UserEntity getCommentBy() {
+	public Key getCommentBy() {
 		return commentBy;
 	}
 	/**
 	 * @param commentBy the commentBy to set
 	 */
-	public void setCommentBy(UserEntity commentBy) {
+	public void setCommentBy(Key commentBy) {
 		this.commentBy = commentBy;
 	}
-	/**
-	 * @return the isDelete
-	 */
-	public boolean isDelete() {
-		return isDelete;
-	}
-	/**
-	 * @param isDelete the isDelete to set
-	 */
-	public void setDelete(boolean isDelete) {
-		this.isDelete = isDelete;
-	}
-	/**
-	 * @return the isValid
-	 */
-	public boolean isValid() {
-		return isValid;
-	}
+
 	/**
 	 * @param isValid the isValid to set
 	 */
 	public void setValid(boolean isValid) {
 		this.isValid = isValid;
-	}
-	/**
-	 * @return the isPublished
-	 */
-	public boolean isPublished() {
-		return isPublished;
-	}
-	/**
-	 * @param isPublished the isPublished to set
-	 */
-	public void setPublished(boolean isPublished) {
-		this.isPublished = isPublished;
 	}
 
 	public UserEntity getReviewer() {
@@ -156,11 +88,6 @@ public class Comment implements Comparable<Comment>,Serializable{
 
 	public void setCommentEmail(String commentEmail) {
 		this.commentEmail = commentEmail;
-	}
-
-	@Override
-	public int compareTo(Comment o) {
-		return o.commentDate.compareTo(commentDate);
 	}
 	
 }

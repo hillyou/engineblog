@@ -1,25 +1,21 @@
 package com.hico.vish.dao.table;
 
-import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.jdo.annotations.IdGeneratorStrategy;
+import javax.jdo.annotations.Element;
+import javax.jdo.annotations.Inheritance;
 import javax.jdo.annotations.NotPersistent;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
-import javax.jdo.annotations.PrimaryKey;
 
-import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.KeyFactory;
 import com.hico.vish.util.EmailUtil;
 
 @PersistenceCapable
-public class UserEntity implements Serializable{
+@Inheritance(customStrategy = "complete-table")
+public class UserEntity extends StatusEntity{
 	private static final long serialVersionUID = 1L;
-	@PrimaryKey
-    @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-	private Key key;
 	@Persistent
 	private String userId;
 	@Persistent
@@ -30,52 +26,12 @@ public class UserEntity implements Serializable{
 	private String email;
 	@Persistent
 	private Date lastLogin;
-	@Persistent
-	private boolean isValid=true;
-	@Persistent
-	private boolean isDeleted=false;
-	@Persistent
-	private boolean isLocked=false;
-	@Persistent
-	private boolean isBloger=false;
-//	@Persistent(mappedBy = "author")
-//	@Element(dependent = "true")
+	@Persistent(defaultFetchGroup = "true",mappedBy = "blogger")
+	@Element(dependent = "true") 
+	private List<Blog> blogs;
 	@NotPersistent
-	private List<Article> articles;
-	
-	@NotPersistent
-	private List<Category> categories;
+	private transient Blog currentBlog;
 
-	/**
-	 * @return the key
-	 */
-	public Key getKey() {
-		return key;
-	}
-	/**
-	 * @param key the key to set
-	 */
-	public void setKey(Key key) {
-		this.key = key;
-	}
-	
-	/**
-	 * @return the id
-	 */
-	public Long getId() {
-		if(key!=null) {
-			return key.getId();
-		}
-		return null;
-	}
-
-	/**
-	 * @param id the id to set
-	 */
-	public void setId(Long id) {
-		key=KeyFactory.createKey(getClass().getSimpleName(), id);
-	}
-	
 	/**
 	 * @return the userName
 	 */
@@ -142,87 +98,45 @@ public class UserEntity implements Serializable{
 		this.lastLogin = lastLogin;
 	}
 	/**
-	 * @return the isValid
-	 */
-	public boolean isValid() {
-		return isValid;
-	}
-	/**
-	 * @param isValid the isValid to set
-	 */
-	public void setValid(boolean isValid) {
-		this.isValid = isValid;
-	}
-	/**
-	 * @return the isDeleted
-	 */
-	public boolean isDeleted() {
-		return isDeleted;
-	}
-	/**
-	 * @param isDeleted the isDeleted to set
-	 */
-	public void setDeleted(boolean isDeleted) {
-		this.isDeleted = isDeleted;
-	}
-	/**
-	 * @return the isLocked
-	 */
-	public boolean isLocked() {
-		return isLocked;
-	}
-	/**
-	 * @param isLocked the isLocked to set
-	 */
-	public void setLocked(boolean isLocked) {
-		this.isLocked = isLocked;
-	}
-	/**
 	 * @return the isBloger
 	 */
 	public boolean isBloger() {
-		return isBloger;
-	}
-	/**
-	 * @param isBloger the isBloger to set
-	 */
-	public void setBloger(boolean isBloger) {
-		this.isBloger = isBloger;
-	}
-	/**
-	 * @return the articles
-	 */
-	public List<Article> getArticles() {
-		return articles;
-	}
-	/**
-	 * @param articles the articles to set
-	 */
-	public void setArticles(List<Article> articles) {
-		this.articles = articles;
+		return (blogs==null || blogs.isEmpty())?false:true;
 	}
 	
 	/**
-	 * @return the categories
+	 * @return the blogs
 	 */
-	public List<Category> getCategories() {
-		return categories;
+	public List<Blog> getBlogs() {
+		return blogs;
 	}
 	/**
-	 * @param categories the categories to set
+	 * @param blogs the blogs to set
 	 */
-	public void setCategories(List<Category> categories) {
-		this.categories = categories;
+	public void setBlogs(List<Blog> blogs) {
+		this.blogs = blogs;
 	}
-	@Override
-	public String toString() {
-		return "UserEntity [key=" + key + ", userId=" + userId + ", userName="
-				+ userName + ", nickName=" + nickName + ", email=" + email
-				+ ", lastLogin=" + lastLogin + ", isValid=" + isValid
-				+ ", isDeleted=" + isDeleted + ", isLocked=" + isLocked
-				+ ", isBloger=" + isBloger + ", articles=" + articles + "]";
+	/**
+	 * @return the currentBlog
+	 */
+	public Blog getCurrentBlog() {
+		if(blogs!=null && blogs.size()==1) {
+			return blogs.get(0);
+		}
+		return currentBlog;
+	}
+	/**
+	 * @param currentBlog the currentBlog to set
+	 */
+	public synchronized void setCurrentBlog(Blog currentBlog) {
+		this.currentBlog = currentBlog;
 	}
 	
-	
+	public void addBlog(Blog blog) {
+		if(blogs==null) {
+			blogs=new ArrayList<Blog>();
+		}
+		blogs.add(blog);
+	}
 	
 }

@@ -1,30 +1,23 @@
 package com.hico.vish.dao.table;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.NotPersistent;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
-import javax.jdo.annotations.PrimaryKey;
 
 import com.google.appengine.api.datastore.Key;
 
 @PersistenceCapable
-public class Category implements Comparable<Category>,Serializable{
+public class Category extends BaseEntity{
 	private static final long serialVersionUID = -4805200387345970084L;
-	@PrimaryKey
-    @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-	private Key key;
 	@Persistent
 	private String name;
 	@Persistent
-	private Date createDate;
-	@Persistent
 	private Key parent;
+	@Persistent
+	private Blog blog;
 //	@Persistent(defaultFetchGroup = "true")
 //	@Element(dependent = "true") 
 	@NotPersistent
@@ -42,20 +35,6 @@ public class Category implements Comparable<Category>,Serializable{
 	}
 	
 	/**
-	 * @return the key
-	 */
-	public Key getKey() {
-		return key;
-	}
-
-	/**
-	 * @param key the key to set
-	 */
-	public void setKey(Key key) {
-		this.key = key;
-	}
-
-	/**
 	 * @return the name
 	 */
 	public String getName() {
@@ -67,20 +46,6 @@ public class Category implements Comparable<Category>,Serializable{
 	 */
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	/**
-	 * @return the createDate
-	 */
-	public Date getCreateDate() {
-		return createDate;
-	}
-
-	/**
-	 * @param createDate the createDate to set
-	 */
-	public void setCreateDate(Date createDate) {
-		this.createDate = createDate;
 	}
 
 	/**
@@ -119,13 +84,6 @@ public class Category implements Comparable<Category>,Serializable{
 		this.subCategory = subCategory;
 	}
 
-
-
-	@Override
-	public int compareTo(Category category) {
-		return 0;
-	}
-
 	/**
 	 * @return the position
 	 */
@@ -146,6 +104,20 @@ public class Category implements Comparable<Category>,Serializable{
 
 	public void setOwner(Key owner) {
 		this.owner = owner;
+	}
+
+	/**
+	 * @return the blog
+	 */
+	public Blog getBlog() {
+		return blog;
+	}
+
+	/**
+	 * @param blog the blog to set
+	 */
+	public void setBlog(Blog blog) {
+		this.blog = blog;
 	}
 	
 }

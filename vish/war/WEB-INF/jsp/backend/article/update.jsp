@@ -13,7 +13,6 @@
         <div>Title:<input name="title" id="title" type="text" value="${acticle.title}"/></div>
         <div>Content:<textarea id="ckeditor" name="content" rows="50" cols="80">${acticle.contentValue}</textarea></div>
         <div>
-         <input type="hidden" name="key" value="${acticle.class.simpleName}:${acticle.id}"/>
          <div>
 	        <select name="category">
 	          <option value="">Please select</option>
@@ -25,6 +24,7 @@
          <div>
             <input type="text" id="keywords" name="keywords" value="${acticle.keywords}">
          </div>
+         <input type="hidden" name="key" value="${acticle.class.simpleName}:${acticle.id}"/>
          <input type="submit"/><input type="button" id="canclesave" value="cancle"/>
         </div>
     </form>

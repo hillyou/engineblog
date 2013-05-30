@@ -52,7 +52,7 @@ public class UserDaoTest {
 	@Test
 	public void testGetUserByIdLong() {
 		UserEntity user=saveUser();
-		UserEntity loadEn=userDao.getUserById(user.getId());
+		UserEntity loadEn=userDao.get(user.getId());
 		Assert.assertEquals(user.getUserName(), loadEn.getUserName());
 	}
 
@@ -68,7 +68,7 @@ public class UserDaoTest {
 		user.setEmail("colin@gmail.com");
 		user.setUserName("colin");
 		user.setLastLogin(new Date());
-		userDao.saveUser(user);
+		userDao.save(user);
 		return user;
 	}
 

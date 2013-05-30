@@ -63,7 +63,7 @@ public class LoginFilter implements Filter{
 	}
 	
 	private boolean isInvalidBlogger(UserEntity currentUser) {
-		return !(currentUser.isBloger() && !currentUser.isDeleted() && !currentUser.isLocked() && currentUser.isValid());
+		return !(!currentUser.isDeleted() && !currentUser.isLocked() && currentUser.isValid());
 	}
 
 }
