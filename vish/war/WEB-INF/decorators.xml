@@ -8,6 +8,7 @@
         <pattern>/index.jsp</pattern>
         <pattern>/error*</pattern>
         <pattern>/site*</pattern>
+        <pattern>/about*</pattern>
     </excludes>
     
     <decorator name="backend" page="backend.jsp">

@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.hico.vish.dao.processor.ArticleDao;
 import com.hico.vish.dao.table.Article;
+import com.hico.vish.dao.table.Blog;
 import com.hico.vish.dao.table.Comment;
 import com.hico.vish.dao.table.UserEntity;
 
@@ -25,6 +26,10 @@ public class ArticleManager {
 	
 	public List<Article> getArticleList(UserEntity user){
 		return articleDao.getArticleList(user);
+	}
+	
+	public List<Article> getBlogArticleList(Blog blog){
+		return articleDao.getBlogArticleList(blog);
 	}
 	
 	public void save(Article article) {

@@ -9,7 +9,7 @@ import javax.jdo.annotations.Persistent;
 
 import com.google.appengine.api.datastore.Key;
 
-@PersistenceCapable
+@PersistenceCapable(detachable="true")
 public class Category extends BaseEntity{
 	private static final long serialVersionUID = -4805200387345970084L;
 	@Persistent
@@ -62,6 +62,10 @@ public class Category extends BaseEntity{
 		this.parent = parent;
 	}
 
+	public boolean isRoot() {
+		return parent==null?true:false;
+	}
+	
 	/**
 	 * @return the subCategory
 	 */

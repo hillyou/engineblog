@@ -13,13 +13,13 @@ import javax.jdo.annotations.PrimaryKey;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 
-@PersistenceCapable
+@PersistenceCapable(detachable="true")
 @Inheritance(strategy = InheritanceStrategy.SUBCLASS_TABLE)
 public abstract class BaseEntity implements Comparable<BaseEntity>,Serializable{
 	private static final long serialVersionUID = 2457263669418667692L;
 	@PrimaryKey
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-	private Key key;
+	protected Key key;
 	@Persistent
 	protected Date createDate;
 
@@ -52,6 +52,7 @@ public abstract class BaseEntity implements Comparable<BaseEntity>,Serializable{
 	 * @param id the id to set
 	 */
 	protected void setId(Long id) {
+		System.out.println(getClass().getSimpleName());
 		key=KeyFactory.createKey(getClass().getSimpleName(), id);
 	}
 	

@@ -1,16 +1,14 @@
 package com.hico.vish.dao.table;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.jdo.annotations.Element;
 import javax.jdo.annotations.Inheritance;
-import javax.jdo.annotations.NotPersistent;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 
-import com.google.appengine.api.datastore.Key;
-
-@PersistenceCapable
+@PersistenceCapable(detachable="true")
 @Inheritance(customStrategy = "complete-table")
 public class Blog extends StatusEntity{
 	private static final long serialVersionUID = -5043813840114854869L;
@@ -21,11 +19,11 @@ public class Blog extends StatusEntity{
 	@Persistent(mappedBy = "blog")
 	@Element(dependent = "true") 
 	private List<Article> articles;
-	@Persistent(mappedBy = "blog")
+	@Persistent(defaultFetchGroup = "true",mappedBy = "blog")
 	@Element(dependent = "true") 
 	private List<Category> categories;
-	@NotPersistent
-	private Key owner;
+//	@NotPersistent
+//	private Key owner;
 	@Persistent
 	private UserEntity blogger;
 	
@@ -72,6 +70,13 @@ public class Blog extends StatusEntity{
 		return articles;
 	}
 
+	public void addArticle(Article article) {
+		if(articles==null) {
+			articles=new ArrayList<Article>();
+		}
+		articles.add(article);
+	}
+	
 	/**
 	 * @param articles the articles to set
 	 */
@@ -79,19 +84,31 @@ public class Blog extends StatusEntity{
 		this.articles = articles;
 	}
 
-	public Key getOwner() {
-		return owner;
-	}
-
-	public void setOwner(Key owner) {
-		this.owner = owner;
-	}
+//	public Key getOwner() {
+//		return owner;
+//	}
+//
+//	public void setOwner(Key owner) {
+//		this.owner = owner;
+//	}
 
 	/**
 	 * @return the categories
 	 */
 	public List<Category> getCategories() {
 		return categories;
+	}
+	
+	public List<Category> getRootCategories() {
+		List<Category> root=new ArrayList<Category>();
+		if(categories!=null) {
+			for(Category category:categories) {
+				if(category.isRoot()) {
+					root.add(category);
+				}
+			}
+		}
+		return root;
 	}
 
 	/**
@@ -114,16 +131,23 @@ public class Blog extends StatusEntity{
 	public void setBlogger(UserEntity blogger) {
 		this.blogger = blogger;
 	}
+	
+	public boolean isUsable() {
+		if(!isDeleted && !isLocked && isValid) {
+			return true;
+		}
+		return false;
+	}
 
 	@Override
 	public String toString() {
 		return "Blog [name=" + name + ", title=" + title + ", articles="
-				+ articles + ", categories=" + categories + ", owner=" + owner
-				+ ", blogger=" + blogger + ", isDeleted=" + isDeleted
-				+ ", isValid=" + isValid + ", isLocked=" + isLocked
-				+ ", createDate=" + createDate + "]";
+				+ articles + ", categories=" + categories + ", blogger="
+				+ blogger + ", isDeleted=" + isDeleted + ", isValid=" + isValid
+				+ ", isLocked=" + isLocked + ", key=" + key + ", createDate="
+				+ createDate + ", getRootCategories()=" + getRootCategories()
+				+ ", getBlogger()=" + getBlogger() + ", isUsable()="
+				+ isUsable() + "]";
 	}
-	
-	
-	
+
 }

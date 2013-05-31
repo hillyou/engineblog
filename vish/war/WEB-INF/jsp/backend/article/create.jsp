@@ -1,8 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="ckeditor" uri="http://ckeditor.com"  %>
-<c:set var="blog" value="${BLOG}"></c:set>
-<c:set var="categories" value="${CATEGORIES}"></c:set>
 <title>Create Article</title>
 
 <div id="divcreatearticle">
@@ -12,7 +10,7 @@
 		<div>
 			<select name="categoryId">
 			  <option value="">Please select</option>
-			  <c:forEach var="category" items="${categories}">
+			  <c:forEach var="category" items="${session_categories}">
 			      <option value="${category.class.simpleName}:${category.key.id}">${category.name}</option>
 			  </c:forEach>
 			</select>
@@ -21,7 +19,6 @@
 		  <input type="text" id="keywords" name="keywords">
 		</div>
 		<div>
-		  <input type="hidden" name="blogId" value="${blog.id}"/>
 		  <input type="submit"/>
 		</div>
 	</form>

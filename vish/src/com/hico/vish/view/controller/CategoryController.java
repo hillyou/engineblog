@@ -26,7 +26,7 @@ public class CategoryController extends BaseController{
 		Blog blog=blogManager.get(owner.getCurrentBlog().getId());
 		if(blog==null) {
 			model.addAttribute(REQ_ATTR_MESSAGE, "Invalid blog");
-		}else if(!blog.getOwner().equals(owner.getKey())) {
+		}else if(!blog.getBlogger().getKey().equals(owner.getKey())) {
 			model.addAttribute(REQ_ATTR_MESSAGE, "Invalid user for this blog ");
 		}else {
 			List<Category> categories=blog.getCategories();

@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.hico.vish.dao.table.Article;
 import com.hico.vish.dao.table.Blog;
-import com.hico.vish.dao.table.Category;
 import com.hico.vish.dao.table.Comment;
 import com.hico.vish.dao.table.UserEntity;
 import com.hico.vish.view.BaseController;
@@ -57,7 +56,6 @@ public class AdminArticleController extends BaseController{
 	
 	@RequestMapping("/createarticle")
 	public String createArticle(Model model,HttpServletRequest request) {
-		loadCategory(model);
 		return "backend/article/create";
 	}
 	
@@ -66,39 +64,36 @@ public class AdminArticleController extends BaseController{
 		Assert.hasText(articleId);
 		Article article=articleManager.get(Long.valueOf(articleId).longValue());
 		request.setAttribute("ARTICLE", article);
-		loadCategory(model);
 		return "backend/article/update";
 	}
 	
 	@RequestMapping("/savearticle")
 	public String saveArticle(Model model,Article article) {
 		UserEntity owner=getCurrentUser(model);
+		Blog blog=owner.getCurrentBlog();
+		System.out.println(blog);
+		article.setCreateDate(new Date());
+		article.setPublishDate(new Date());
+		article.setPublished(true);
 		article.setAuthor(owner.getKey());
-		Blog blog=blogManager.get(owner.getCurrentBlog().getId());
-		List<Category> categories=blog.getCategories();
-		List<Article> articleList=blog.getArticles();
-		if(articleList==null) {
-			articleList=new ArrayList<Article>();
-		}
-		Category category=new Category();
-		category.setKey(article.getCategoryId());
-		Category perCate=categories.get(categories.indexOf(category));
-		article.setCategory(perCate);
 		article.setBlog(blog);
-		articleList.add(article);
+		//!performance issue
+		List<Article> articles=articleManager.getBlogArticleList(blog);
+		articles.add(article);
+		blog.setArticles(articles);
+//		userManager.updateUser(owner);
 		blogManager.update(blog);
 		model.addAttribute("ARTICLE", article);
 		model.addAttribute("MESSAGE", "Save successfully");
-		model.addAttribute("CATEGORIES", blog.getCategories());
 		return "backend/article/update";
 	}
 	
 	@RequestMapping(value="/updatearticle", method=RequestMethod.POST)
 	public String updateArticle(Model model,Article article) {
 		UserEntity owner=getCurrentUser(model);
-		Blog blog=blogManager.get(owner.getCurrentBlog().getId());
-		model.addAttribute("CATEGORIES", blog.getCategories());
-		List<Article> articles=blog.getArticles();
+		Blog blog=owner.getCurrentBlog();
+		//!performance issue
+		List<Article> articles=articleManager.getBlogArticleList(blog);
 		Article persisted=articles.get(articles.indexOf(article));		
 		persisted.setCategory(article.getCategory());
 		persisted.setTitle(article.getTitle());
@@ -166,13 +161,5 @@ public class AdminArticleController extends BaseController{
 			e.printStackTrace();
 		}
 	}
-	
-	
-	private void loadCategory(Model model) {
-		UserEntity owner=getCurrentUser(model);
-		Blog blog=blogManager.get(owner.getCurrentBlog().getId());
-		model.addAttribute("CATEGORIES", blog.getCategories());
-	}
-	
 	
 }

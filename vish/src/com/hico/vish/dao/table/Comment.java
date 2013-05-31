@@ -7,7 +7,7 @@ import javax.jdo.annotations.Persistent;
 
 import com.google.appengine.api.datastore.Key;
 
-@PersistenceCapable
+@PersistenceCapable(detachable="true")
 @Inheritance(customStrategy = "complete-table")
 public class Comment extends StatusEntity{
 	private static final long serialVersionUID = -2968102350245609016L;

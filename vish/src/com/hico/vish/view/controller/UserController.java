@@ -28,7 +28,7 @@ public class UserController extends BaseController{
 		return "backend/home";
 	}
 	
-	@RequestMapping("/openblog")
+	@RequestMapping(value="/openblog",method=RequestMethod.GET)
 	public String gotoOpenBlog(Model model,HttpServletRequest request,HttpServletResponse response) {
 		return "backend/user/newblog";
 	}
@@ -41,11 +41,12 @@ public class UserController extends BaseController{
 		persisted.addBlog(blog);
 		try{
 			userManager.updateUser(persisted);
+			persisted.setCurrentBlog(blog);
 			updateUserInSession(request,persisted);
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
-		return "redirect:/home.html";
+		return "redirect:/admin.html";
 	}
 	
 	@RequestMapping(value="/ajaxopenblog",method=RequestMethod.POST)
@@ -58,15 +59,6 @@ public class UserController extends BaseController{
 			printWriter.println("<a href=\""+request.getContextPath()+"/admin/article/createarticle.html\">go write blog</a>");
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
-	}
-	
-	private void loadArticleList(Model model) {
-		UserEntity user=getCurrentUser(model);
-		if(!user.isDeleted() && !user.isLocked() && user.isValid() && user.isHasBlog()) {
-			List<Article> articles=articleManager.getArticleList(user);
-			Collections.sort(articles);
-			model.addAttribute("ARTICLES",articles);
 		}
 	}
 	

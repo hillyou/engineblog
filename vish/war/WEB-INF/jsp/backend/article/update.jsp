@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="ckeditor" uri="http://ckeditor.com"  %>
-<c:set var="categories" value="${CATEGORIES}"></c:set>
 
 <title>Update Article</title>
 
@@ -16,7 +15,7 @@
          <div>
 	        <select name="categoryId">
 	          <option value="">Please select</option>
-	          <c:forEach var="category" items="${categories}">
+	          <c:forEach var="category" items="${session_categories}">
 	              <option value="${category.class.simpleName}:${category.key.id}" ${(acticle.category.id eq category.key.id)?'selected=\"selected\"':''}>${category.name}</option>
 	          </c:forEach>
 	        </select>

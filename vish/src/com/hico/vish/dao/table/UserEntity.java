@@ -12,7 +12,7 @@ import javax.jdo.annotations.Persistent;
 
 import com.hico.vish.util.EmailUtil;
 
-@PersistenceCapable
+@PersistenceCapable(detachable="true")
 @Inheritance(customStrategy = "complete-table")
 public class UserEntity extends StatusEntity{
 	private static final long serialVersionUID = 1L;
@@ -30,7 +30,9 @@ public class UserEntity extends StatusEntity{
 	@Element(dependent = "true") 
 	private List<Blog> blogs;
 	@NotPersistent
-	private transient Blog currentBlog;
+	private Blog currentBlog;
+	@NotPersistent
+	private transient boolean isSetCurrentBlog=false;
 
 	/**
 	 * @return the userName
@@ -105,6 +107,60 @@ public class UserEntity extends StatusEntity{
 		return (blogs==null || blogs.isEmpty())?false:true;
 	}
 	
+	public boolean isValidBlogger() {
+		return !isDeleted && !isLocked && isValid;
+	}
+	
+	private static final String USABLE="USABLE";
+	private static final String UNUSABLE="UNUSABLE";
+	private static final String DELETED="DELETED";
+	private static final String INVALID="INVALID";
+	private static final String LOCKED="LOCKED";
+	
+	private List<Blog> getKindsBlogs(String kind){
+		List<Blog> kinds=new ArrayList();
+		if(isHasBlog()) {
+			for(Blog blog:blogs) {
+				if(USABLE.equals(kind) && blog.isUsable()) {
+					kinds.add(blog);
+				}else if(UNUSABLE.equals(kind) && !blog.isUsable()) {
+					kinds.add(blog);
+				}else if(DELETED.equals(kind) && blog.isDeleted()) {
+					kinds.add(blog);
+				}else if(INVALID.equals(kind) && !blog.isValid()) {
+					kinds.add(blog);
+				}else if(LOCKED.equals(kind) && blog.isLocked()) {
+					kinds.add(blog);
+				}
+			}
+		}
+		return kinds;
+	}
+	
+	
+	public List<Blog> getUsableBlogs(){
+		return getKindsBlogs(USABLE);
+	}
+	
+	public int getUsableBlogsSize(){
+		return getKindsBlogs(USABLE).size();
+	}
+	
+	public List<Blog> getUnusableBlogs(){
+		return getKindsBlogs(UNUSABLE);
+	}
+	
+	public List<Blog> getDeletedBlogs(){
+		return getKindsBlogs(DELETED);
+	}
+	
+	public List<Blog> getInvalidBlogs(){
+		return getKindsBlogs(INVALID);
+	}
+	
+	public List<Blog> getLockedBlogs(){
+		return getKindsBlogs(LOCKED);
+	}
 	/**
 	 * @return the blogs
 	 */
@@ -121,15 +177,25 @@ public class UserEntity extends StatusEntity{
 	 * @return the currentBlog
 	 */
 	public Blog getCurrentBlog() {
-		if(blogs!=null && blogs.size()==1) {
-			return blogs.get(0);
+		if(isSetCurrentBlog) {
+			return this.currentBlog;
+		}
+		if(isValidBlogger()) {
+			List<Blog> blogs=getUsableBlogs();
+			if(blogs.size()>=1) {
+				this.isSetCurrentBlog=true;
+				currentBlog=blogs.get(0);
+			}
 		}
 		return currentBlog;
 	}
+	
+	
 	/**
 	 * @param currentBlog the currentBlog to set
 	 */
 	public synchronized void setCurrentBlog(Blog currentBlog) {
+		this.isSetCurrentBlog=true;
 		this.currentBlog = currentBlog;
 	}
 	

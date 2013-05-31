@@ -14,7 +14,7 @@ import javax.jdo.annotations.Persistent;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.Text;
 
-@PersistenceCapable
+@PersistenceCapable(detachable="true")
 @Inheritance(customStrategy = "complete-table")
 public class Article extends StatusEntity{
 	private static final long serialVersionUID = 3813488904204157021L;
@@ -253,8 +253,20 @@ public class Article extends StatusEntity{
 	 */
 	public void setCategoryId(Key categoryId) {
 		this.categoryId = categoryId;
+		setPersistCategory(categoryId);
 	}
 	
+	private void setPersistCategory(Key newkey) {
+		if(newkey!=null && blog!=null && blog.getCategories()!=null) {
+			List<Category> categories=blog.getCategories();
+			for (Category category : categories) {
+				if(category.getKey().equals(newkey)) {
+					this.category=category;
+					break;
+				}
+			}
+		}
+	}
 	
 	public void addComment(Comment comment) {
 		if(comments==null) {

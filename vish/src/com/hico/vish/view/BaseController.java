@@ -70,10 +70,6 @@ public abstract class BaseController {
 		return (UserEntity)model.asMap().get(REQ_ATTR_CURRENT_USER);
 	}
 	
-	protected boolean isValidBlogger(Model model) {
-		UserEntity currentUser=getCurrentUser(model);
-		return currentUser.isHasBlog() && !currentUser.isDeleted() && !currentUser.isLocked() && currentUser.isValid();
-	}
 	
 	protected void updateUserInSession(HttpServletRequest request,UserEntity loginUser) {
 		HttpSession session=request.getSession();

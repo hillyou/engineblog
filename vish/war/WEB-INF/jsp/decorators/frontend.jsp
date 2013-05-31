@@ -15,5 +15,6 @@
 	<decorator:body></decorator:body>
 	<jsp:include page="../frontend/common/footer.jsp"></jsp:include>
 </div>
+<%@ include file="../common/footer.jsp" %>
 </body>
 </html>

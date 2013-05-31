@@ -9,6 +9,7 @@ import javax.jdo.Transaction;
 
 import com.google.appengine.api.datastore.Key;
 import com.hico.vish.dao.table.Article;
+import com.hico.vish.dao.table.Blog;
 import com.hico.vish.dao.table.Comment;
 import com.hico.vish.dao.table.UserEntity;
 
@@ -37,6 +38,19 @@ public class ArticleDao extends BaseDao<Article>{
 				transaction.rollback();
 			}
 			ex.printStackTrace();
+		}finally{
+			persistenceManager.close();
+		}
+	}
+	
+	public List<Article> getBlogArticleList(Blog blog){
+		PersistenceManager  persistenceManager=persistenceManagerFactory.getPersistenceManager();
+		try{
+			Query query=persistenceManager.newQuery(Article.class);
+			query.setFilter("blog == blogParam");
+			query.declareParameters(Blog.class.getName()+" blogParam");
+			List<Article> articles=(List<Article>) query.execute(blog);
+			return (List<Article>) persistenceManager.detachCopyAll(articles);
 		}finally{
 			persistenceManager.close();
 		}
