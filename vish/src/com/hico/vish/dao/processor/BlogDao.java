@@ -21,6 +21,18 @@ public class BlogDao extends BaseDao<Blog>{
 		}
 	}
 	
+	public Blog fetchBlogArticle(Object id) {
+		PersistenceManager  persistenceManager=persistenceManagerFactory.getPersistenceManager();
+		try{
+			persistenceManager.setDetachAllOnCommit(true); 
+			persistenceManager.getFetchPlan().addGroup("articleGroup");
+			Blog blog=persistenceManager.getObjectById(Blog.class, id);
+			return blog;
+		}finally{
+			persistenceManager.close();
+		}
+	}
+	
 	public List<Blog> getUserAllBlogs(UserEntity user) {
 		PersistenceManager  persistenceManager=persistenceManagerFactory.getPersistenceManager();
 		try{
@@ -42,6 +54,22 @@ public class BlogDao extends BaseDao<Blog>{
 			query.declareParameters("String paramName");
 			Blog blog=(Blog) query.execute(name);
 			return blog;
+		}finally{
+			persistenceManager.close();
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	public Blog getByNameWithArticles(String name) {
+		PersistenceManager  persistenceManager=persistenceManagerFactory.getPersistenceManager();
+		try{
+			persistenceManager.setDetachAllOnCommit(true); 
+			persistenceManager.getFetchPlan().addGroup("articleGroup");
+			Query query=persistenceManager.newQuery(Blog.class);
+			query.setFilter("name == paramName");
+			query.declareParameters("String paramName");
+			List<Blog> blogs=(List<Blog>)query.execute(name);
+			return (blogs==null||blogs.isEmpty())?null:blogs.get(0);
 		}finally{
 			persistenceManager.close();
 		}

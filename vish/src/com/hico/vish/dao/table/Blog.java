@@ -1,15 +1,20 @@
 package com.hico.vish.dao.table;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.jdo.annotations.Element;
+import javax.jdo.annotations.FetchGroup;
 import javax.jdo.annotations.Inheritance;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 
+import com.google.appengine.api.datastore.Key;
+
 @PersistenceCapable(detachable="true")
 @Inheritance(customStrategy = "complete-table")
+@FetchGroup(name = "articleGroup", members = { @Persistent(name = "articles") }) 
 public class Blog extends StatusEntity{
 	private static final long serialVersionUID = -5043813840114854869L;
 	@Persistent
@@ -22,8 +27,6 @@ public class Blog extends StatusEntity{
 	@Persistent(defaultFetchGroup = "true",mappedBy = "blog")
 	@Element(dependent = "true") 
 	private List<Category> categories;
-//	@NotPersistent
-//	private Key owner;
 	@Persistent
 	private UserEntity blogger;
 	
@@ -47,6 +50,10 @@ public class Blog extends StatusEntity{
 	 */
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	public String getDisplayName(){
+		return name==null?"":name.toLowerCase();
 	}
 	
 	/**
@@ -77,20 +84,46 @@ public class Blog extends StatusEntity{
 		articles.add(article);
 	}
 	
+	
+	
+	public void addCategory(Category category) {
+		if(categories==null) {
+			categories=new ArrayList<Category>();
+		}
+		categories.add(category);
+	}
+	
+	public void removeCategory(Category category) {
+		if(categories != null) {
+			categories.remove(category);
+		}
+	}
+	
+	public void removeCategory(Key categoryKey) {
+		if(categories != null) {
+			Iterator<Category> iterator=categories.iterator();
+			while (iterator.hasNext()) {
+				Category category =  iterator.next();
+				if(category.getKey().equals(categoryKey)){
+					if(category.getParentKey().equals(categoryKey)){
+						removeCategory(category.getKey());
+					}
+					categories.remove(category);
+				}
+			}
+		}
+	}
+	
+	private void removeSubCategory(){
+		
+	}
+	
 	/**
 	 * @param articles the articles to set
 	 */
 	public void setArticles(List<Article> articles) {
 		this.articles = articles;
 	}
-
-//	public Key getOwner() {
-//		return owner;
-//	}
-//
-//	public void setOwner(Key owner) {
-//		this.owner = owner;
-//	}
 
 	/**
 	 * @return the categories
@@ -110,7 +143,44 @@ public class Blog extends StatusEntity{
 		}
 		return root;
 	}
+	
+//	public List<Category> getAllCategories(){
+//		List<Category> allCategories=new LinkedList<Category>();
+//		if(categories!=null){
+//			for(Category category:categories){
+//				allCategories.add(category);
+////				addAllSubCategories(allCategories,category);
+//			}
+//		}
+//		return allCategories;
+//	}
+	
+	
 
+//	private void addAllSubCategories(List<Category> list,Category category){
+//		List<Category> subList=category.getSubCategories();
+//		if(subList!=null && !subList.isEmpty()){
+//			for(Category subcategory:subList){
+//				list.add(subcategory);
+//				addAllSubCategories(list,subcategory);
+//			}
+//		}
+//	}
+	
+	public Category getCategory(Key key){
+		Category re=null;
+		if(categories!=null){
+			for(Category category:categories){
+				if(category.getKey().equals(key)){
+					re=category;
+					break;
+				}
+			}
+		}
+		return re;
+	}
+	
+	
 	/**
 	 * @param categories the categories to set
 	 */
@@ -145,7 +215,7 @@ public class Blog extends StatusEntity{
 				+ articles + ", categories=" + categories + ", blogger="
 				+ blogger + ", isDeleted=" + isDeleted + ", isValid=" + isValid
 				+ ", isLocked=" + isLocked + ", key=" + key + ", createDate="
-				+ createDate + ", getRootCategories()=" + getRootCategories()
+				+ createDate
 				+ ", getBlogger()=" + getBlogger() + ", isUsable()="
 				+ isUsable() + "]";
 	}

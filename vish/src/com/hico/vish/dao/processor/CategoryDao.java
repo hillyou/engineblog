@@ -24,7 +24,7 @@ public class CategoryDao extends BaseDao<Category>{
 		}
 	}
 	
-	public synchronized void deleteCategoryById(Long id,boolean delRelatedArticle){
+	public synchronized void deleteCategoryById(Object id,boolean delRelatedArticle){
 		List<Category> allCategories=retriveSubCategoryById(id);
 		deleteArticleFromCategory(allCategories,delRelatedArticle);
 		PersistenceManager  persistenceManager=persistenceManagerFactory.getPersistenceManager();
@@ -38,7 +38,7 @@ public class CategoryDao extends BaseDao<Category>{
 		}
 	}
 	
-	public List<Category> retriveSubCategoryById(Long id){
+	public List<Category> retriveSubCategoryById(Object id){
 		List<Category> list=new ArrayList<Category>();
 		PersistenceManager  persistenceManager=persistenceManagerFactory.getPersistenceManager();
 		try{

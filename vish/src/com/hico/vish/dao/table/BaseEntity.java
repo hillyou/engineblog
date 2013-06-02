@@ -12,6 +12,7 @@ import javax.jdo.annotations.PrimaryKey;
 
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
+import com.hico.vish.util.KeyUtil;
 
 @PersistenceCapable(detachable="true")
 @Inheritance(strategy = InheritanceStrategy.SUBCLASS_TABLE)
@@ -48,6 +49,10 @@ public abstract class BaseEntity implements Comparable<BaseEntity>,Serializable{
 		return null;
 	}
 
+	public String getDisplayKey(){
+		return KeyUtil.keyToString(this.key);
+	}
+	
 	/**
 	 * @param id the id to set
 	 */

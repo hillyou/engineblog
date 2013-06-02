@@ -130,8 +130,7 @@ public class ArticleDaoTest{
 	private Category saveCategory() {
 		Category category=new Category();
 		category.setName("Test");
-		category.setOwner(getUser("colin@gmail.com").getKey());
-		category.setParent(saveParentCategory().getKey());
+		category.setParent(saveParentCategory());
 		categoryDao.save(category);
 		Assert.assertNotNull(category.getKey());
 		return category;
@@ -140,7 +139,6 @@ public class ArticleDaoTest{
 	private Category saveParentCategory() {
 		Category category=new Category();
 		category.setName("Parent");
-		category.setOwner(getUser("colin@gmail.com").getKey());
 		categoryDao.save(category);
 		Assert.assertNotNull(category.getKey());
 		return category;

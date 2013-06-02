@@ -7,13 +7,17 @@ public class CategoryManager {
 
 	private CategoryDao categoryDao;
 	
-	public Category get(Long id) {
+	public Category get(Object id) {
 		return categoryDao.get(id);
 	}
 	
 	
-	public void saveCategory(Category category) {
+	public void save(Category category) {
 		categoryDao.save(category);
+	}
+	
+	public void update(Category category) {
+		categoryDao.update(category);
 	}
 
 	public CategoryDao getCategoryDao() {
@@ -24,7 +28,7 @@ public class CategoryManager {
 		this.categoryDao = categoryDao;
 	}
 	
-	public void deleteCategoryById(Long id,boolean delRelatedArticle){
+	public void deleteCategoryById(Object id,boolean delRelatedArticle){
 		categoryDao.deleteCategoryById(id,delRelatedArticle);
 	}
 	

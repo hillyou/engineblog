@@ -16,10 +16,10 @@ public class ArticleManager {
 		articleDao.saveComment(comment);
 	}
 	
-	public Article get(Long id) {
-		return articleDao.get(id);
+	public Article get(Object key) {
+		return articleDao.get(key);
 	}
-	
+
 	public List<Article> getArticleList(){
 		return articleDao.getArticleList();
 	}

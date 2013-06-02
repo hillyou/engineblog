@@ -1,15 +1,17 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<script type="text/javascript" src="${contextPath}/js/article.js"></script>
-<c:set var="acticle" value="${ARTICLE}"></c:set>
-<c:set var="loginuser" value="${CURRENT_USER}"></c:set>
-<meta name="keywords" content="${acticle.keywords}"/>
-<title>${acticle.title}</title>
+<head>
+	<c:set var="acticle" value="${ARTICLE}"></c:set>
+	<meta name="keywords" content="${acticle.keywords}"/>
+	<script type="text/javascript" src="${contextPath}/js/article.js"></script>
+	<%@ include file="common/include.jsp" %>
+	<title>${acticle.title}</title>
+</head>
 <div id="divarticle">
     <div id="mainarticle">
        <div>${acticle.title}</div>
-       <c:if test="${loginuser.key eq acticle.author}">
-	   		<div><a href="${contextPath}/admin/article/updatearticle/${acticle.id}.html">edit</a></div>
+       <c:if test="${session_user.key eq acticle.author}">
+	   		<div><a href="${contextPath}/admin/article/updatearticle/${acticle.displayKey}.html">edit</a></div>
 	   </c:if>
        <div>${acticle.contentValue}</div>
     </div>

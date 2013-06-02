@@ -16,14 +16,14 @@
 	        <select name="categoryId">
 	          <option value="">Please select</option>
 	          <c:forEach var="category" items="${session_categories}">
-	              <option value="${category.class.simpleName}:${category.key.id}" ${(acticle.category.id eq category.key.id)?'selected=\"selected\"':''}>${category.name}</option>
+	              <option value="${category.displayKey}" ${(acticle.category.id eq category.key.id)?'selected=\"selected\"':''}>${category.name}</option>
 	          </c:forEach>
 	        </select>
          </div>
          <div>
             <input type="text" id="keywords" name="keywords" value="${acticle.keywords}">
          </div>
-         <input type="hidden" name="key" value="${acticle.class.simpleName}:${acticle.id}"/>
+         <input type="hidden" name="key" value="${acticle.displayKey}"/>
          <input type="submit"/><input type="button" id="canclesave" value="cancle"/>
         </div>
     </form>

@@ -11,15 +11,17 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
 import com.hico.vish.dao.table.Article;
 import com.hico.vish.dao.table.Blog;
 import com.hico.vish.dao.table.Comment;
 import com.hico.vish.dao.table.UserEntity;
+import com.hico.vish.util.KeyUtil;
 import com.hico.vish.view.BaseController;
 
 @Controller
@@ -61,28 +63,28 @@ public class AdminArticleController extends BaseController{
 	
 	@RequestMapping(value="/updatearticle/{articleId}", method=RequestMethod.GET)
 	public String gotoUpdateArticle(@PathVariable String articleId,Model model,HttpServletRequest request) {
-		Assert.hasText(articleId);
-		Article article=articleManager.get(Long.valueOf(articleId).longValue());
-		request.setAttribute("ARTICLE", article);
+		UserEntity user=getCurrentUser(model);
+		Key articleKey=KeyUtil.stringToKey(articleId);
+		Article article=articleManager.get(articleKey);
+		Blog current=blogManager.get(articleKey.getParent());
+		user.setCurrentBlog(current);
+		updateUserInSession(request, user);
+		model.addAttribute("ARTICLE", article);
 		return "backend/article/update";
 	}
 	
 	@RequestMapping("/savearticle")
 	public String saveArticle(Model model,Article article) {
 		UserEntity owner=getCurrentUser(model);
-		Blog blog=owner.getCurrentBlog();
-		System.out.println(blog);
+		Blog persistent=blogManager.fetchBlogArticle(owner.getCurrentBlogKey());
 		article.setCreateDate(new Date());
 		article.setPublishDate(new Date());
 		article.setPublished(true);
 		article.setAuthor(owner.getKey());
-		article.setBlog(blog);
-		//!performance issue
-		List<Article> articles=articleManager.getBlogArticleList(blog);
-		articles.add(article);
-		blog.setArticles(articles);
+		article.setBlog(persistent);
+		persistent.addArticle(article);
 //		userManager.updateUser(owner);
-		blogManager.update(blog);
+		blogManager.update(persistent);
 		model.addAttribute("ARTICLE", article);
 		model.addAttribute("MESSAGE", "Save successfully");
 		return "backend/article/update";
@@ -90,16 +92,17 @@ public class AdminArticleController extends BaseController{
 	
 	@RequestMapping(value="/updatearticle", method=RequestMethod.POST)
 	public String updateArticle(Model model,Article article) {
-		UserEntity owner=getCurrentUser(model);
-		Blog blog=owner.getCurrentBlog();
+//		UserEntity owner=getCurrentUser(model);
 		//!performance issue
-		List<Article> articles=articleManager.getBlogArticleList(blog);
-		Article persisted=articles.get(articles.indexOf(article));		
+//		Blog persistent=blogManager.fetchBlogArticle(owner.getCurrentBlogKey());
+//		List<Article> articles=persistent.getArticles();
+//		Article persisted=articles.get(articles.indexOf(article));
+		Article persisted=articleManager.get(article.getKey());
 		persisted.setCategory(article.getCategory());
 		persisted.setTitle(article.getTitle());
 		persisted.setContent(article.getContent());
 		persisted.setKeywords(article.getKeywords());
-		blogManager.update(blog);
+		articleManager.update(persisted);
 		model.addAttribute("ARTICLE", persisted);
 		model.addAttribute("MESSAGE", "Update successfully");
 		return "backend/article/update";

@@ -4,7 +4,7 @@
 <div>
 	<form action="${contextPath}/admin/category/create.html" method="post">
 		<input id="name" name="name" type="text">
-		<input type="hidden" id="parent" name="parent" value="${param.parent}">
+		<input type="hidden" id="parentKey" name="parentKey" value="${param.parent}">
 		<input type="submit">
 	</form>
 </div>

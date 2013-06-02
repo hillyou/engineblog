@@ -70,7 +70,7 @@ public abstract class BaseController {
 		return (UserEntity)model.asMap().get(REQ_ATTR_CURRENT_USER);
 	}
 	
-	
+
 	protected void updateUserInSession(HttpServletRequest request,UserEntity loginUser) {
 		HttpSession session=request.getSession();
 		session.removeAttribute(loginUser.getEmail());

@@ -20,7 +20,7 @@ public class Article extends StatusEntity{
 	private static final long serialVersionUID = 3813488904204157021L;
 	@Persistent
 	private String title;
-	@Persistent
+	@Persistent(defaultFetchGroup = "true",serialized = "true")
 	private Text content;
 	@Persistent
 	private Date publishDate;
@@ -56,6 +56,7 @@ public class Article extends StatusEntity{
 		this.author=author;
 	}
 
+	
 	/**
 	 * @return the title
 	 */

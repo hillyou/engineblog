@@ -1,8 +1,5 @@
 package com.hico.vish.dao.table;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.jdo.annotations.NotPersistent;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
@@ -14,18 +11,14 @@ public class Category extends BaseEntity{
 	private static final long serialVersionUID = -4805200387345970084L;
 	@Persistent
 	private String name;
+	@NotPersistent
+	private Category parent;
 	@Persistent
-	private Key parent;
+	private Key parentKey;
 	@Persistent
 	private Blog blog;
-//	@Persistent(defaultFetchGroup = "true")
-//	@Element(dependent = "true") 
-	@NotPersistent
-	private List<Category> subCategory;
 	@Persistent(defaultFetchGroup = "true")
 	private Sequence position;
-	@Persistent
-	private Key owner;
 	
 	public Category() {
 	}
@@ -40,52 +33,45 @@ public class Category extends BaseEntity{
 	public String getName() {
 		return name;
 	}
+	
+	public boolean isRoot() {
+		return parent==null?true:false;
+	}
+	
+	/**
+	 * @return the parent
+	 */
+	public Category getParent() {
+		return parent;
+	}
+
+	/**
+	 * @return the parentKey
+	 */
+	public Key getParentKey() {
+		return parentKey;
+	}
+
+	/**
+	 * @param parentKey the parentKey to set
+	 */
+	public void setParentKey(Key parentKey) {
+		this.parentKey = parentKey;
+	}
+
+	/**
+	 * @param parent the parent to set
+	 */
+	public void setParent(Category parent) {
+		this.parent = parent;
+	}
+	
 
 	/**
 	 * @param name the name to set
 	 */
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	/**
-	 * @return the parentId
-	 */
-	public Key getParent() {
-		return parent;
-	}
-
-	/**
-	 * @param parentId the parentId to set
-	 */
-	public void setParent(Key parent) {
-		this.parent = parent;
-	}
-
-	public boolean isRoot() {
-		return parent==null?true:false;
-	}
-	
-	/**
-	 * @return the subCategory
-	 */
-	public List<Category> getSubCategory() {
-		return subCategory;
-	}
-
-
-	public void addSubCategory(Category sub) {
-		if(this.subCategory ==null) {
-			this.subCategory=new ArrayList<Category>();
-		}
-		this.subCategory.add(sub);
-	}
-
-	/**
-	 * @param subCategory the subCategory to set
-	 */
-	public void setSubCategory(List<Category> subCategory) {
-		this.subCategory = subCategory;
 	}
 
 	/**
@@ -100,14 +86,6 @@ public class Category extends BaseEntity{
 	 */
 	public void setPosition(Sequence position) {
 		this.position = position;
-	}
-
-	public Key getOwner() {
-		return owner;
-	}
-
-	public void setOwner(Key owner) {
-		this.owner = owner;
 	}
 
 	/**
@@ -127,8 +105,8 @@ public class Category extends BaseEntity{
 	@Override
 	public String toString() {
 		return "Category [name=" + name + ", parent=" + parent + ", blog="
-				+ blog + ", subCategory=" + subCategory + ", position="
-				+ position + ", owner=" + owner + ", createDate=" + createDate
+				+ blog + ", position="
+				+ position + ", createDate=" + createDate
 				+ "]";
 	}
 	

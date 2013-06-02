@@ -10,6 +10,8 @@ import javax.jdo.annotations.NotPersistent;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
 import com.hico.vish.util.EmailUtil;
 
 @PersistenceCapable(detachable="true")
@@ -98,6 +100,15 @@ public class UserEntity extends StatusEntity{
 	 */
 	public void setLastLogin(Date lastLogin) {
 		this.lastLogin = lastLogin;
+	}
+	
+	public Key getCurrentBlogKey(){
+		Blog current=getCurrentBlog();
+		if(current!=null){
+			Key blogKey=current.getKey();
+			return KeyFactory.createKey(key, Blog.class.getSimpleName(), blogKey.getId());
+		}
+		return null;
 	}
 	
 	/**
@@ -197,6 +208,25 @@ public class UserEntity extends StatusEntity{
 	public synchronized void setCurrentBlog(Blog currentBlog) {
 		this.isSetCurrentBlog=true;
 		this.currentBlog = currentBlog;
+	}
+	
+	/**
+	 * @param currentBlog the currentBlog to set
+	 */
+	public synchronized void setCurrentBlog(Long blogid) {
+		if(blogid!=null && getBlogById(blogid)!=null){
+			setCurrentBlog(getBlogById(blogid));
+		}
+	}
+	
+	public Blog getBlogById(Long blogid){
+		List<Blog> blogs=getUsableBlogs();
+		for (Blog blog : blogs) {
+			if(blog.getId().equals(blogid)){
+				return blog;
+			}
+		}
+		return null;
 	}
 	
 	public void addBlog(Blog blog) {

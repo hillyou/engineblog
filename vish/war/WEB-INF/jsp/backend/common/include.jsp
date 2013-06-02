@@ -1,1 +1,2 @@
-<link href="${contextPath}/styles/backend.css" rel="stylesheet" type="text/css"/>
+<%@ include file="pagevar.jsp" %>
+

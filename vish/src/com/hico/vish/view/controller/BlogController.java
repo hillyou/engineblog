@@ -1,5 +1,8 @@
 package com.hico.vish.view.controller;
 
+import java.util.Collections;
+import java.util.List;
+
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
@@ -7,6 +10,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.hico.vish.dao.table.Article;
+import com.hico.vish.dao.table.Blog;
 import com.hico.vish.view.BaseController;
 
 @Controller
@@ -15,16 +20,22 @@ public class BlogController extends BaseController{
 
 	@RequestMapping("/{blogname}")
 	public String blogHome(@PathVariable String blogname,Model model,HttpServletResponse response){
-		loadArticleList(model);
-		return "frontend/blog/home";
+		model.addAttribute("blogname", blogname);
+		loadBlogAndArticles(model);
+		return "frontend/pages/blog";
 	}
 	
 	
-	private void loadArticleList(Model model){
+	private void loadBlogAndArticles(Model model){
 		String blogname=(String) model.asMap().get("blogname");
-//		List<Article> articles=articleManager.getArticleList(blogname);
-//		Collections.sort(articles);
-//		model.addAttribute("ARTICLES", articles);
+		Blog blog=blogManager.fetchBlogArticle(blogname);
+		List<Article> articles=null;
+		if(blog!=null && blog.getArticles()!=null){
+			articles=blog.getArticles();
+			Collections.sort(articles);
+		}
+		model.addAttribute("BLOG", blog);
+		model.addAttribute("ARTICLES", articles);
 	}
 
 	

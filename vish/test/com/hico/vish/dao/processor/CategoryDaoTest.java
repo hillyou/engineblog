@@ -97,19 +97,17 @@ public class CategoryDaoTest {
 	private Category saveCategory() {
 		Category category=new Category();
 		category.setName("Test");
-		category.setOwner(getUser("colin@gmail.com").getKey());
 		Key parentKey=saveParentCategory().getKey();
-		category.setParent(parentKey);
+		category.setParent(saveParentCategory());
 		categoryDao.save(category);
 		Assert.assertNotNull(category.getKey());
-		Assert.assertEquals(parentKey.getId(), category.getParent().getId());
+		Assert.assertEquals(parentKey, category.getParent());
 		return category;
 	}
 	
 	private Category saveParentCategory() {
 		Category category=new Category();
 		category.setName("Parent");
-		category.setOwner(getUser("colin@gmail.com").getKey());
 		categoryDao.save(category);
 		Assert.assertNotNull(category.getKey());
 		return category;

@@ -18,6 +18,14 @@ public class BlogManager{
 		blogDao.save(blog);
 	}
 	
+	public Blog fetchBlogArticle(Object id){
+		return blogDao.fetchBlogArticle(id);
+	}
+	
+	public Blog fetchBlogArticle(String blogName){
+		return blogDao.getByNameWithArticles(blogName);
+	}
+	
 	public List<Blog> getUserBlog(UserEntity user) {
 		return blogDao.getBlogList(user);
 	}
