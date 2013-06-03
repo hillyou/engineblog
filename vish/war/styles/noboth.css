@@ -1,0 +1,18 @@
+#frontleftpanel {
+	float: left;
+	width: 0px;
+	margin: 0px 5px;
+}
+
+#frontbody {
+	padding: 0px 0px 5px 0px;
+	margin: 0px;
+	background-color: silver;
+	margin: 0px 5px;
+}
+
+#frontrightpanel {
+	float: right;
+	width: 0px;
+	margin: 0px 5px;
+}
