@@ -9,81 +9,72 @@ import com.hico.vish.dao.table.Blog;
 import com.hico.vish.dao.table.Comment;
 import com.hico.vish.dao.table.UserEntity;
 
-public class ArticleManager {
-	private ArticleDao articleDao;
+public class ArticleManager extends BaseManager<Article>{
 	
 	public void saveComment(Comment comment) {
-		articleDao.saveComment(comment);
+		((ArticleDao)dao).saveComment(comment);
 	}
 	
-	public Article get(Object key) {
-		return articleDao.get(key);
-	}
-
 	public List<Article> getArticleList(){
-		return articleDao.getArticleList();
+		return ((ArticleDao)dao).getArticleList();
 	}
 	
 	public List<Article> getArticleList(UserEntity user){
-		return articleDao.getArticleList(user);
+		return ((ArticleDao)dao).getArticleList(user);
 	}
 	
 	public List<Article> getBlogArticleList(Blog blog){
-		return articleDao.getBlogArticleList(blog);
+		return ((ArticleDao)dao).getBlogArticleList(blog);
 	}
 	
 	public void save(Article article) {
 		setDefault(article);
-		articleDao.save(article);
+		super.save(article);
 	}
 
-	public void update(Article article) {
-		articleDao.update(article);
-	}
-	
 	public void saveAndPublish(Article article) {
 		article.setPublishDate(new Date());
 		article.setPublished(true);
-		articleDao.save(article);
+		super.save(article);
 	}
 	
 	public void updateAndPublish(Article article) {
 		article.setPublishDate(new Date());
 		article.setPublished(true);
-		articleDao.update(article);
+		super.update(article);
 	}
 	
 	public void publish(Article article) {
 		article.setPublishDate(new Date());
 		article.setPublished(true);
-		articleDao.update(article);
+		super.update(article);
 	}
 	
 	public void withdrawPublish(Article article) {
 		article.setPublishDate(new Date());
 		article.setPublished(false);
-		articleDao.update(article);
+		super.update(article);
 	}
 
 
 	public void valid(Article article) {
 		article.setValid(true);
-		articleDao.update(article);
+		((ArticleDao)dao).update(article);
 	}
 	
 	public void inValid(Article article) {
 		article.setValid(false);
-		articleDao.update(article);
+		((ArticleDao)dao).update(article);
 	}
 
 	public void delete(Article article) {
 		article.setDeleted(true);
-		articleDao.update(article);
+		((ArticleDao)dao).update(article);
 	}
 	
 	public void restore(Article article) {
 		article.setDeleted(false);
-		articleDao.update(article);
+		((ArticleDao)dao).update(article);
 	}
 	
 	private void setDefault(Article article) {
@@ -91,21 +82,6 @@ public class ArticleManager {
 		article.setPublished(true);
 		article.setValid(true);
 		article.setDeleted(false);
-	}
-	
-	/**
-	 * @return the articleDao
-	 */
-	public ArticleDao getArticleDao() {
-		return articleDao;
-	}
-
-	/**
-	 * @param articleDao
-	 *            the articleDao to set
-	 */
-	public void setArticleDao(ArticleDao articleDao) {
-		this.articleDao = articleDao;
 	}
 
 }

@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.KeyFactory;
 import com.hico.vish.dao.table.Article;
 import com.hico.vish.dao.table.Blog;
+import com.hico.vish.dao.table.Category;
 import com.hico.vish.dao.table.Comment;
 import com.hico.vish.dao.table.UserEntity;
 import com.hico.vish.util.KeyUtil;
@@ -29,7 +29,7 @@ import com.hico.vish.view.BaseController;
 public class AdminArticleController extends BaseController{
 	
 	@RequestMapping(value="/del/{articleId}")
-	public String delArticle(@PathVariable Long articleId,Model model) {
+	public String delArticle(@PathVariable String articleId,Model model) {
 		Article persisted=articleManager.get(articleId);
 		UserEntity user=getCurrentUser(model);
 		String url="";
@@ -92,17 +92,17 @@ public class AdminArticleController extends BaseController{
 	
 	@RequestMapping(value="/updatearticle", method=RequestMethod.POST)
 	public String updateArticle(Model model,Article article) {
-//		UserEntity owner=getCurrentUser(model);
+		UserEntity owner=getCurrentUser(model);
 		//!performance issue
-//		Blog persistent=blogManager.fetchBlogArticle(owner.getCurrentBlogKey());
-//		List<Article> articles=persistent.getArticles();
-//		Article persisted=articles.get(articles.indexOf(article));
-		Article persisted=articleManager.get(article.getKey());
+		Blog persistent=blogManager.fetchBlogArticle(owner.getCurrentBlogKey());
+		List<Article> articles=persistent.getArticles();
+		Article persisted=articles.get(articles.indexOf(article));
+//		Article persisted=articleManager.get(article.getKey());
 		persisted.setCategory(article.getCategory());
 		persisted.setTitle(article.getTitle());
 		persisted.setContent(article.getContent());
 		persisted.setKeywords(article.getKeywords());
-		articleManager.update(persisted);
+		blogManager.update(persistent);
 		model.addAttribute("ARTICLE", persisted);
 		model.addAttribute("MESSAGE", "Update successfully");
 		return "backend/article/update";

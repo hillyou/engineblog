@@ -59,7 +59,7 @@ public abstract class BaseController {
 				loginUser.setEmail(userEmail);
 				loginUser.setNickName(user.getNickName());
 				loginUser.setUserId(user.getUserId());
-				userManager.saveUser(loginUser);
+				userManager.save(loginUser);
 			}
 			session.setAttribute(userEmail, loginUser);
 		}

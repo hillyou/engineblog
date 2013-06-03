@@ -102,11 +102,10 @@ public class ArticleDaoTest{
 		Article article=new Article(title,content,getUser("colin@gmail.com").getKey());
 		Category cas=saveCategory();
 		Category loaded=categoryDao.get(cas.getKey().getId());
-		article.setCategory(loaded);
+		article.setCategory(loaded.getKey());
 		articleDao.update(article);
 		logger.severe(loaded.getKey().getId()+" <> "+ article.getCategory().getId());
 		Assert.assertNotNull(article.getKey());
-		Assert.assertEquals(cas.getKey(), article.getCategory().getKey());
 		return article;
 	}
 	

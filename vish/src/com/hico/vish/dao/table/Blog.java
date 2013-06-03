@@ -99,23 +99,55 @@ public class Blog extends StatusEntity{
 		}
 	}
 	
-	public void removeCategory(Key categoryKey) {
+	
+	public synchronized List<Category> removeCategory(Key categoryKey) {
+		List<Category> removed=new ArrayList<Category>();
 		if(categories != null) {
 			Iterator<Category> iterator=categories.iterator();
 			while (iterator.hasNext()) {
 				Category category =  iterator.next();
 				if(category.getKey().equals(categoryKey)){
-					if(category.getParentKey().equals(categoryKey)){
-						removeCategory(category.getKey());
-					}
+					removeSubCategory(categoryKey,removed);
+//					category.setBlog(null);
+					removed.add(category);
 					categories.remove(category);
 				}
 			}
 		}
+		return removed;
 	}
 	
-	private void removeSubCategory(){
-		
+	private void removeSubCategory(Key key,List<Category> removed){
+		Iterator<Category> iterator=categories.iterator();
+		while (iterator.hasNext()) {
+			Category category =  iterator.next();
+			if(key.equals(category.getParentKey())){
+				Key subKey=category.getKey();
+				removeSubCategory(subKey,removed);
+				removed.add(category);
+				categories.remove(category);
+			}
+		}
+	}
+	
+	public List<Article> removeArticle(List<Category> categories){
+		List<Article> removed=new ArrayList<Article>();
+		for(Category category:categories) {
+			removeArticle(category.getKey(),removed);
+		}
+		return removed;
+	}
+	
+	private void removeArticle(Key key,List<Article> removed){
+		if(articles != null) {
+			for (Article article:articles) {
+				Key articleCategoryKey = article.getCategory();
+				if(articleCategoryKey!=null && articleCategoryKey.equals(key)){
+					article.setCategory(null);
+					removed.add(article);
+				}
+			}
+		}
 	}
 	
 	/**

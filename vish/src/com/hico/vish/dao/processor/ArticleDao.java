@@ -15,16 +15,6 @@ import com.hico.vish.dao.table.UserEntity;
 
 public class ArticleDao extends BaseDao<Article>{
 	
-	public Article get(Object id) {
-		PersistenceManager  persistenceManager=persistenceManagerFactory.getPersistenceManager();
-		try{
-			Article article=persistenceManager.getObjectById(Article.class, id);
-			return article;
-		}finally{
-			persistenceManager.close();
-		}
-	}
-	
 	public void update(Article article) {
 		PersistenceManager  persistenceManager=persistenceManagerFactory.getPersistenceManager();
 		Transaction transaction=persistenceManager.currentTransaction();

@@ -11,16 +11,6 @@ import com.hico.vish.dao.table.UserEntity;
 
 public class BlogDao extends BaseDao<Blog>{
 
-	public Blog get(Object id) {
-		PersistenceManager  persistenceManager=persistenceManagerFactory.getPersistenceManager();
-		try{
-			Blog blog=persistenceManager.getObjectById(Blog.class, id);
-			return blog;
-		}finally{
-			persistenceManager.close();
-		}
-	}
-	
 	public Blog fetchBlogArticle(Object id) {
 		PersistenceManager  persistenceManager=persistenceManagerFactory.getPersistenceManager();
 		try{

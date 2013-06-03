@@ -7,19 +7,10 @@ import com.hico.vish.dao.table.UserEntity;
 
 public class UserDao extends BaseDao<UserEntity>{
 	
-	public UserEntity get(Object id) {
-		PersistenceManager  persistenceManager=persistenceManagerFactory.getPersistenceManager();
-		try{
-			UserEntity userEntity=persistenceManager.getObjectById(UserEntity.class, id);
-			return userEntity;
-		}finally{
-			persistenceManager.close();
-		}
-	}
-	
 	public UserEntity getUserByEmail(String email) {
 		PersistenceManager  persistenceManager=persistenceManagerFactory.getPersistenceManager();
 		try{
+			persistenceManager.setDetachAllOnCommit(true);
 			Query query=persistenceManager.newQuery(UserEntity.class);
 			query.setFilter("email== useremail");
 			query.declareParameters("String useremail");

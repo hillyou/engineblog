@@ -8,10 +8,10 @@
 		<div>Title:<input name="title" id="title" type="text"/></div>
 		<div>Content:<textarea id="ckeditor" name="content" rows="50" cols="80"></textarea></div>
 		<div>
-			<select name="categoryId">
+			<select name="category">
 			  <option value="">Please select</option>
 			  <c:forEach var="category" items="${session_categories}">
-			      <option value="${category.class.simpleName}:${category.key.id}">${category.name}</option>
+			      <option value="${category.displayKey}">${category.name}</option>
 			  </c:forEach>
 			</select>
 		</div>

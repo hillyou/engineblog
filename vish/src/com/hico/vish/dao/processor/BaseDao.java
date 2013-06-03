@@ -1,11 +1,17 @@
 package com.hico.vish.dao.processor;
 
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
 import javax.jdo.Transaction;
 
+import com.google.appengine.api.datastore.Key;
 import com.hico.vish.dao.table.BaseEntity;
 
 public abstract class BaseDao<T extends BaseEntity> {
@@ -18,7 +24,6 @@ public abstract class BaseDao<T extends BaseEntity> {
 		Transaction transaction=persistenceManager.currentTransaction();
 		try {
 			transaction.begin();
-			t.setCreateDate(new Date());
 			persistenceManager.makePersistent(t);
 			transaction.commit();
 		}catch(Exception ex) {
@@ -63,6 +68,63 @@ public abstract class BaseDao<T extends BaseEntity> {
 			persistenceManager.close();
 		}
 	}
+	
+	public void delete(Collection<T> t){
+		PersistenceManager  persistenceManager=persistenceManagerFactory.getPersistenceManager();
+		Transaction transaction=persistenceManager.currentTransaction();
+		try{
+			persistenceManager.deletePersistentAll(t);
+		}catch(Exception ex) {
+			if(transaction.isActive()) {
+				transaction.rollback();
+			}
+			ex.printStackTrace();
+		}finally{
+			persistenceManager.close();
+		}
+	}
+	
+	public T get(Object id) {
+		PersistenceManager  persistenceManager=persistenceManagerFactory.getPersistenceManager();
+		try{
+			Class<T> clazz=getGenericClass();
+			return persistenceManager.getObjectById(clazz,id);
+		}catch(Exception ex) {
+			ex.printStackTrace();
+		}finally{
+			persistenceManager.close();
+		}
+		return null;
+	}
+	
+	private Class<T> getGenericClass(){
+        Class<T> result =null;
+        Type type =this.getClass().getGenericSuperclass();
+
+        if(type instanceof ParameterizedType){
+             ParameterizedType pt =(ParameterizedType) type;
+             Type[] fieldArgTypes = pt.getActualTypeArguments();
+             result =(Class<T>) fieldArgTypes[0];
+       }
+       return result;
+ }
+	
+	public Collection<T> get(Collection<Key> ids,Class<T> clazz) {
+		PersistenceManager  persistenceManager=persistenceManagerFactory.getPersistenceManager();
+		List newIds=new ArrayList();
+		try{
+			for(Key key : ids){
+				newIds.add(persistenceManager.newObjectIdInstance(clazz, key));
+			}
+			return persistenceManager.getObjectsById(newIds);
+		}catch(Exception ex) {
+			ex.printStackTrace();
+		}finally{
+			persistenceManager.close();
+		}
+		return null;
+	}
+	
 
 	/**
 	 * @return the persistenceManagerFactory

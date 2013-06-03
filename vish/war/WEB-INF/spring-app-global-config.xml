@@ -43,7 +43,7 @@
 	</bean>
 	
 	<bean id="articleManager" class="com.hico.vish.manager.ArticleManager">
-       <property name="articleDao" ref="articleDao"/>
+       <property name="dao" ref="articleDao"/>
     </bean>
     
     <bean id="userDao" class="com.hico.vish.dao.processor.UserDao">
@@ -51,7 +51,7 @@
     </bean>
     
     <bean id="userManager" class="com.hico.vish.manager.UserManager">
-       <property name="userDao" ref="userDao"/>
+       <property name="dao" ref="userDao"/>
     </bean>
     
     <bean id="categoryDao" class="com.hico.vish.dao.processor.CategoryDao">
@@ -59,7 +59,7 @@
     </bean>
     
     <bean id="categoryManager" class="com.hico.vish.manager.CategoryManager">
-        <property name="categoryDao" ref="categoryDao"></property>
+        <property name="dao" ref="categoryDao"></property>
     </bean>
     
     <bean id="blogDao" class="com.hico.vish.dao.processor.BlogDao">
@@ -67,7 +67,7 @@
     </bean>
     
     <bean id="blogManager" class="com.hico.vish.manager.BlogManager">
-        <property name="blogDao" ref="blogDao"></property>
+        <property name="dao" ref="blogDao"></property>
     </bean>
 
 	<bean id="messageSource"

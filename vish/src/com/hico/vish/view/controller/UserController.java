@@ -40,7 +40,7 @@ public class UserController extends BaseController{
 		blog.setName(blogName.toLowerCase());
 		persisted.addBlog(blog);
 		try{
-			userManager.updateUser(persisted);
+			userManager.update(persisted);
 			persisted.setCurrentBlog(blog);
 			updateUserInSession(request,persisted);
 		}catch(Exception ex){

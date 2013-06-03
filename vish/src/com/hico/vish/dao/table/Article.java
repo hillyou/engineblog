@@ -41,10 +41,8 @@ public class Article extends StatusEntity{
 	@Persistent(defaultFetchGroup = "true",mappedBy = "article")
 	@Element(dependent = "true") 
 	private List<Comment> comments;
-	@NotPersistent
-	private Key categoryId;
 	@Persistent
-	private Category category;
+	private Key category;
 	
 	public Article() {
 		
@@ -200,20 +198,6 @@ public class Article extends StatusEntity{
 
 
 	/**
-	 * @return the category
-	 */
-	public Category getCategory() {
-		return category;
-	}
-
-	/**
-	 * @param category the category to set
-	 */
-	public void setCategory(Category category) {
-		this.category = category;
-	}
-
-	/**
 	 * @return the blog
 	 */
 	public Blog getBlog() {
@@ -242,38 +226,53 @@ public class Article extends StatusEntity{
 	}
 	
 
-	/**
-	 * @return the categoryId
-	 */
-	public Key getCategoryId() {
-		return categoryId;
-	}
-
-	/**
-	 * @param categoryId the categoryId to set
-	 */
-	public void setCategoryId(Key categoryId) {
-		this.categoryId = categoryId;
-		setPersistCategory(categoryId);
-	}
+//	/**
+//	 * @return the categoryId
+//	 */
+//	public Key getCategoryId() {
+//		return categoryId;
+//	}
+//
+//	/**
+//	 * @param categoryId the categoryId to set
+//	 */
+//	public void setCategoryId(Key categoryId) {
+//		this.categoryId = categoryId;
+//		setPersistCategory(categoryId);
+//	}
 	
-	private void setPersistCategory(Key newkey) {
-		if(newkey!=null && blog!=null && blog.getCategories()!=null) {
-			List<Category> categories=blog.getCategories();
-			for (Category category : categories) {
-				if(category.getKey().equals(newkey)) {
-					this.category=category;
-					break;
-				}
-			}
-		}
-	}
+//	private void setPersistCategory(Key newkey) {
+//		if(newkey!=null && blog!=null && blog.getCategories()!=null) {
+//			List<Category> categories=blog.getCategories();
+//			for (Category category : categories) {
+//				if(category.getKey().equals(newkey)) {
+//					this.category=category;
+//					break;
+//				}
+//			}
+//		}
+//	}
+	
 	
 	public void addComment(Comment comment) {
 		if(comments==null) {
 			comments=new ArrayList<Comment>();
 		}
 		comments.add(comment);
+	}
+
+	/**
+	 * @return the category
+	 */
+	public Key getCategory() {
+		return category;
+	}
+
+	/**
+	 * @param category the category to set
+	 */
+	public void setCategory(Key category) {
+		this.category = category;
 	}
 
 	@Override

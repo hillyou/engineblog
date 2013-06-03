@@ -1,6 +1,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<title>Manager Category</title>
+<head>
+    <%@ include file="../common/include.jsp" %>
+    <title>Manager Category</title>
+</head>
 <div>
     <table>
 	<c:forEach var="category" items="${session_blog.categories}">
