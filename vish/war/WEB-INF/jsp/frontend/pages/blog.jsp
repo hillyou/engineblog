@@ -5,8 +5,9 @@
 	<c:set var="articles" value="${ARTICLES}"> </c:set>
 	<title>${blog.title}</title>
 </head>
-
-${empty blog?'Not found articles':'Found' }
+<div>
+	<%@ include file="../categorybar.jsp" %>
+</div>
 <div id="divarticlelist">
 	<%@ include file="../articlelist.jsp" %>
 </div>

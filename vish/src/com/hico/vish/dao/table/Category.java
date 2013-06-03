@@ -1,6 +1,5 @@
 package com.hico.vish.dao.table;
 
-import javax.jdo.annotations.NotPersistent;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 
@@ -11,8 +10,6 @@ public class Category extends BaseEntity{
 	private static final long serialVersionUID = -4805200387345970084L;
 	@Persistent
 	private String name;
-	@NotPersistent
-	private Category parent;
 	@Persistent
 	private Key parentKey;
 	@Persistent
@@ -35,15 +32,9 @@ public class Category extends BaseEntity{
 	}
 	
 	public boolean isRoot() {
-		return parent==null?true:false;
+		return parentKey==null?true:false;
 	}
 	
-	/**
-	 * @return the parent
-	 */
-	public Category getParent() {
-		return parent;
-	}
 
 	/**
 	 * @return the parentKey
@@ -59,13 +50,6 @@ public class Category extends BaseEntity{
 		this.parentKey = parentKey;
 	}
 
-	/**
-	 * @param parent the parent to set
-	 */
-	public void setParent(Category parent) {
-		this.parent = parent;
-	}
-	
 
 	/**
 	 * @param name the name to set

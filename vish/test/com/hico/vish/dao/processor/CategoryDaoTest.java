@@ -60,9 +60,7 @@ public class CategoryDaoTest {
 	public void testGetById() {
 		Category category=saveCategory();
 		Assert.assertNotNull(category.getKey());
-		Assert.assertNotNull(category.getParent());
-		Category loadCategory=categoryDao.get(category.getParent().getId());
-		Assert.assertNull(loadCategory.getParent());
+		Category loadCategory=categoryDao.get(category.getParentKey());
 		Assert.assertEquals("Parent", loadCategory.getName());
 	}
 
@@ -98,10 +96,8 @@ public class CategoryDaoTest {
 		Category category=new Category();
 		category.setName("Test");
 		Key parentKey=saveParentCategory().getKey();
-		category.setParent(saveParentCategory());
 		categoryDao.save(category);
 		Assert.assertNotNull(category.getKey());
-		Assert.assertEquals(parentKey, category.getParent());
 		return category;
 	}
 	

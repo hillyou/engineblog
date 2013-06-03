@@ -7,12 +7,12 @@ body {
 }
 
 #header {
-	border: solid #111;
-	height: 20px;
+/* 	border: solid #111; */
+/*	height: 20px;*/
 }
 
 #footer {
-	border: solid #444;
+/* 	border: solid #444; */
 	text-align: center;
 }
 

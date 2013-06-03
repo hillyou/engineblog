@@ -213,6 +213,73 @@ public class Blog extends StatusEntity{
 	}
 	
 	
+	public Category getCategoryByName(String name){
+		Category re=null;
+		if(categories!=null){
+			for(Category category:categories){
+				if(category.getName().equals(name)){
+					re=category;
+					break;
+				}
+			}
+		}
+		return re;
+	}
+	
+	
+	public List<Category> getSubCategory(Category parent){
+		List<Category> allSubs=new ArrayList<Category>();
+		getSubCategory(parent.getKey(),allSubs);
+		return allSubs;
+	} 
+	
+	public List<Category> getSubCategory(Key parentKey){
+		List<Category> allSubs=new ArrayList<Category>();
+		if(categories!=null){
+			for(Category category:categories){
+				if(category.getKey().equals(parentKey)){
+					getSubCategory(parentKey,allSubs);
+				}
+			}
+		}
+		return allSubs;
+	}
+	
+	
+	
+	private void getSubCategory(Key key,List<Category> sub){
+		for(Category category:categories){
+			if(category.getParentKey()!=null && category.getParentKey().equals(key)){
+				sub.add(category);
+				getSubCategory(category.getKey(),sub);
+			}
+		}
+	}
+	
+	
+	public List<Key> getSubCategoryKey(Key parentKey){
+		List<Key> allSubs=new ArrayList<Key>();
+		if(categories!=null){
+			getSubCategoryKey(parentKey,allSubs);
+		}
+		return allSubs;
+	}
+	
+	
+	
+	private void getSubCategoryKey(Key key,List<Key> sub){
+		for(Category category:categories){
+			if(category.getParentKey()!=null && category.getParentKey().equals(key)){
+				Key subKey = category.getKey();
+				sub.add(subKey);
+				getSubCategoryKey(subKey,sub);
+			}
+		}
+	}
+	
+	
+	
+	
 	/**
 	 * @param categories the categories to set
 	 */

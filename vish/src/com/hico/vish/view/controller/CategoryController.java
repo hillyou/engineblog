@@ -86,6 +86,7 @@ public class CategoryController extends BaseController{
 		category.setBlog(blog);
 		blog.addCategory(category);
 		blogManager.update(blog);
+		owner.setCurrentBlog(blog);
 		updateUserInSession(request, owner);
 		return "redirect:/admin/category/list.html";
 	}

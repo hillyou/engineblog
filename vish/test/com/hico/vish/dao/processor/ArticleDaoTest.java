@@ -129,7 +129,6 @@ public class ArticleDaoTest{
 	private Category saveCategory() {
 		Category category=new Category();
 		category.setName("Test");
-		category.setParent(saveParentCategory());
 		categoryDao.save(category);
 		Assert.assertNotNull(category.getKey());
 		return category;
