@@ -1,8 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="ckeditor" uri="http://ckeditor.com"  %>
-
-<title>Update Article</title>
+<head>
+    <%@ include file="../common/include.jsp" %>
+    <title>Update Article</title>
+</head>
 
 <c:set var="acticle" value="${ARTICLE}"></c:set>
 <div><a href="${contextPath}/admin/article/createarticle.html">write another article</a></div>

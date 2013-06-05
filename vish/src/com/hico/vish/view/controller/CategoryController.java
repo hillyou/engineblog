@@ -44,49 +44,18 @@ public class CategoryController extends BaseController{
 			delArticle=true;
 		}
 		Key categoryKey=KeyUtil.stringToKey(categoryId);
-//		categoryManager.delete(category);
-		UserEntity owner=getCurrentUser(model);
-//		Blog blog=blogManager.fetchBlogArticle(owner.getCurrentBlog().getKey());
-		Blog blog=blogManager.fetchBlogArticle(owner.getCurrentBlogKey());
-		List<Category> removedCategories=blog.removeCategory(categoryKey);
-		List<Article> removedArticles=blog.removeArticle(removedCategories);
-//		if(!removedArticles.isEmpty()) {
-//			deleteArticles(removedArticles);
-//		}
-		blogManager.update(blog);
-		owner.setCurrentBlog(blog);
-		updateUserInSession(request, owner);
+		blogManager.deleteCategory(categoryKey, delArticle);
 		return "redirect:/admin/category/list.html";
 	}
 	
-//	private void deleteArticles(List<Article> articles){
-//		for (Article article : articles) {
-//			articleManager.deleteById(article.getKey());
-//		}
-//	}
-	
-//	private void deleteCategories(List<Category> categories){
-//		for (Category category : categories) {
-//			Category del=categoryManager.get(category.getKey());
-//			categoryManager.delete(del);
-//		}
-//	}
-	
-//	private void deleteCategories(List<Key> keys){
-//		for (Key key : keys) {
-//			categoryManager.deleteById(key);
-//		}
-//	}
 	
 	@RequestMapping(value = "/create")
 	public String createCategory(Category category,Model model,HttpServletRequest request){
 		UserEntity owner=getCurrentUser(model);
-		Blog blog=blogManager.fetchBlogArticle(owner.getCurrentBlogKey());
+		Blog blog=owner.getCurrentBlog();
 		category.setCreateDate(new Date());
 		category.setBlog(blog);
-		blog.addCategory(category);
-		blogManager.update(blog);
-		owner.setCurrentBlog(blog);
+		blogManager.addCategory(category);
 		updateUserInSession(request, owner);
 		return "redirect:/admin/category/list.html";
 	}

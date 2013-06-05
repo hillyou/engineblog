@@ -3,6 +3,7 @@ package com.hico.vish.view.controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.hico.vish.dao.table.Article;
 import com.hico.vish.dao.table.Blog;
 import com.hico.vish.dao.table.UserEntity;
 import com.hico.vish.view.BaseController;
@@ -23,6 +25,12 @@ public class UserController extends BaseController{
 	
 	@RequestMapping
 	public String gotoUserHome(Model model) {
+		UserEntity user=getCurrentUser(model);
+		if(user.getCurrentBlog()!=null) {
+			Blog blog=blogManager.fetchBlogArticle(user.getCurrentBlogKey());
+			List<Article> articles=blog.getArticles();
+			model.addAttribute("ARTICLES", articles);
+		}
 		return "backend/home";
 	}
 	
@@ -38,9 +46,8 @@ public class UserController extends BaseController{
 		blog.setCreateDate(new Date());
 		String blogName=blog.getName();
 		blog.setName(blogName.toLowerCase());
-		persisted.addBlog(blog);
 		try{
-			userManager.update(persisted);
+			userManager.addBlog(blog);
 			persisted.setCurrentBlog(blog);
 			updateUserInSession(request,persisted);
 		}catch(Exception ex){

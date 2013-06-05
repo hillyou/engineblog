@@ -1,7 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="ckeditor" uri="http://ckeditor.com"  %>
-<title>Create Article</title>
+<head>
+	<%@ include file="../common/include.jsp" %>
+	<title>Create Article</title>
+</head>
 
 <div id="divcreatearticle">
 	<form action="${contextPath}/admin/article/savearticle.html" method="post">

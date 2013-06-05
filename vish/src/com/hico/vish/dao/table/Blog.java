@@ -1,12 +1,14 @@
 package com.hico.vish.dao.table;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
 import javax.jdo.annotations.Element;
 import javax.jdo.annotations.FetchGroup;
 import javax.jdo.annotations.Inheritance;
+import javax.jdo.annotations.NotPersistent;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 
@@ -21,8 +23,7 @@ public class Blog extends StatusEntity{
 	private String name;
 	@Persistent
 	private String title;
-	@Persistent(mappedBy = "blog")
-	@Element(dependent = "true") 
+	@Persistent(defaultFetchGroup = "false",mappedBy = "blog")
 	private List<Article> articles;
 	@Persistent(defaultFetchGroup = "true",mappedBy = "blog")
 	@Element(dependent = "true") 
@@ -74,6 +75,9 @@ public class Blog extends StatusEntity{
 	 * @return the articles
 	 */
 	public List<Article> getArticles() {
+		if(articles!=null && !articles.isEmpty()) {
+			Collections.sort(articles);
+		}
 		return articles;
 	}
 

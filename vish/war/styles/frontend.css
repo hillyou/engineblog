@@ -1,12 +1,12 @@
 #frontpage {
 	width: 900px;
 	margin: 0 auto 0 auto;
+/* 	background-color: #fbfbfb; */
 }
 
 #frontheader {
 	clear: both;
 /* 	height: 50px; */
-	background-color: blue;
 	margin: 0px 5px 5px 5px;
 	padding: 1px;
 	color: white;
@@ -15,26 +15,87 @@
 #frontleftpanel {
 	float: left;
 	width: 150px;
-	background-color: red;
 	margin: 0px 5px;
 }
 
 #frontbody {
 	padding: 0px 160px 5px 160px;
 	margin: 0px;
-	background-color: silver;
 	margin: 0px 5px;
 }
 
 #frontrightpanel {
 	float: right;
 	width: 150px;
-	background-color: green;
 	margin: 0px 5px;
 }
 
 #frontfooter {
 	clear: both;
-	background-color: yellow;
 	margin: 5px 5px 0px 5px;
+}
+
+/*****category*******/
+.categorybar li{
+	display: inline;
+	background-color: #ddd;
+}
+
+.subcategories li{
+    display: inline-block;
+    margin: 5px 3px;
+}
+
+.categorybar{
+	text-align: center;
+}
+
+.categorybar ul{
+	padding:0;
+    background-color: #ddd;
+}
+
+.categorybar li a{
+    padding: 0 30px;
+}
+
+.categorybar li:hover a, li.current a{
+    background-color: #bbb;
+    color: #245DC1;
+}
+
+/*****article*******/
+.post{
+	color: #444;
+	margin: 0 0 30px 0;
+}
+
+.post .posttitle{
+    font-size: 21px;
+}
+
+.post .posttitle a{
+	font-size: 21px;
+	color: #444;
+}
+
+.post .posttitle:hover a{
+    color: #245DC1;
+}
+
+
+.post .postinfo{
+    font-size: 11px;
+}
+
+.post .postcontent{
+    font-size: 14px;
+}
+
+.post .postcontent a{
+    color: #245DC1;
+}
+
+.post .postcontent a:visited {
+    color: #7759ae;
 }

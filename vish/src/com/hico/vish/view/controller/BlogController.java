@@ -1,7 +1,6 @@
 package com.hico.vish.view.controller;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -44,7 +43,6 @@ public class BlogController extends BaseController{
 		List<Article> articles=null;
 		if(blog!=null && blog.getArticles()!=null){
 			articles=blog.getArticles();
-			Collections.sort(articles);
 		}
 		model.addAttribute("BLOG", blog);
 		model.addAttribute("ARTICLES", articles);

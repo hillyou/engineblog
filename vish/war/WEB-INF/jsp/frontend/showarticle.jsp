@@ -7,21 +7,23 @@
 	<%@ include file="common/include.jsp" %>
 	<title>${acticle.title}</title>
 </head>
-<div id="divarticle">
+<div class="post">
     <div id="mainarticle">
-       <div>${acticle.title}</div>
-       <c:if test="${session_user.key eq acticle.author}">
-	   		<div><a href="${contextPath}/admin/article/updatearticle/${acticle.displayKey}.html">edit</a></div>
-	   </c:if>
-       <div>${acticle.contentValue}</div>
+       <div class="posttitle">${acticle.title}</div>
+       <div class="postinfo">
+	       <c:if test="${session_user.key eq acticle.author}">
+		   		<div><a href="${contextPath}/admin/article/updatearticle/${acticle.displayKey}.html">edit</a></div>
+		   </c:if>
+	   </div>
+       <div class="postcontent">${acticle.contentValue}</div>
     </div>
     
-    <div id="divcommentlist">
+    <div class="commentlist">
     	<%@ include file="articlecomment.jsp" %>
     </div>
     
     <c:if test="${acticle.openComment }">
-    <div id="divcomment">
+    <div class="commentform">
 		<%@ include file="commentform.jsp" %>
 	</div>
     </c:if>

@@ -21,6 +21,7 @@ public class Article extends StatusEntity{
 	@Persistent
 	private String title;
 	@Persistent(defaultFetchGroup = "true",serialized = "true")
+	@Element(dependent = "true") 
 	private Text content;
 	@Persistent
 	private Date publishDate;
@@ -36,9 +37,7 @@ public class Article extends StatusEntity{
 	private Key author;
 	@Persistent
 	private Blog blog;
-	@NotPersistent
-	private Long blogId;
-	@Persistent(defaultFetchGroup = "true",mappedBy = "article")
+	@Persistent(defaultFetchGroup = "false",mappedBy = "article")
 	@Element(dependent = "true") 
 	private List<Comment> comments;
 	@Persistent
@@ -211,21 +210,6 @@ public class Article extends StatusEntity{
 		this.blog = blog;
 	}
 
-	/**
-	 * @return the blogId
-	 */
-	public Long getBlogId() {
-		return blogId;
-	}
-
-	/**
-	 * @param blogId the blogId to set
-	 */
-	public void setBlogId(Long blogId) {
-		this.blogId = blogId;
-	}
-	
-
 //	/**
 //	 * @return the categoryId
 //	 */
@@ -281,7 +265,7 @@ public class Article extends StatusEntity{
 				+ ", publishDate=" + publishDate + ", modifyDate=" + modifyDate
 				+ ", isPublished=" + isPublished + ", isOpenComment="
 				+ isOpenComment + ", keywords=" + keywords + ", author="
-				+ author + ", blog=" + blog + ", blogId=" + blogId
+				+ author + ", blog=" + blog 
 				+ ", comments=" + comments + ", category=" + category
 				+ ", isDeleted=" + isDeleted + ", isValid=" + isValid
 				+ ", isLocked=" + isLocked + ", createDate=" + createDate + "]";

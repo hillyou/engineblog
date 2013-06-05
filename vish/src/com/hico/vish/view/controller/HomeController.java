@@ -26,9 +26,6 @@ public class HomeController extends BaseController{
 	private void loadArticleList(HttpServletRequest request){
 		List<Article> articles=articleManager.getArticleList();
 		Collections.sort(articles);
-//		for(Article ar: articles){
-//			System.out.println(ar.getDisplayKey());
-//		}
 		request.setAttribute("ARTICLES", articles);
 	}
 

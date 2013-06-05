@@ -48,7 +48,7 @@ public class LoginFilter implements Filter{
 			}
 		}
 		for (String forbidden : forbiddens) {
-			if((email==null || user==null || (isInvalidBlogger(user))) && uri.startsWith(contextPath+forbidden)) {
+			if((email==null || user==null || !user.isValidBlogger()) && uri.startsWith(contextPath+forbidden)) {
 				String message="User forbidden,Click <a href=\""+contextPath+"/home.html\">here</a> go to home page.";
 				request.setAttribute(REQ_ATTR_MESSAGE, message);
 				request.getRequestDispatcher("/error.html").forward(request, response);
@@ -62,10 +62,6 @@ public class LoginFilter implements Filter{
 	@Override
 	public void destroy() {
 		
-	}
-	
-	private boolean isInvalidBlogger(UserEntity currentUser) {
-		return !(!currentUser.isDeleted() && !currentUser.isLocked() && currentUser.isValid());
 	}
 
 }

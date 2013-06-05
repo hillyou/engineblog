@@ -19,7 +19,6 @@
 	<div id="frontheader">
 		<jsp:include page="../frontend/common/header.jsp"></jsp:include>
 	</div>
-
 	<div id="frontleftpanel">
 		<jsp:include page="../frontend/common/leftpanel.jsp"></jsp:include>
 	</div>

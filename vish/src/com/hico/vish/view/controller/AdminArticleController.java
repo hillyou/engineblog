@@ -2,7 +2,6 @@ package com.hico.vish.view.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -18,8 +17,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.google.appengine.api.datastore.Key;
 import com.hico.vish.dao.table.Article;
 import com.hico.vish.dao.table.Blog;
-import com.hico.vish.dao.table.Category;
-import com.hico.vish.dao.table.Comment;
 import com.hico.vish.dao.table.UserEntity;
 import com.hico.vish.util.KeyUtil;
 import com.hico.vish.view.BaseController;
@@ -27,6 +24,15 @@ import com.hico.vish.view.BaseController;
 @Controller
 @RequestMapping(value = "/admin/article")
 public class AdminArticleController extends BaseController{
+	
+	@RequestMapping("/articlelist")
+	public String showArticleList(Model model) {
+		UserEntity user=getCurrentUser(model);
+		Blog blog=blogManager.fetchBlogArticle(user.getCurrentBlogKey());
+		List<Article> articles=blog.getArticles();
+		model.addAttribute("ARTICLES", articles);
+		return "backend/article/articlelist";
+	}
 	
 	@RequestMapping(value="/del/{articleId}")
 	public String delArticle(@PathVariable String articleId,Model model) {
@@ -76,15 +82,13 @@ public class AdminArticleController extends BaseController{
 	@RequestMapping("/savearticle")
 	public String saveArticle(Model model,Article article) {
 		UserEntity owner=getCurrentUser(model);
-		Blog persistent=blogManager.fetchBlogArticle(owner.getCurrentBlogKey());
+		Blog persistent=owner.getCurrentBlog();
 		article.setCreateDate(new Date());
 		article.setPublishDate(new Date());
 		article.setPublished(true);
 		article.setAuthor(owner.getKey());
 		article.setBlog(persistent);
-		persistent.addArticle(article);
-//		userManager.updateUser(owner);
-		blogManager.update(persistent);
+		blogManager.addArticle(article);
 		model.addAttribute("ARTICLE", article);
 		model.addAttribute("MESSAGE", "Save successfully");
 		return "backend/article/update";
@@ -92,17 +96,18 @@ public class AdminArticleController extends BaseController{
 	
 	@RequestMapping(value="/updatearticle", method=RequestMethod.POST)
 	public String updateArticle(Model model,Article article) {
-		UserEntity owner=getCurrentUser(model);
+//		UserEntity owner=getCurrentUser(model);
 		//!performance issue
-		Blog persistent=blogManager.fetchBlogArticle(owner.getCurrentBlogKey());
-		List<Article> articles=persistent.getArticles();
-		Article persisted=articles.get(articles.indexOf(article));
-//		Article persisted=articleManager.get(article.getKey());
+//		Blog persistent=blogManager.fetchBlogArticle(owner.getCurrentBlogKey());
+//		List<Article> articles=persistent.getArticles();
+//		Article persisted=articles.get(articles.indexOf(article));
+		Article persisted=articleManager.get(article.getKey());
 		persisted.setCategory(article.getCategory());
 		persisted.setTitle(article.getTitle());
 		persisted.setContent(article.getContent());
 		persisted.setKeywords(article.getKeywords());
-		blogManager.update(persistent);
+		articleManager.update(persisted);
+//		blogManager.update(persistent);
 		model.addAttribute("ARTICLE", persisted);
 		model.addAttribute("MESSAGE", "Update successfully");
 		return "backend/article/update";
@@ -128,38 +133,6 @@ public class AdminArticleController extends BaseController{
 			response.setContentType("text/plain");
 			PrintWriter printWriter=response.getWriter();
 			printWriter.print("Save successfully");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	@RequestMapping("/addcomment")
-	public String addComment(Model model,HttpServletRequest request) {
-		String articleid=request.getParameter("articleid");
-		String content=request.getParameter("comment");
-		Article article=articleManager.get(Long.valueOf(articleid).longValue());
-		List<Comment> comments=article.getComments();
-		if(comments==null) {
-			comments=new ArrayList<Comment>();
-		}
-		Comment comment=new Comment(content);
-		comment.setCommentEmail(getCurrentUser(model).getEmail());
-		comment.setCreateDate(new Date());
-		comment.setArticle(article);
-		comments.add(comment);
-		articleManager.save(article);
-		request.setAttribute("ARTICLE", article);
-		return "frontend/showarticle";
-	}
-	
-	@RequestMapping("/ajaxaddcomment")
-	public void addCommentWithAjax(Model model,HttpServletRequest request,HttpServletResponse response) {
-		addComment(model,request);
-		try {
-			response.setContentType("text/plain");
-			PrintWriter printWriter=response.getWriter();
-			printWriter.print("Save successfully");
-			printWriter.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

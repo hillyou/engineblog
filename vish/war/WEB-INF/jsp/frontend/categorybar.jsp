@@ -12,11 +12,3 @@
 		</li>
 	</c:forEach>
 </ul>
-
-<c:if test="${not empty currentCategory && not empty childCategories}">
-	<ul>
-		<c:forEach var="childcategory" items="${childCategories }">
-			<li><a href="${contextPath}/blog/${blog.name}/${childcategory.name}.html">${childcategory.name}</a></li>
-		</c:forEach>
-	</ul>
-</c:if>

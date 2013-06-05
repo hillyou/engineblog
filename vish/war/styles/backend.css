@@ -10,7 +10,6 @@
 #backheader {
 	clear: both;
 	height: 50px;
-	background-color: blue;
 	margin: 0px 5px 5px 5px;
 	padding: 1px;
 	color: white;
@@ -19,26 +18,33 @@
 #backleftpanel {
 	float: left;
 	width: 150px;
-	background-color: red;
 	margin: 0px 5px;
 }
 
 #backbody {
 	padding: 0px 160px 5px 160px;
 	margin: 0px;
-	background-color: silver;
 	margin: 0px 5px;
 }
 
 #backrightpanel {
 	float: right;
 	width: 150px;
-	background-color: green;
 	margin: 0px 5px;
 }
 
 #backfooter {
 	clear: both;
-	background-color: yellow;
 	margin: 5px 5px 0px 5px;
+}
+
+.articlelist{
+	
+}
+
+.articlelist .articleitem li{
+   
+}
+
+.articlelist .articleitem li{
 }

@@ -25,7 +25,7 @@
 
 	<bean id="persistenceManagerFactory" scope="singleton"
 	    class="org.springframework.orm.jdo.LocalPersistenceManagerFactoryBean">
-	   <property name="persistenceManagerFactoryName" value="transactions-optional" />
+	   <property name="persistenceManagerFactoryName" value="customerPMF" />
 	</bean>
 	
 	<!-- <bean id="persistenceManagerFactoryProxy" class="org.springframework.orm.jdo.TransactionAwarePersistenceManagerFactoryProxy">

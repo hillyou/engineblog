@@ -1,7 +1,9 @@
 body {
-	font-size: 16px;
+	font-size: 14px;
 	font-weight: normal;
-	font-family: sans-serif;
+	font-family: Arial,sans-serif;
+	background-color: #fdfdfd;
+	color: #444;
 	margin: 0px;
 	padding: 0px;
 }
@@ -12,7 +14,11 @@ body {
 }
 
 #footer {
-/* 	border: solid #444; */
 	text-align: center;
 }
+
+a{
+	text-decoration: none;
+}
+
 

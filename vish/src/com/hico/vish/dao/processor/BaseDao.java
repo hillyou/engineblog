@@ -4,7 +4,6 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 
 import javax.jdo.PersistenceManager;
@@ -97,18 +96,6 @@ public abstract class BaseDao<T extends BaseEntity> {
 		return null;
 	}
 	
-	private Class<T> getGenericClass(){
-        Class<T> result =null;
-        Type type =this.getClass().getGenericSuperclass();
-
-        if(type instanceof ParameterizedType){
-             ParameterizedType pt =(ParameterizedType) type;
-             Type[] fieldArgTypes = pt.getActualTypeArguments();
-             result =(Class<T>) fieldArgTypes[0];
-       }
-       return result;
- }
-	
 	public Collection<T> get(Collection<Key> ids,Class<T> clazz) {
 		PersistenceManager  persistenceManager=persistenceManagerFactory.getPersistenceManager();
 		List newIds=new ArrayList();
@@ -140,5 +127,16 @@ public abstract class BaseDao<T extends BaseEntity> {
 			PersistenceManagerFactory persistenceManagerFactory) {
 		this.persistenceManagerFactory = persistenceManagerFactory;
 	}
+	
+	private Class<T> getGenericClass(){
+        Class<T> result =null;
+        Type type =this.getClass().getGenericSuperclass();
 
+        if(type instanceof ParameterizedType){
+             ParameterizedType pt =(ParameterizedType) type;
+             Type[] fieldArgTypes = pt.getActualTypeArguments();
+             result =(Class<T>) fieldArgTypes[0];
+       }
+       return result;
+	}
 }

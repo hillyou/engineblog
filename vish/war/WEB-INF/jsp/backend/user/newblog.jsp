@@ -1,4 +1,7 @@
-<title>New Blog</title>
+<head>
+    <%@ include file="../common/include.jsp" %>
+    <title>New Blog</title>
+</head>
 
 <div id="blogform">
     <form action="${contextPath}/admin/user/openblog.html" method="post">

@@ -6,3 +6,30 @@
 #divlogin{
     text-align: right;
 }
+
+
+.inlineitems ul{
+    padding: 0;
+}
+
+.inlineitems li{
+	display: inline;
+    padding: 0 20px;
+}
+
+.listitems ul{
+	padding: 0;
+}
+
+.listitems li{
+    display: list-item;
+    list-style:none;
+    padding: 0 0 14px 0;
+}
+
+.listitems li ul{
+    display: list-item;
+    list-style:none;
+    padding: 6px 0 0 30px;
+}
+

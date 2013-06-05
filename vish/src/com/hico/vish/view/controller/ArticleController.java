@@ -1,6 +1,5 @@
 package com.hico.vish.view.controller;
 
-import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,10 +20,6 @@ public class ArticleController extends BaseController{
 	@RequestMapping("/articlelist")
 	public String showArticleList(Model model,HttpServletRequest request) {
 		List<Article> articles=articleManager.getArticleList();
-		for(Article ar: articles){
-			System.out.println(ar.getKey()+" <> "+ar.getKey().getAppId()+" <> "+ar.getKey().getKind());
-		}
-		Collections.sort(articles);
 		request.setAttribute("ARTICLES", articles);
 		return "frontend/articlelist";
 	}
