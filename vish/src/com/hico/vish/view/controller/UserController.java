@@ -30,6 +30,7 @@ public class UserController extends BaseController{
 			Blog blog=blogManager.fetchBlogArticle(user.getCurrentBlogKey());
 			List<Article> articles=blog.getArticles();
 			model.addAttribute("ARTICLES", articles);
+			model.addAttribute("BLOG", blog);
 		}
 		return "backend/home";
 	}
@@ -49,7 +50,7 @@ public class UserController extends BaseController{
 		try{
 			userManager.addBlog(blog);
 			persisted.setCurrentBlog(blog);
-			updateUserInSession(request,persisted);
+			updateUserInSession(request,retrieveFlushUser(persisted));
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}

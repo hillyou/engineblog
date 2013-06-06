@@ -165,6 +165,9 @@ public class Blog extends StatusEntity{
 	 * @return the categories
 	 */
 	public List<Category> getCategories() {
+		if(categories==null) {
+			categories=new ArrayList<Category>();
+		}
 		return categories;
 	}
 	

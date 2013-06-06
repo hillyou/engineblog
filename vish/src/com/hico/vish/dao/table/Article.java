@@ -140,6 +140,7 @@ public class Article extends StatusEntity{
 	public void setComments(List<Comment> comments) {
 		this.comments = comments;
 	}
+	
 	/**
 	 * @return the isPublished
 	 */

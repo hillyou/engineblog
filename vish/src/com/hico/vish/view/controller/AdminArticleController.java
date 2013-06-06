@@ -36,7 +36,8 @@ public class AdminArticleController extends BaseController{
 	
 	@RequestMapping(value="/del/{articleId}")
 	public String delArticle(@PathVariable String articleId,Model model) {
-		Article persisted=articleManager.get(articleId);
+		Key articleKey=KeyUtil.stringToKey(articleId);
+		Article persisted=articleManager.get(articleKey);
 		UserEntity user=getCurrentUser(model);
 		String url="";
 		if(persisted.getAuthor().equals(user.getKey())) {

@@ -103,12 +103,7 @@ public class UserEntity extends StatusEntity{
 	}
 	
 	public Key getCurrentBlogKey(){
-		Blog current=getCurrentBlog();
-		if(current!=null){
-			Key blogKey=current.getKey();
-			return KeyFactory.createKey(key, Blog.class.getSimpleName(), blogKey.getId());
-		}
-		return null;
+		return currentBlog.getKey();
 	}
 	
 	/**

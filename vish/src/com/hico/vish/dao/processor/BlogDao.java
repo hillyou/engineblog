@@ -1,9 +1,8 @@
 package com.hico.vish.dao.processor;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
+import javax.jdo.FetchPlan;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 import javax.jdo.Transaction;
@@ -89,9 +88,27 @@ public class BlogDao extends BaseDao<Blog>{
 	public Blog fetchBlogArticle(Object id) {
 		PersistenceManager  persistenceManager=persistenceManagerFactory.getPersistenceManager();
 		try{
-			persistenceManager.getFetchPlan().addGroup("articleGroup");
+//			FetchGroup grp = persistenceManager.getFetchGroup(Blog.class,"blogArticleGroup");
+//			grp.addMember("articles");
+			FetchPlan fp=persistenceManager.getFetchPlan();
+			fp.addGroup("articleGroup");
 			Blog blog=persistenceManager.getObjectById(Blog.class, id);
 			return blog;
+		}finally{
+			persistenceManager.close();
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	public Blog getByNameWithArticles(String name) {
+		PersistenceManager  persistenceManager=persistenceManagerFactory.getPersistenceManager();
+		try{
+			persistenceManager.getFetchPlan().addGroup("articleGroup");
+			Query query=persistenceManager.newQuery(Blog.class);
+			query.setFilter("name == paramName");
+			query.declareParameters("String paramName");
+			List<Blog> blogs=(List<Blog>)query.execute(name);
+			return (blogs==null||blogs.isEmpty())?null:blogs.get(0);
 		}finally{
 			persistenceManager.close();
 		}
@@ -118,21 +135,6 @@ public class BlogDao extends BaseDao<Blog>{
 			query.declareParameters("String paramName");
 			Blog blog=(Blog) query.execute(name);
 			return blog;
-		}finally{
-			persistenceManager.close();
-		}
-	}
-	
-	@SuppressWarnings("unchecked")
-	public Blog getByNameWithArticles(String name) {
-		PersistenceManager  persistenceManager=persistenceManagerFactory.getPersistenceManager();
-		try{
-			persistenceManager.getFetchPlan().addGroup("articleGroup");
-			Query query=persistenceManager.newQuery(Blog.class);
-			query.setFilter("name == paramName");
-			query.declareParameters("String paramName");
-			List<Blog> blogs=(List<Blog>)query.execute(name);
-			return (blogs==null||blogs.isEmpty())?null:blogs.get(0);
 		}finally{
 			persistenceManager.close();
 		}

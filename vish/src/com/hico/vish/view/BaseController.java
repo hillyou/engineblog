@@ -77,4 +77,9 @@ public abstract class BaseController {
 		session.setAttribute(loginUser.getEmail(), loginUser);
 	}
 
+	
+	protected UserEntity retrieveFlushUser(UserEntity loginUser) {
+		UserEntity persistent=userManager.get(loginUser.getKey());
+		return persistent;
+	}
 }
