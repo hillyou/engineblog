@@ -50,7 +50,7 @@ public class UserController extends BaseController{
 		try{
 			UserEntity persisted=userManager.addBlog(blog);
 			persisted.setCurrentBlog(blog);
-			updateUserInSession(request,persisted);
+			updateUserInSession(model,persisted);
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
@@ -74,6 +74,6 @@ public class UserController extends BaseController{
 	public void switchCurrentBlogWithAjax(@PathVariable Long blogid,Model model,HttpServletRequest request,HttpServletResponse response) {
 		UserEntity persisted=getCurrentUser(model);
 		persisted.setCurrentBlog(blogid);
-		updateUserInSession(request,persisted);
+		updateUserInSession(model,persisted);
 	}
 }

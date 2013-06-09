@@ -41,7 +41,7 @@ public abstract class BaseController {
 	}
 	
 	@ModelAttribute("CURRENT_USER")
-	public UserEntity retriveCurrentUser(HttpServletRequest request) {
+	public UserEntity retriveCurrentUser(Model model,HttpServletRequest request) {
 		UserEntity loginUser=null;
 		AppUser user=UserUtil.getAppUser();
 		if(!user.isLogin()) {
@@ -64,6 +64,7 @@ public abstract class BaseController {
 			}
 			session.setAttribute(userEmail, loginUser);
 		}
+		model.addAttribute(loginUser.getEmail(), loginUser);
 		return loginUser;
 	}
 	
@@ -72,11 +73,16 @@ public abstract class BaseController {
 	}
 	
 
-	protected void updateUserInSession(HttpServletRequest request,UserEntity loginUser) {
-		HttpSession session=request.getSession();
-		session.removeAttribute(loginUser.getEmail());
-		session.setAttribute(loginUser.getEmail(), loginUser);
+	protected void updateUserInSession(Model model,UserEntity loginUser) {
+		model.addAttribute(loginUser.getEmail(), loginUser);
 	}
+	
+	
+//	protected void updateUserInSession(HttpServletRequest request,UserEntity loginUser) {
+//		HttpSession session=request.getSession();
+//		session.removeAttribute(loginUser.getEmail());
+//		session.setAttribute(loginUser.getEmail(), loginUser);
+//	}
 
 	
 	protected UserEntity retrieveFlushUser(UserEntity loginUser) {
