@@ -1,7 +1,6 @@
 package com.hico.vish.dao.table;
 
 import javax.jdo.annotations.Inheritance;
-import javax.jdo.annotations.NotPersistent;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 
@@ -19,8 +18,6 @@ public class Comment extends StatusEntity{
 	private String commentEmail;
 	@Persistent
 	private Key commentBy;
-	@NotPersistent
-	private UserEntity reviewer;
 	
 	public Comment() {}
 	
@@ -65,21 +62,6 @@ public class Comment extends StatusEntity{
 	 */
 	public void setCommentBy(Key commentBy) {
 		this.commentBy = commentBy;
-	}
-
-	/**
-	 * @param isValid the isValid to set
-	 */
-	public void setValid(boolean isValid) {
-		this.isValid = isValid;
-	}
-
-	public UserEntity getReviewer() {
-		return reviewer;
-	}
-
-	public void setReviewer(UserEntity reviewer) {
-		this.reviewer = reviewer;
 	}
 
 	public String getCommentEmail() {

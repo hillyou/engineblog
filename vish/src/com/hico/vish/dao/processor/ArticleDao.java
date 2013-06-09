@@ -46,12 +46,19 @@ public class ArticleDao extends BaseDao<Article>{
 		}
 	}
 	
-	public void saveComment(Comment comment) {
+	public void addComment(Comment comment) {
+		Key articleKey=comment.getArticle().getKey();
+		comment.setArticle(null);
 		PersistenceManager  persistenceManager=persistenceManagerFactory.getPersistenceManager();
 		Transaction transaction=persistenceManager.currentTransaction();
 		try {
 			transaction.begin();
-			persistenceManager.makePersistent(comment);
+			Article article=persistenceManager.getObjectById(Article.class,articleKey);
+			List<Comment> comments=article.getComments();
+			if(article.isOpenComment() && article.isUsable() && !article.isLocked()){
+				comment.setArticle(article);
+				comments.add(comment);
+			}
 			transaction.commit();
 		}catch(Exception ex) {
 			ex.printStackTrace();

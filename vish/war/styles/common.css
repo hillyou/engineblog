@@ -7,6 +7,21 @@
     text-align: right;
 }
 
+.message{
+	margin-top:15%;
+	text-align: center;
+	font-size: 32px;
+	color: #444;
+}
+
+.message a{
+    color: #245DC1;
+}
+
+.message a:visited {
+    color: #7759ae;
+}
+
 
 .inlineitems ul{
     padding: 0;

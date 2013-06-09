@@ -29,7 +29,7 @@ public class AdminArticleController extends BaseController{
 	public String showArticleList(Model model) {
 		UserEntity user=getCurrentUser(model);
 		Blog blog=blogManager.fetchBlogArticle(user.getCurrentBlogKey());
-		List<Article> articles=blog.getArticles();
+		List<Article> articles=blog.getUsableArticles();
 		model.addAttribute("ARTICLES", articles);
 		return "backend/article/articlelist";
 	}
@@ -81,15 +81,18 @@ public class AdminArticleController extends BaseController{
 	}
 	
 	@RequestMapping("/savearticle")
-	public String saveArticle(Model model,Article article) {
+	public String saveArticle(Model model,Article article,HttpServletRequest request) {
 		UserEntity owner=getCurrentUser(model);
-		Blog persistent=owner.getCurrentBlog();
+		Blog currentBlog=owner.getCurrentBlog();
 		article.setCreateDate(new Date());
 		article.setPublishDate(new Date());
 		article.setPublished(true);
 		article.setAuthor(owner.getKey());
-		article.setBlog(persistent);
-		blogManager.addArticle(article);
+		article.setBlog(currentBlog);
+		Blog persistentBlog=blogManager.addArticle(article);
+		UserEntity persistentUser=userManager.get(owner.getKey());
+		persistentUser.setCurrentBlog(persistentBlog);
+		updateUserInSession(request, persistentUser);
 		model.addAttribute("ARTICLE", article);
 		model.addAttribute("MESSAGE", "Save successfully");
 		return "backend/article/update";
@@ -115,9 +118,9 @@ public class AdminArticleController extends BaseController{
 	}
 	
 	@RequestMapping("/ajaxsavearticle")
-	public void saveArticleWithAjax(Model model,Article article,HttpServletResponse response) {
+	public void saveArticleWithAjax(Model model,Article article,HttpServletRequest request,HttpServletResponse response) {
 		String message="Save successfully";
-		saveArticle(model,article);
+		saveArticle(model,article,request);
 		try {
 			response.setContentType("text/plain");
 			PrintWriter printWriter=response.getWriter();

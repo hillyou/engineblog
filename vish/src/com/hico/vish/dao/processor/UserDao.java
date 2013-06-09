@@ -24,16 +24,17 @@ public class UserDao extends BaseDao<UserEntity>{
 		}
 	}
 
-	public void addBlog(Blog blog) {
+	public UserEntity addBlog(Blog blog) {
+		UserEntity user=null;
 		Key userKey=blog.getBlogger().getKey();
 		blog.setBlogger(null);
 		PersistenceManager  persistenceManager=persistenceManagerFactory.getPersistenceManager();
 		Transaction transaction=persistenceManager.currentTransaction();
 		try {
 			transaction.begin();
-			UserEntity user=persistenceManager.getObjectById(UserEntity.class,userKey);
+			user=persistenceManager.getObjectById(UserEntity.class,userKey);
 			blog.setBlogger(user);
-			user.getBlogs().add(blog);
+			user.addBlog(blog);
 			transaction.commit();
 		}catch(Exception ex) {
 			if(transaction.isActive()) {
@@ -43,6 +44,7 @@ public class UserDao extends BaseDao<UserEntity>{
 		}finally{
 			persistenceManager.close();
 		}
+		return user;
 	}
 	
 }

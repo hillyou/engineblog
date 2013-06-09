@@ -16,83 +16,82 @@ import com.hico.vish.util.CategoryUtil;
 
 public class BlogDao extends BaseDao<Blog>{
 
-	public void addArticle(Article article) {
+	public Blog addArticle(Article article) {
+		Blog blog=null;
 		Key blogKey=article.getBlog().getKey();
 		article.setBlog(null);
 		PersistenceManager  persistenceManager=persistenceManagerFactory.getPersistenceManager();
 		Transaction transaction=persistenceManager.currentTransaction();
 		try {
 			transaction.begin();
-			Blog blog=persistenceManager.getObjectById(Blog.class,blogKey);
+			blog=persistenceManager.getObjectById(Blog.class,blogKey);
 			article.setBlog(blog);
 			blog.getArticles().add(article);
 			transaction.commit();
-		}catch(Exception ex) {
+		}finally{
 			if(transaction.isActive()) {
 				transaction.rollback();
 			}
-			ex.printStackTrace();
-		}finally{
 			persistenceManager.close();
 		}
+		return blog;
 	}
 	
 	
-	public void addCategory(Category category) {
+	public Blog addCategory(Category category) {
+		Blog blog=null;
 		Key blogKey=category.getBlog().getKey();
 		category.setBlog(null);
 		PersistenceManager  persistenceManager=persistenceManagerFactory.getPersistenceManager();
 		Transaction transaction=persistenceManager.currentTransaction();
 		try {
 			transaction.begin();
-			Blog blog=persistenceManager.getObjectById(Blog.class,blogKey);
+			blog=persistenceManager.getObjectById(Blog.class,blogKey);
 			category.setBlog(blog);
 			blog.getCategories().add(category);
 			transaction.commit();
-		}catch(Exception ex) {
+		}finally{
 			if(transaction.isActive()) {
 				transaction.rollback();
 			}
-			ex.printStackTrace();
-		}finally{
 			persistenceManager.close();
 		}
+		return blog;
 	}
 	
 	
-	public void deleteCategory(Key categoryKey,boolean isDeleteArticle) {
+	public Blog deleteCategory(Key categoryKey,boolean isDeleteArticle) {
+		Blog blog=null;
 		Key blogKey=categoryKey.getParent();
 		PersistenceManager  persistenceManager=persistenceManagerFactory.getPersistenceManager();
 		Transaction transaction=persistenceManager.currentTransaction();
 		try {
 			transaction.begin();
-			Blog blog=persistenceManager.getObjectById(Blog.class,blogKey);
+			blog=persistenceManager.getObjectById(Blog.class,blogKey);
 			List<Category> allCategories=blog.getCategories();
 			List<Article> allArticles=blog.getArticles();
-			List<Category> subsAndSelf=CategoryUtil.getSubCategoriesAndSelf(allCategories, blogKey);
+			List<Category> subsAndSelf=CategoryUtil.getSubCategoriesAndSelf(allCategories, categoryKey);
 			List<Article> articlesUnderCategory=CategoryUtil.getArticlesUnderCategory(allArticles, subsAndSelf);
 			allArticles.removeAll(articlesUnderCategory);
 			allCategories.removeAll(subsAndSelf);
 			transaction.commit();
-		}catch(Exception ex) {
+		}finally{
 			if(transaction.isActive()) {
 				transaction.rollback();
 			}
-			ex.printStackTrace();
-		}finally{
 			persistenceManager.close();
 		}
+		return blog;
 	}
 	
 	
 	public Blog fetchBlogArticle(Object id) {
 		PersistenceManager  persistenceManager=persistenceManagerFactory.getPersistenceManager();
 		try{
-//			FetchGroup grp = persistenceManager.getFetchGroup(Blog.class,"blogArticleGroup");
-//			grp.addMember("articles");
 			FetchPlan fp=persistenceManager.getFetchPlan();
 			fp.addGroup("articleGroup");
 			Blog blog=persistenceManager.getObjectById(Blog.class, id);
+			blog.getArticles();
 			return blog;
 		}finally{
 			persistenceManager.close();

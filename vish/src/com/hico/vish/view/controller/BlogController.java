@@ -23,50 +23,44 @@ public class BlogController extends BaseController{
 	@RequestMapping("/{blogname}")
 	public String blogHome(@PathVariable String blogname,Model model,HttpServletResponse response){
 		model.addAttribute("blogname", blogname);
-		loadBlogAndArticles(model);
+		loadBlog(model);
+		loadAllCategoryAndArticles(model);
 		return "frontend/pages/blog";
 	}
 	
-	@RequestMapping("/{blogname}/{categoryname}")
-	public String blogCategory(@PathVariable String blogname,@PathVariable String categoryname,Model model){
+	@RequestMapping("/{blogname}/{categoryid}")
+	public String blogCategory(@PathVariable String blogname,@PathVariable String categoryid,Model model){
 		model.addAttribute("blogname", blogname);
-		model.addAttribute("categoryname", categoryname);
-		loadBlogAndArticles(model);
-		loadCategoryArticles(model);
+		model.addAttribute("categoryid", categoryid);
+		loadBlog(model);
+		loadCategoryAndArticles(model);
 		return "frontend/pages/blog";
 	}
 	
 	
-	private void loadBlogAndArticles(Model model){
+	private void loadBlog(Model model){
 		String blogname=(String) model.asMap().get("blogname");
 		Blog blog=blogManager.fetchBlogArticle(blogname);
-		List<Article> articles=null;
-		if(blog!=null && blog.getArticles()!=null){
-			articles=blog.getArticles();
-		}
 		model.addAttribute("BLOG", blog);
-		model.addAttribute("ARTICLES", articles);
+	}
+	
+	private void loadAllCategoryAndArticles(Model model){
+		Blog blog= (Blog) model.asMap().get("BLOG");
+		model.addAttribute("ARTICLES", blog.getArticles());
 	}
 
-	@SuppressWarnings("unchecked")
-	private void loadCategoryArticles(Model model){
+	private void loadCategoryAndArticles(Model model){
 		Blog blog= (Blog) model.asMap().get("BLOG");
-		Object articlesO= model.asMap().get("ARTICLES");
-		String blogname=(String) model.asMap().get("categoryname");
-		Category currentCategory=blog.getCategoryByName(blogname);
-		List<Key> allSubs=blog.getSubCategoryKey(currentCategory.getKey());
+		String categoryid=(String) model.asMap().get("categoryid");
+		Category currentCategory=blog.getCategoryById(categoryid);
+		List<Category> childCategories=blog.getSubCategory(currentCategory);
 		model.addAttribute("CURRENT_CATEGORY", currentCategory);
-		model.addAttribute("CHILD_CATEGORY", blog.getSubCategory(currentCategory));
-		if(articlesO!=null){
-			List<Article> categoryArticles=new ArrayList<Article>();
-			List<Article> articles=(List<Article>)articlesO;
-			for (Article article : articles) {
-				if(allSubs.contains(article.getCategory())){
-					categoryArticles.add(article);
-				}
-			}
-			model.addAttribute("ARTICLES", categoryArticles);
-		}
+		model.addAttribute("CHILD_CATEGORY", childCategories);
+		List<Category> all=new ArrayList<Category>();
+		all.add(currentCategory);
+		all.addAll(childCategories);
+		List<Article> categoryArticles=blog.getArticlesUnderCategory(all);
+		model.addAttribute("ARTICLES", categoryArticles);
 	}
 	
 }

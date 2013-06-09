@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
+import com.google.appengine.api.datastore.Key;
 import com.hico.vish.dao.table.AppUser;
 import com.hico.vish.dao.table.UserEntity;
 import com.hico.vish.manager.ArticleManager;
@@ -79,7 +80,9 @@ public abstract class BaseController {
 
 	
 	protected UserEntity retrieveFlushUser(UserEntity loginUser) {
+		Key blogKey=loginUser.getCurrentBlogKey();
 		UserEntity persistent=userManager.get(loginUser.getKey());
+		persistent.setCurrentBlog(blogKey);
 		return persistent;
 	}
 }

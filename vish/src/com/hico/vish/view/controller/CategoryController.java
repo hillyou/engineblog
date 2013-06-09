@@ -45,8 +45,10 @@ public class CategoryController extends BaseController{
 		}
 		Key categoryKey=KeyUtil.stringToKey(categoryId);
 		blogManager.deleteCategory(categoryKey, delArticle);
+		Blog currentBlog=blogManager.get(categoryKey.getParent());
 		UserEntity owner=getCurrentUser(model);
-		updateUserInSession(request,retrieveFlushUser(owner));
+		owner.setCurrentBlog(currentBlog);
+		updateUserInSession(request,owner);
 		return "redirect:/admin/category/list.html";
 	}
 	
@@ -57,8 +59,9 @@ public class CategoryController extends BaseController{
 		Blog blog=owner.getCurrentBlog();
 		category.setCreateDate(new Date());
 		category.setBlog(blog);
-		blogManager.addCategory(category);
-		updateUserInSession(request,retrieveFlushUser(owner));
+		Blog persistent=blogManager.addCategory(category);
+		owner.setCurrentBlog(persistent);
+		updateUserInSession(request,owner);
 		return "redirect:/admin/category/list.html";
 	}
 	

@@ -15,7 +15,7 @@
 		   		<div><a href="${contextPath}/admin/article/updatearticle/${acticle.displayKey}.html">edit</a></div>
 		   </c:if>
 	   </div>
-       <div class="postcontent">${acticle.contentValue}</div>
+       <div class="bigblock postcontent">${acticle.contentValue}</div>
     </div>
     
     <div class="commentlist">
