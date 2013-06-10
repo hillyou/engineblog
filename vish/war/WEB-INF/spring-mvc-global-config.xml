@@ -48,6 +48,8 @@
             <list>
                 <bean class="com.hico.vish.view.converter.KeyConverter" />
                 <bean class="com.hico.vish.view.converter.TextConverter" />
+                <bean class="com.hico.vish.view.converter.ArticleConverter" />
+                <bean class="com.hico.vish.view.converter.CategoryConverter" />
             </list>
         </property>
     </bean>

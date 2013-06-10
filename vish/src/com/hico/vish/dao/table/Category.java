@@ -86,14 +86,4 @@ public class Category extends BaseEntity{
 		this.blog = blog;
 	}
 	
-	@Override
-	public String toString() {
-		return "Category [name=" + name + ", parentKey=" + parentKey
-				+ ", blog=" + blog + ", position=" + position + ", key=" + key
-				+ ", createDate=" + createDate + "]";
-	}
-
-
-	
-	
 }

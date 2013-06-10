@@ -11,8 +11,8 @@ import com.hico.vish.dao.table.UserEntity;
 
 public class ArticleManager extends BaseManager<Article>{
 	
-	public void saveComment(Comment comment) {
-		((ArticleDao)dao).saveComment(comment);
+	public void addComment(Comment comment) {
+		((ArticleDao)dao).addComment(comment);
 	}
 	
 	public List<Article> getArticleList(){

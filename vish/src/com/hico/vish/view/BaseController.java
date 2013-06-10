@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
+import com.google.appengine.api.datastore.Key;
 import com.hico.vish.dao.table.AppUser;
 import com.hico.vish.dao.table.UserEntity;
 import com.hico.vish.manager.ArticleManager;
@@ -40,7 +41,7 @@ public abstract class BaseController {
 	}
 	
 	@ModelAttribute("CURRENT_USER")
-	public UserEntity retriveCurrentUser(HttpServletRequest request) {
+	public UserEntity retriveCurrentUser(Model model,HttpServletRequest request) {
 		UserEntity loginUser=null;
 		AppUser user=UserUtil.getAppUser();
 		if(!user.isLogin()) {
@@ -63,6 +64,7 @@ public abstract class BaseController {
 			}
 			session.setAttribute(userEmail, loginUser);
 		}
+		model.addAttribute(loginUser.getEmail(), loginUser);
 		return loginUser;
 	}
 	
@@ -71,15 +73,22 @@ public abstract class BaseController {
 	}
 	
 
-	protected void updateUserInSession(HttpServletRequest request,UserEntity loginUser) {
-		HttpSession session=request.getSession();
-		session.removeAttribute(loginUser.getEmail());
-		session.setAttribute(loginUser.getEmail(), loginUser);
+	protected void updateUserInSession(Model model,UserEntity loginUser) {
+		model.addAttribute(loginUser.getEmail(), loginUser);
 	}
+	
+	
+//	protected void updateUserInSession(HttpServletRequest request,UserEntity loginUser) {
+//		HttpSession session=request.getSession();
+//		session.removeAttribute(loginUser.getEmail());
+//		session.setAttribute(loginUser.getEmail(), loginUser);
+//	}
 
 	
 	protected UserEntity retrieveFlushUser(UserEntity loginUser) {
+		Key blogKey=loginUser.getCurrentBlogKey();
 		UserEntity persistent=userManager.get(loginUser.getKey());
+		persistent.setCurrentBlog(blogKey);
 		return persistent;
 	}
 }

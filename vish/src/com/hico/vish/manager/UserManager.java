@@ -10,8 +10,8 @@ public class UserManager extends BaseManager<UserEntity>{
 		return ((UserDao)dao).getUserByEmail(email);
 	}
 
-	public void addBlog(Blog blog) {
-		((UserDao)dao).addBlog(blog);
+	public UserEntity addBlog(Blog blog) {
+		return ((UserDao)dao).addBlog(blog);
 	}
 
 }

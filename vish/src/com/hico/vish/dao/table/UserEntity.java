@@ -124,7 +124,7 @@ public class UserEntity extends StatusEntity{
 	private static final String LOCKED="LOCKED";
 	
 	private List<Blog> getKindsBlogs(String kind){
-		List<Blog> kinds=new ArrayList();
+		List<Blog> kinds=new ArrayList<Blog>();
 		if(isHasBlog()) {
 			for(Blog blog:blogs) {
 				if(USABLE.equals(kind) && blog.isUsable()) {
@@ -208,20 +208,21 @@ public class UserEntity extends StatusEntity{
 	/**
 	 * @param currentBlog the currentBlog to set
 	 */
-	public synchronized void setCurrentBlog(Long blogid) {
-		if(blogid!=null && getBlogById(blogid)!=null){
-			setCurrentBlog(getBlogById(blogid));
+	public synchronized void setCurrentBlog(Long blogId) {
+		List<Blog> blogs=getUsableBlogs();
+		for (Blog blog : blogs) {
+			if(blog.getId().equals(blogId)){
+				this.currentBlog=blog;
+				break;
+			}
 		}
 	}
 	
-	public Blog getBlogById(Long blogid){
-		List<Blog> blogs=getUsableBlogs();
-		for (Blog blog : blogs) {
-			if(blog.getId().equals(blogid)){
-				return blog;
-			}
-		}
-		return null;
+	/**
+	 * @param currentBlog the currentBlog to set
+	 */
+	public synchronized void setCurrentBlog(Key blogKey) {
+		setCurrentBlog(blogKey.getId());
 	}
 	
 	public void addBlog(Blog blog) {
@@ -230,14 +231,5 @@ public class UserEntity extends StatusEntity{
 		}
 		blogs.add(blog);
 	}
-	@Override
-	public String toString() {
-		return "UserEntity [userId=" + userId + ", userName=" + userName
-				+ ", nickName=" + nickName + ", email=" + email
-				+ ", lastLogin=" + lastLogin + ", blogs=" + blogs
-				+ ", isDeleted=" + isDeleted + ", isValid=" + isValid
-				+ ", isLocked=" + isLocked + ", createDate=" + createDate+ ", hasBlog()=" + isHasBlog() + "]";
-	}
-	
 	
 }

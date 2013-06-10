@@ -8,7 +8,7 @@
 			<c:set var="currentCategoryClass" value="current"></c:set>
 		</c:if>
 		<li>
-			<a class="${currentCategoryClass}" href="${contextPath}/blog/${blog.name}/${rootcategory.name}.html">${rootcategory.name}</a>
+			<a class="${currentCategoryClass}" href="${contextPath}/blog/${blog.name}/${rootcategory.id}.html">${rootcategory.name}</a>
 		</li>
 	</c:forEach>
 </ul>

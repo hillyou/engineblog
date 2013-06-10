@@ -23,15 +23,15 @@ public class BlogManager extends BaseManager<Blog>{
 		return ((BlogDao)dao).getBlogList(user);
 	}
 
-	public void addArticle(Article article) {
-		((BlogDao)dao).addArticle(article);
+	public Blog addArticle(Article article) {
+		return ((BlogDao)dao).addArticle(article);
 	}
 
-	public void addCategory(Category category) {
-		((BlogDao)dao).addCategory(category);
+	public Blog addCategory(Category category) {
+		return ((BlogDao)dao).addCategory(category);
 	}
 	
-	public void deleteCategory(Key categoryKey,boolean isDeleteArticle) {
-		((BlogDao)dao).deleteCategory(categoryKey,isDeleteArticle);
+	public Blog deleteCategory(Key categoryKey,boolean isDeleteArticle) {
+		return ((BlogDao)dao).deleteCategory(categoryKey,isDeleteArticle);
 	}
 }

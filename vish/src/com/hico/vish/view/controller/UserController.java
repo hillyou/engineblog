@@ -28,7 +28,7 @@ public class UserController extends BaseController{
 		UserEntity user=getCurrentUser(model);
 		if(user.getCurrentBlog()!=null) {
 			Blog blog=blogManager.fetchBlogArticle(user.getCurrentBlogKey());
-			List<Article> articles=blog.getArticles();
+			List<Article> articles=blog.getUsableArticles();
 			model.addAttribute("ARTICLES", articles);
 			model.addAttribute("BLOG", blog);
 		}
@@ -42,15 +42,15 @@ public class UserController extends BaseController{
 	
 	@RequestMapping(value="/openblog",method=RequestMethod.POST)
 	public String openBlog(Blog blog,Model model,HttpServletRequest request) {
-		UserEntity persisted=getCurrentUser(model);
-		blog.setBlogger(persisted);
+		UserEntity current=getCurrentUser(model);
+		blog.setBlogger(current);
 		blog.setCreateDate(new Date());
-		String blogName=blog.getName();
+		String blogName=blog.getName().trim();
 		blog.setName(blogName.toLowerCase());
 		try{
-			userManager.addBlog(blog);
+			UserEntity persisted=userManager.addBlog(blog);
 			persisted.setCurrentBlog(blog);
-			updateUserInSession(request,retrieveFlushUser(persisted));
+			updateUserInSession(model,persisted);
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
@@ -74,6 +74,6 @@ public class UserController extends BaseController{
 	public void switchCurrentBlogWithAjax(@PathVariable Long blogid,Model model,HttpServletRequest request,HttpServletResponse response) {
 		UserEntity persisted=getCurrentUser(model);
 		persisted.setCurrentBlog(blogid);
-		updateUserInSession(request,persisted);
+		updateUserInSession(model,persisted);
 	}
 }

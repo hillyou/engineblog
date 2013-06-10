@@ -13,6 +13,7 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 
 import com.google.appengine.api.datastore.Key;
+import com.hico.vish.util.CategoryUtil;
 
 @PersistenceCapable(detachable="true")
 @Inheritance(customStrategy = "complete-table")
@@ -81,6 +82,12 @@ public class Blog extends StatusEntity{
 		return articles;
 	}
 
+	@SuppressWarnings("unchecked")
+	public List<Article> getUsableArticles() {
+		return (List<Article>) getUsableEntities(articles);
+	}
+	
+	
 	public void addArticle(Article article) {
 		if(articles==null) {
 			articles=new ArrayList<Article>();
@@ -183,28 +190,6 @@ public class Blog extends StatusEntity{
 		return root;
 	}
 	
-//	public List<Category> getAllCategories(){
-//		List<Category> allCategories=new LinkedList<Category>();
-//		if(categories!=null){
-//			for(Category category:categories){
-//				allCategories.add(category);
-////				addAllSubCategories(allCategories,category);
-//			}
-//		}
-//		return allCategories;
-//	}
-	
-	
-
-//	private void addAllSubCategories(List<Category> list,Category category){
-//		List<Category> subList=category.getSubCategories();
-//		if(subList!=null && !subList.isEmpty()){
-//			for(Category subcategory:subList){
-//				list.add(subcategory);
-//				addAllSubCategories(list,subcategory);
-//			}
-//		}
-//	}
 	
 	public Category getCategory(Key key){
 		Category re=null;
@@ -220,11 +205,11 @@ public class Blog extends StatusEntity{
 	}
 	
 	
-	public Category getCategoryByName(String name){
+	public Category getCategoryById(String categoryId){
 		Category re=null;
 		if(categories!=null){
 			for(Category category:categories){
-				if(category.getName().equals(name)){
+				if(category.getId().equals(Long.valueOf(categoryId))){
 					re=category;
 					break;
 				}
@@ -273,6 +258,9 @@ public class Blog extends StatusEntity{
 	}
 	
 	
+	public List<Article> getArticlesUnderCategory(List<Category> categories){
+		return CategoryUtil.getArticlesUnderCategory(articles, categories);
+	}
 	
 	private void getSubCategoryKey(Key key,List<Key> sub){
 		for(Category category:categories){
@@ -283,8 +271,6 @@ public class Blog extends StatusEntity{
 			}
 		}
 	}
-	
-	
 	
 	
 	/**
@@ -308,22 +294,5 @@ public class Blog extends StatusEntity{
 		this.blogger = blogger;
 	}
 	
-	public boolean isUsable() {
-		if(!isDeleted && !isLocked && isValid) {
-			return true;
-		}
-		return false;
-	}
-
-	@Override
-	public String toString() {
-		return "Blog [name=" + name + ", title=" + title + ", articles="
-				+ articles + ", categories=" + categories + ", blogger="
-				+ blogger + ", isDeleted=" + isDeleted + ", isValid=" + isValid
-				+ ", isLocked=" + isLocked + ", key=" + key + ", createDate="
-				+ createDate
-				+ ", getBlogger()=" + getBlogger() + ", isUsable()="
-				+ isUsable() + "]";
-	}
 
 }

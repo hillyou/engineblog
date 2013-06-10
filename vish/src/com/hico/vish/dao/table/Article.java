@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.jdo.annotations.Element;
+import javax.jdo.annotations.FetchGroup;
 import javax.jdo.annotations.Inheritance;
 import javax.jdo.annotations.NotPersistent;
 import javax.jdo.annotations.PersistenceCapable;
@@ -16,6 +17,7 @@ import com.google.appengine.api.datastore.Text;
 
 @PersistenceCapable(detachable="true")
 @Inheritance(customStrategy = "complete-table")
+@FetchGroup(name = "commentGroup", members = { @Persistent(name = "comments") }) 
 public class Article extends StatusEntity{
 	private static final long serialVersionUID = 3813488904204157021L;
 	@Persistent
@@ -129,9 +131,9 @@ public class Article extends StatusEntity{
 	 * @return the comments
 	 */
 	public List<Comment> getComments() {
-		if(comments!=null){
-			Collections.sort(comments);
-		}
+//		if(comments!=null){
+//			Collections.sort(comments);
+//		}
 		return comments;
 	}
 	/**
@@ -259,19 +261,12 @@ public class Article extends StatusEntity{
 	public void setCategory(Key category) {
 		this.category = category;
 	}
-
-	@Override
-	public String toString() {
-		return "Article [title=" + title + ", content=" + content
-				+ ", publishDate=" + publishDate + ", modifyDate=" + modifyDate
-				+ ", isPublished=" + isPublished + ", isOpenComment="
-				+ isOpenComment + ", keywords=" + keywords + ", author="
-				+ author + ", blog=" + blog 
-				+ ", comments=" + comments + ", category=" + category
-				+ ", isDeleted=" + isDeleted + ", isValid=" + isValid
-				+ ", isLocked=" + isLocked + ", createDate=" + createDate + "]";
+	
+	public boolean isUsable() {
+		if(!isDeleted && isValid) {
+			return true;
+		}
+		return false;
 	}
-	
-	
-	
+
  }
