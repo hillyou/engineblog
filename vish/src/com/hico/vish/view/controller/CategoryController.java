@@ -48,7 +48,7 @@ public class CategoryController extends BaseController{
 		Blog currentBlog=blogManager.get(categoryKey.getParent());
 		UserEntity owner=getCurrentUser(model);
 		owner.setCurrentBlog(currentBlog);
-		updateUserInSession(model,owner);
+		updateUserInSession(request,owner);
 		return "redirect:/admin/category/list.html";
 	}
 	
@@ -61,7 +61,7 @@ public class CategoryController extends BaseController{
 		category.setBlog(blog);
 		Blog persistent=blogManager.addCategory(category);
 		owner.setCurrentBlog(persistent);
-		updateUserInSession(model,owner);
+		updateUserInSession(request,owner);
 		return "redirect:/admin/category/list.html";
 	}
 	

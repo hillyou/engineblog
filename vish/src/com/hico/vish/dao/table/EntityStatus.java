@@ -1,4 +1,4 @@
-package com.hico.vish.view.controller;
+package com.hico.vish.dao.table;
 
 public enum EntityStatus {
 

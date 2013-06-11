@@ -11,6 +11,7 @@ import javax.jdo.annotations.Inheritance;
 import javax.jdo.annotations.NotPersistent;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
+import javax.jdo.annotations.Unique;
 
 import com.google.appengine.api.datastore.Key;
 import com.hico.vish.util.CategoryUtil;
@@ -21,13 +22,14 @@ import com.hico.vish.util.CategoryUtil;
 public class Blog extends StatusEntity{
 	private static final long serialVersionUID = -5043813840114854869L;
 	@Persistent
+	@Unique
 	private String name;
 	@Persistent
 	private String title;
 	@Persistent(defaultFetchGroup = "false",mappedBy = "blog")
 	private List<Article> articles;
 	@Persistent(defaultFetchGroup = "true",mappedBy = "blog")
-	@Element(dependent = "true") 
+	@Element(dependent = "true")
 	private List<Category> categories;
 	@Persistent
 	private UserEntity blogger;
@@ -76,9 +78,6 @@ public class Blog extends StatusEntity{
 	 * @return the articles
 	 */
 	public List<Article> getArticles() {
-		if(articles!=null && !articles.isEmpty()) {
-			Collections.sort(articles);
-		}
 		return articles;
 	}
 
@@ -172,9 +171,6 @@ public class Blog extends StatusEntity{
 	 * @return the categories
 	 */
 	public List<Category> getCategories() {
-		if(categories==null) {
-			categories=new ArrayList<Category>();
-		}
 		return categories;
 	}
 	

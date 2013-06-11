@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
-import com.google.appengine.api.datastore.Key;
 import com.hico.vish.dao.table.AppUser;
 import com.hico.vish.dao.table.UserEntity;
 import com.hico.vish.manager.ArticleManager;
@@ -17,9 +16,9 @@ import com.hico.vish.manager.UserManager;
 import com.hico.vish.util.UserUtil;
 
 public abstract class BaseController {
-
 	protected final static String REQ_ATTR_MESSAGE="MESSAGE";
 	protected final static String REQ_ATTR_CURRENT_USER="CURRENT_USER";
+	private static ThreadLocal threadLocal=new ThreadLocal();
 	
 	@Autowired
 	protected ArticleManager articleManager;
@@ -33,19 +32,12 @@ public abstract class BaseController {
 	@Autowired
 	protected BlogManager blogManager;
 	
-	private static int counter=0;
-	@ModelAttribute("CONTER")
-	public String beforeController() {
-		String counters=String.valueOf(++counter);
-		return counters;
-	}
-	
 	@ModelAttribute("CURRENT_USER")
-	public UserEntity retriveCurrentUser(Model model,HttpServletRequest request) {
+	public synchronized UserEntity retriveCurrentUser(HttpServletRequest request) {
 		UserEntity loginUser=null;
 		AppUser user=UserUtil.getAppUser();
 		if(!user.isLogin()) {
-			return loginUser;
+			return null;
 		}
 		String userEmail = user.getEmail();
 		HttpSession session=request.getSession();
@@ -64,31 +56,28 @@ public abstract class BaseController {
 			}
 			session.setAttribute(userEmail, loginUser);
 		}
-		model.addAttribute(loginUser.getEmail(), loginUser);
 		return loginUser;
 	}
 	
+	private Object getModelAttribute(Model model,Object attrName) {
+		return model.asMap().get(attrName);
+	}
+	
 	protected UserEntity getCurrentUser(Model model) {
-		return (UserEntity)model.asMap().get(REQ_ATTR_CURRENT_USER);
+		return (UserEntity)getModelAttribute(model,REQ_ATTR_CURRENT_USER);
 	}
 	
-
-	protected void updateUserInSession(Model model,UserEntity loginUser) {
-		model.addAttribute(loginUser.getEmail(), loginUser);
+	protected synchronized void updateUserInSession(HttpServletRequest request,UserEntity loginUser) {
+		HttpSession session=request.getSession();
+		session.removeAttribute(loginUser.getEmail());
+		session.setAttribute(loginUser.getEmail(), loginUser);
 	}
 	
+	public void set(Object value) {
+		threadLocal.set(value);
+	}
 	
-//	protected void updateUserInSession(HttpServletRequest request,UserEntity loginUser) {
-//		HttpSession session=request.getSession();
-//		session.removeAttribute(loginUser.getEmail());
-//		session.setAttribute(loginUser.getEmail(), loginUser);
-//	}
-
-	
-	protected UserEntity retrieveFlushUser(UserEntity loginUser) {
-		Key blogKey=loginUser.getCurrentBlogKey();
-		UserEntity persistent=userManager.get(loginUser.getKey());
-		persistent.setCurrentBlog(blogKey);
-		return persistent;
+	public Object get() {
+		return threadLocal.get();
 	}
 }

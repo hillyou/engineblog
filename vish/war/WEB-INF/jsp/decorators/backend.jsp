@@ -15,21 +15,21 @@
 <div id="header">
 	<%@ include file="../common/header.jsp" %>
 </div>
-<div id="backpage">
-	<div id="backheader">
+<div id="mainpage">
+	<div id="mainheader">
 		<jsp:include page="../backend/common/header.jsp"></jsp:include>
 	</div>
 
-	<div id="backleftpanel">
+	<div id="mainleftpanel">
 		<jsp:include page="../backend/common/leftpanel.jsp"></jsp:include>
 	</div>
-	<div id="backrightpanel">
+	<div id="mainrightpanel">
 		<jsp:include page="../backend/common/rightpanel.jsp"></jsp:include>
 	</div>
-	<div id="backbody">
+	<div id="mainbody">
 		<decorator:body></decorator:body>
 	</div>
-	<div id="backfooter">
+	<div id="mainfooter">
 		<jsp:include page="../backend/common/footer.jsp"></jsp:include>
 	</div>
 </div>

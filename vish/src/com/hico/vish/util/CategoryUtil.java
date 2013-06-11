@@ -39,7 +39,7 @@ public final class CategoryUtil {
 		List<Article> articlesUnderCategory=new ArrayList<Article>();
 		for(Category category:categories) {
 			for(Article article:articles) {
-				if(article.getCategory().equals(category.getKey())) {
+				if(category.getKey().equals(article.getCategory())) {
 					articlesUnderCategory.add(article);
 				}
 			}

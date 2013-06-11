@@ -65,7 +65,7 @@
 			<property name="paramName" value="language" />
 		</bean>
 	   <mvc:interceptor>
-	       <mvc:mapping path="/article/**"/>
+	       <mvc:mapping path="/article/showarticle/**"/>
 	       <bean class="com.hico.vish.view.interceptor.ArticleInterceptor"></bean>
 	   </mvc:interceptor>
 	</mvc:interceptors>

@@ -1,22 +1,3 @@
-body {
-	font-size: 14px;
-	font-weight: normal;
-	font-family: Arial,sans-serif;
-	background-color: #fdfdfd;
-	color: #444;
-	margin: 0px;
-	padding: 0px;
-}
-
-#header {
-/* 	border: solid #111; */
-/*	height: 20px;*/
-}
-
-#footer {
-	text-align: center;
-}
-
 a{
 	text-decoration: none;
 }

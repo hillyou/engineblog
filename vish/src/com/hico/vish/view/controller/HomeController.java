@@ -4,7 +4,6 @@ import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +16,7 @@ import com.hico.vish.view.BaseController;
 public class HomeController extends BaseController{
 
 	@RequestMapping
-	public String goToHome(HttpServletRequest request,HttpServletResponse response){
+	public String goToHome(HttpServletRequest request){
 		loadArticleList(request);
 		return "frontend/home";
 	}

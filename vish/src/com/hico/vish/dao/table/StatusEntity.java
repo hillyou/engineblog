@@ -9,8 +9,6 @@ import javax.jdo.annotations.InheritanceStrategy;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 
-import com.hico.vish.view.controller.EntityStatus;
-
 @PersistenceCapable(detachable="true")
 @Inheritance(strategy = InheritanceStrategy.SUBCLASS_TABLE)
 public abstract class StatusEntity extends BaseEntity{

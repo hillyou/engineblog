@@ -9,9 +9,9 @@ import javax.jdo.annotations.Inheritance;
 import javax.jdo.annotations.NotPersistent;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
+import javax.jdo.annotations.Unique;
 
 import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.KeyFactory;
 import com.hico.vish.util.EmailUtil;
 
 @PersistenceCapable(detachable="true")
@@ -19,17 +19,19 @@ import com.hico.vish.util.EmailUtil;
 public class UserEntity extends StatusEntity{
 	private static final long serialVersionUID = 1L;
 	@Persistent
+	@Unique
 	private String userId;
 	@Persistent
 	private String userName;
 	@Persistent
 	private String nickName;
 	@Persistent
+	@Unique
 	private String email;
 	@Persistent
 	private Date lastLogin;
 	@Persistent(defaultFetchGroup = "true",mappedBy = "blogger")
-	@Element(dependent = "true") 
+	@Element(dependent = "true")
 	private List<Blog> blogs;
 	@NotPersistent
 	private Blog currentBlog;
@@ -186,11 +188,13 @@ public class UserEntity extends StatusEntity{
 		if(isSetCurrentBlog) {
 			return this.currentBlog;
 		}
-		if(isValidBlogger()) {
-			List<Blog> blogs=getUsableBlogs();
-			if(blogs.size()>=1) {
-				this.isSetCurrentBlog=true;
-				currentBlog=blogs.get(0);
+		synchronized(this) {
+			if(isValidBlogger()) {
+				List<Blog> blogs=getUsableBlogs();
+				if(blogs.size()>=1) {
+					this.isSetCurrentBlog=true;
+					currentBlog=blogs.get(0);
+				}
 			}
 		}
 		return currentBlog;
@@ -201,8 +205,16 @@ public class UserEntity extends StatusEntity{
 	 * @param currentBlog the currentBlog to set
 	 */
 	public synchronized void setCurrentBlog(Blog currentBlog) {
+		List<Blog> usableBlogs=getUsableBlogs();
+		for (Blog blog : usableBlogs) {
+			if(blog.getKey().equals(currentBlog.getKey())){
+				blogs.remove(blog);
+				break;
+			}
+		}
+		blogs.add(currentBlog);
+		this.currentBlog=currentBlog;
 		this.isSetCurrentBlog=true;
-		this.currentBlog = currentBlog;
 	}
 	
 	/**
@@ -213,16 +225,10 @@ public class UserEntity extends StatusEntity{
 		for (Blog blog : blogs) {
 			if(blog.getId().equals(blogId)){
 				this.currentBlog=blog;
+				this.isSetCurrentBlog=true;
 				break;
 			}
 		}
-	}
-	
-	/**
-	 * @param currentBlog the currentBlog to set
-	 */
-	public synchronized void setCurrentBlog(Key blogKey) {
-		setCurrentBlog(blogKey.getId());
 	}
 	
 	public void addBlog(Blog blog) {

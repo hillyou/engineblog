@@ -3,13 +3,14 @@
 <%@ taglib prefix="ckeditor" uri="http://ckeditor.com"  %>
 <head>
 	<%@ include file="../common/include.jsp" %>
+	<link href="${contextPath}/styles/noright.css" rel="stylesheet" type="text/css"/>
 	<title>Create Article</title>
 </head>
 
 <div id="divcreatearticle">
 	<form action="${contextPath}/admin/article/savearticle.html" method="post">
-		<div>Title:<input name="title" id="title" type="text"/></div>
-		<div>Content:<textarea id="ckeditor" name="content" rows="50" cols="80"></textarea></div>
+		<div>Title:<input name="title" class="w80p" type="text"/></div>
+		<div>Content:<textarea id="ckeditor" name="content" rows="50" cols="60"></textarea></div>
 		<div>
 			<select name="category">
 			  <option value="">Please select</option>

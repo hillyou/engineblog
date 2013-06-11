@@ -7,12 +7,10 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 public class ArticleInterceptor extends HandlerInterceptorAdapter{
-
+private static int articleCount=0;
 	@Override
 	public boolean preHandle(HttpServletRequest request,
 			HttpServletResponse response, Object handler) throws Exception {
-		
-		System.out.println("ArticleInterceptor preHandle");
 		
 		return true;
 	}
@@ -23,7 +21,7 @@ public class ArticleInterceptor extends HandlerInterceptorAdapter{
 	public void postHandle(HttpServletRequest request,
 			HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
-		System.out.println("ArticleInterceptor postHandle");
+		System.out.println(++articleCount+" "+request.getRequestURL());
 	}
 	
 
@@ -31,7 +29,8 @@ public class ArticleInterceptor extends HandlerInterceptorAdapter{
 	public void afterCompletion(HttpServletRequest request,
 			HttpServletResponse response, Object handler, Exception ex)
 			throws Exception {
-		System.out.println("ArticleInterceptor afterCompletion");
+		
+		
 	}
 	
 }

@@ -15,20 +15,20 @@
 <div id="header">
 	<%@ include file="../common/header.jsp" %>
 </div>
-<div id="frontpage">
-	<div id="frontheader">
+<div id="mainpage">
+	<div id="mainheader">
 		<jsp:include page="../frontend/common/header.jsp"></jsp:include>
 	</div>
-	<div id="frontleftpanel">
+	<div id="mainleftpanel">
 		<jsp:include page="../frontend/common/leftpanel.jsp"></jsp:include>
 	</div>
-	<div id="frontrightpanel">
+	<div id="mainrightpanel">
 		<jsp:include page="../frontend/common/rightpanel.jsp"></jsp:include>
 	</div>
-	<div id="frontbody">
+	<div id="mainbody">
 		<decorator:body></decorator:body>
 	</div>
-	<div id="frontfooter">
+	<div id="mainfooter">
 		<jsp:include page="../frontend/common/footer.jsp"></jsp:include>
 	</div>
 </div>

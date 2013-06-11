@@ -1,16 +1,15 @@
 package com.hico.vish.dao.table;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
 import javax.jdo.annotations.Element;
 import javax.jdo.annotations.FetchGroup;
 import javax.jdo.annotations.Inheritance;
-import javax.jdo.annotations.NotPersistent;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
+import javax.jdo.annotations.Unique;
 
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.Text;
@@ -41,6 +40,7 @@ public class Article extends StatusEntity{
 	private Blog blog;
 	@Persistent(defaultFetchGroup = "false",mappedBy = "article")
 	@Element(dependent = "true") 
+	@Unique
 	private List<Comment> comments;
 	@Persistent
 	private Key category;

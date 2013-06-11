@@ -3,6 +3,7 @@
 <%@ taglib prefix="ckeditor" uri="http://ckeditor.com"  %>
 <head>
     <%@ include file="../common/include.jsp" %>
+    <link href="${contextPath}/styles/noright.css" rel="stylesheet" type="text/css"/>
     <title>Update Article</title>
 </head>
 
@@ -11,8 +12,8 @@
 <div>${MESSAGE}</div>
 <div>
     <form action="${contextPath}/admin/article/updatearticle.html" method="post">
-        <div>Title:<input name="title" id="title" type="text" value="${acticle.title}"/></div>
-        <div>Content:<textarea id="ckeditor" name="content" rows="50" cols="80">${acticle.contentValue}</textarea></div>
+        <div>Title:<input name="title" class="w80p" type="text" value="${acticle.title}"/></div>
+        <div>Content:<textarea id="ckeditor" name="content" rows="50" cols="60">${acticle.contentValue}</textarea></div>
         <div>
          <div>
 	        <select name="category">

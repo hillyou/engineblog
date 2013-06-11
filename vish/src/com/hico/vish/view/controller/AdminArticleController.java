@@ -75,7 +75,7 @@ public class AdminArticleController extends BaseController{
 		Article article=articleManager.get(articleKey);
 		Blog current=blogManager.get(articleKey.getParent());
 		user.setCurrentBlog(current);
-		updateUserInSession(model, user);
+		updateUserInSession(request, user);
 		model.addAttribute("ARTICLE", article);
 		return "backend/article/update";
 	}
@@ -92,7 +92,7 @@ public class AdminArticleController extends BaseController{
 		Blog persistentBlog=blogManager.addArticle(article);
 		UserEntity persistentUser=userManager.get(owner.getKey());
 		persistentUser.setCurrentBlog(persistentBlog);
-		updateUserInSession(model, persistentUser);
+		updateUserInSession(request, persistentUser);
 		model.addAttribute("ARTICLE", article);
 		model.addAttribute("MESSAGE", "Save successfully");
 		return "backend/article/update";

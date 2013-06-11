@@ -1,18 +1,16 @@
-#frontleftpanel {
+#mainleftpanel {
 	float: left;
 	width: 150px;
-	background-color: red;
 	margin: 0px 5px;
 }
 
-#frontbody {
+#mainbody {
 	padding: 0px 0px 5px 160px;
 	margin: 0px;
-	background-color: silver;
 	margin: 0px 5px;
 }
 
-#frontrightpanel {
+#mainrightpanel {
 	float: right;
 	width: 0px;
 	margin: 0px;
