@@ -3,12 +3,16 @@ package com.hico.vish.dao.table;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import javax.jdo.annotations.Element;
+import javax.jdo.annotations.Extension;
 import javax.jdo.annotations.FetchGroup;
+import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.Inheritance;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
+import javax.jdo.annotations.PrimaryKey;
 import javax.jdo.annotations.Unique;
 
 import com.google.appengine.api.datastore.Key;
@@ -40,22 +44,36 @@ public class Article extends StatusEntity{
 	private Blog blog;
 	@Persistent(defaultFetchGroup = "false",mappedBy = "article")
 	@Element(dependent = "true") 
-	@Unique
 	private List<Comment> comments;
 	@Persistent
 	private Key category;
+    @Persistent
+	private String articleId=String.valueOf(createDate.getTime());
 	
 	public Article() {
 		
 	}
 	
-	public Article(String title, String contents,Key author) {
+	public Article(String title, String contents) {
 		this.title = title;
 		this.content = new Text(contents);
-		this.author=author;
 	}
 
 	
+	/**
+	 * @return the articleId
+	 */
+	public String getArticleId() {
+		return articleId;
+	}
+
+	/**
+	 * @param articleId the articleId to set
+	 */
+	public void setArticleId(String articleId) {
+		this.articleId = articleId;
+	}
+
 	/**
 	 * @return the title
 	 */
@@ -254,7 +272,7 @@ public class Article extends StatusEntity{
 	public Key getCategory() {
 		return category;
 	}
-
+	
 	/**
 	 * @param category the category to set
 	 */

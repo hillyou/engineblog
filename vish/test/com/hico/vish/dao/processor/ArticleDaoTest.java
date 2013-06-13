@@ -99,7 +99,8 @@ public class ArticleDaoTest{
 	}
 
 	private Article getArticle(String title,String content) {
-		Article article=new Article(title,content,getUser("colin@gmail.com").getKey());
+		Article article=new Article(title,content);
+		article.setAuthor(getUser("colin@gmail.com").getKey());
 		Category cas=saveCategory();
 		Category loaded=categoryDao.get(cas.getKey().getId());
 		article.setCategory(loaded.getKey());

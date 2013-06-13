@@ -1,7 +1,6 @@
 package com.hico.vish.manager;
 
 import java.util.Collection;
-import java.util.Date;
 
 import com.hico.vish.dao.processor.BaseDao;
 import com.hico.vish.dao.table.BaseEntity;
@@ -11,7 +10,7 @@ public abstract class BaseManager<T extends BaseEntity> {
 	protected BaseDao dao;
 	
 	public void save(T t) {
-		t.setCreateDate(new Date());
+//		t.setCreateDate(new Date());
 		dao.save(t);
 	}
 	

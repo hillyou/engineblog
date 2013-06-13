@@ -70,6 +70,18 @@
 	   </mvc:interceptor>
 	</mvc:interceptors>
 
+	<bean id="urlFilenameViewController" class="org.springframework.web.servlet.mvc.UrlFilenameViewController" />
+	<bean id="handlerMapping"
+	    class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+	    <property name="mappings">
+	        <props>
+	            <prop key="/page/**">urlFilenameViewController</prop>
+	        </props>
+	    </property>
+	</bean>
+
+    <mvc:view-controller path="frontend/*" view-name="frontend/NewFile"/>
+
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="viewClass"
@@ -82,5 +94,9 @@
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		<property name="defaultEncoding" value="utf-8"></property>
 	</bean>	
+	
+	<!-- <mvc:resources location="/frontend/**" mapping="/WEB-INF/jsp/"/> -->
+	
+	<mvc:default-servlet-handler/>
 	
 </beans>

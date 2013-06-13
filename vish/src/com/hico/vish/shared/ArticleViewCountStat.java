@@ -1,19 +1,26 @@
 package com.hico.vish.shared;
 
-import javax.servlet.ServletRequest;
+import java.util.Observable;
+import java.util.Observer;
 
-public class ArticleViewCountStat implements IStatistic{
+public class ArticleViewCountStat implements IStatistic,Observer{
+	private IStatResult statResult=StatResult.getInstance();
+	@Override
+	public void update(Observable o, Object arg) {
+		stat((IUserRequest) arg);
+	}
 
 	@Override
-	public void stat(ServletRequest request) {
+	public void stat(IUserRequest request) {
 		
+		System.out.println("--------ArticleViewCountStat");
 		
 	}
 
 	@Override
-	public IStatResult getStatResult() {
-		
-		return null;
+	public Object getStatResult() {
+		return statResult.get(ResultType.ARTICLE);
 	}
 
+	
 }

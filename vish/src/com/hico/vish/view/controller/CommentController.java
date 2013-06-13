@@ -24,7 +24,7 @@ public class CommentController extends BaseController{
 		UserEntity owner=getCurrentUser(model);
 		comment.setCommentEmail(owner.getEmail());
 		comment.setCommentBy(owner.getKey());
-		comment.setCreateDate(new Date());
+//		comment.setCreateDate(new Date());
 		articleManager.addComment(comment);
 		return "redirect:/article/showarticle/{articleid}.html";
 	}

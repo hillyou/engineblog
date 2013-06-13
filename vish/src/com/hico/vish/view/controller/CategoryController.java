@@ -57,7 +57,7 @@ public class CategoryController extends BaseController{
 	public String createCategory(Category category,Model model,HttpServletRequest request){
 		UserEntity owner=getCurrentUser(model);
 		Blog blog=owner.getCurrentBlog();
-		category.setCreateDate(new Date());
+//		category.setCreateDate(new Date());
 		category.setBlog(blog);
 		Blog persistent=blogManager.addCategory(category);
 		owner.setCurrentBlog(persistent);

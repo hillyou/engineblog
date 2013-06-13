@@ -22,7 +22,7 @@ public abstract class BaseEntity implements Comparable<BaseEntity>,Serializable{
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
 	protected Key key;
 	@Persistent
-	protected Date createDate;
+	protected Date createDate=new Date();
 
 	
 	/**

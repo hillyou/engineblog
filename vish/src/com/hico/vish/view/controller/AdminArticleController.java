@@ -84,7 +84,7 @@ public class AdminArticleController extends BaseController{
 	public String saveArticle(Model model,Article article,HttpServletRequest request) {
 		UserEntity owner=getCurrentUser(model);
 		Blog currentBlog=owner.getCurrentBlog();
-		article.setCreateDate(new Date());
+//		article.setCreateDate(new Date());
 		article.setPublishDate(new Date());
 		article.setPublished(true);
 		article.setAuthor(owner.getKey());

@@ -5,6 +5,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-
+<h1> not mentained by spring mvc</h1>
 </body>
 </html>

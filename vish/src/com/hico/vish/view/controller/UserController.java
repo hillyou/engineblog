@@ -44,7 +44,7 @@ public class UserController extends BaseController{
 	public String openBlog(Blog blog,Model model,HttpServletRequest request) {
 		UserEntity current=getCurrentUser(model);
 		blog.setBlogger(current);
-		blog.setCreateDate(new Date());
+//		blog.setCreateDate(new Date());
 		String blogName=blog.getName().trim();
 		blog.setName(blogName.toLowerCase());
 		try{

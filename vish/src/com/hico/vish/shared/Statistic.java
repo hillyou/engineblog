@@ -1,19 +1,17 @@
 package com.hico.vish.shared;
 
+import java.util.Observable;
+
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 
-public class Statistic implements IStatistic{
+public class Statistic extends Observable {
 
-	@Override
 	public void stat(ServletRequest req) {
-		HttpServletRequest request=(HttpServletRequest)req;
-	}
-
-	@Override
-	public IStatResult getStatResult() {
-		
-		return null;
+		HttpServletRequest request = (HttpServletRequest) req;
+		IUserRequest userRequest=new UserRequest(request);
+		super.setChanged();
+		super.notifyObservers(userRequest);
 	}
 
 }

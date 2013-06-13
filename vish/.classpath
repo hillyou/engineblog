@@ -12,5 +12,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/apptest"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/springmock"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/common"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/log"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>
