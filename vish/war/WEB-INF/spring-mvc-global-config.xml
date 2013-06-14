@@ -70,7 +70,7 @@
 	   </mvc:interceptor>
 	</mvc:interceptors>
 
-	<bean id="urlFilenameViewController" class="org.springframework.web.servlet.mvc.UrlFilenameViewController" />
+<!-- 	<bean id="urlFilenameViewController" class="org.springframework.web.servlet.mvc.UrlFilenameViewController" />
 	<bean id="handlerMapping"
 	    class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
 	    <property name="mappings">
@@ -80,7 +80,7 @@
 	    </property>
 	</bean>
 
-    <mvc:view-controller path="frontend/*" view-name="frontend/NewFile"/>
+    <mvc:view-controller path="frontend/*" view-name="frontend/NewFile"/> -->
 
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">

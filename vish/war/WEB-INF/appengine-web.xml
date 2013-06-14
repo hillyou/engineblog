@@ -7,6 +7,11 @@
     Allows App Engine to send multiple requests to one instance in parallel:
   -->
   <threadsafe>true</threadsafe>
+  
+  <!-- inbound services -->
+  <inbound-services>
+    <service>xmpp_message</service>
+  </inbound-services>
 
   <!-- Configure serving/caching of GWT files -->
   <static-files>
