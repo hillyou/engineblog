@@ -50,6 +50,10 @@
     font-size: 11px;
 }
 
+.post .postinfo li{
+    padding-left: 0px;
+}
+
 .post .postcontent{
     font-size: 16px;
 }
