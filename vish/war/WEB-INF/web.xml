@@ -3,6 +3,7 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
               http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	version="2.5" xmlns="http://java.sun.com/xml/ns/javaee">
+	<display-name>AppEngine Blog</display-name>
     <!--
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
@@ -47,7 +48,16 @@
         <servlet-name>appstats</servlet-name>
         <url-pattern>/appstats/*</url-pattern>
     </servlet-mapping>
-    
+
+	  <servlet>
+	    <servlet-name>xmppService</servlet-name>
+	    <servlet-class>com.hico.vish.view.servlet.XmppService</servlet-class>
+	  </servlet>
+	
+	  <servlet-mapping>
+	    <servlet-name>xmppService</servlet-name>
+	    <url-pattern>/_ah/xmpp/message/*</url-pattern>
+	  </servlet-mapping>
     
     <filter>
 	     <filter-name>appstats</filter-name>
@@ -123,6 +133,7 @@
 	<security-constraint>
 		<web-resource-collection>
 		    <web-resource-name>admin</web-resource-name> 
+		    <url-pattern>/cron/*</url-pattern>
 			<url-pattern>/appstats/*</url-pattern>
 			<url-pattern>/admin/*</url-pattern>
 			<url-pattern>/admin*</url-pattern>
