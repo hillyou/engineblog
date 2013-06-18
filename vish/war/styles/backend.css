@@ -1,10 +1,31 @@
-.articlelist{
-	
+.adminlist{
+	padding-left: 10px;
 }
 
-.articlelist .articleitem li{
-   
+.adminlist ul{
+	margin-bottom: 10px;
+	padding: 10px 0;
 }
 
-.articlelist .articleitem li{
+.adminlist li{
+    float:left;
+    margin: 0 10px;
 }
+
+.adminlist .adminarticletitle{
+	width:300px;
+}
+
+.adminlist .admincategorytitle{
+	width:200px;
+}
+
+#divcreatearticle{
+	margin-right: 158px;
+}
+
+
+.adminleftitems li{
+	margin: 10px 0;
+}
+

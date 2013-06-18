@@ -10,11 +10,16 @@
 <div class="post">
     <div id="mainarticle">
        <div class="posttitle">${acticle.title}</div>
-       <div class="postinfo">
-	       <c:if test="${session_user.key eq acticle.author}">
-		   		<div><a href="${contextPath}/admin/article/updatearticle/${acticle.displayKey}.html">edit</a></div>
-		   </c:if>
+       <hr>
+       <div class="inlineitems postinfo">
+	       <ul>
+	           <li class="date"><fmt:formatDate value="${acticle.createDate}" pattern="MM/dd" /></li>
+		       <c:if test="${session_user.key eq acticle.author}">
+			   		<li><a href="${contextPath}/admin/article/updatearticle/${acticle.displayKey}.html">edit</a></li>
+			   </c:if>
+		   </ul>
 	   </div>
+	   <hr>
        <div class="bigblock postcontent">${acticle.contentValue}</div>
     </div>
     
@@ -22,9 +27,9 @@
     	<%@ include file="articlecomment.jsp" %>
     </div>
     
-    <c:if test="${acticle.openComment }">
+<%--     <c:if test="${acticle.openComment }">
     <div class="commentform">
 		<%@ include file="commentform.jsp" %>
 	</div>
-    </c:if>
+    </c:if> --%>
 </div>    

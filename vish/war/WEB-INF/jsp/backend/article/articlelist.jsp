@@ -2,11 +2,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <head>
     <%@ include file="../common/include.jsp" %>
-    <title>Article List</title>
+    <title>Manager Articles</title>
 </head>
 
 <c:set var="articles" value="${ARTICLES}"></c:set>
-<div class="inlineitems">
+<div class="inlineitems adminlist">
 	<c:forEach var="instance" items="${articles}">
         <%@ include file="articlesnippt.jsp" %>
    	</c:forEach>

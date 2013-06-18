@@ -35,6 +35,8 @@
 
 .post .posttitle{
     font-size: 24px;
+    padding-right: 10px;
+    margin-bottom: 10px;
 }
 
 .post .posttitle a{
@@ -51,11 +53,12 @@
 }
 
 .post .postinfo li{
-    padding-left: 0px;
+    padding-right: 10px;
 }
 
 .post .postcontent{
     font-size: 16px;
+    margin-top: 15px;
 }
 
 .post .postcontent a{

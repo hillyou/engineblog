@@ -1,18 +1,22 @@
 package com.hico.vish.service;
 
 import java.util.Observable;
+import java.util.Observer;
 
 import com.google.appengine.api.xmpp.Message;
 
-public abstract class MessageChecker extends Observable{
-	public void process(Message message) {
-		if(check(message)) {
-			cache(message);
+public abstract class MessageChecker implements Observer{
+	
+	@Override
+	public void update(Observable o, Object message) {
+		if(check((Message)message)) {
+			cache((Message)message);
 		}
 	}
 	
-	protected abstract boolean check(Message message);
+	protected boolean check(Message message) {
+		return true;
+	}
 	
-	protected abstract void cache(Message message);
-	
+	public abstract void cache(Message message);
 }

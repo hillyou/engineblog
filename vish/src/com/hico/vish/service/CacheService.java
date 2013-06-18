@@ -12,7 +12,7 @@ import net.sf.jsr107cache.CacheStatistics;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class CacheService {
+public final class CacheService {
 	private final static Logger LOGGER=LoggerFactory.getLogger(CacheService.class);
 //	private final static CacheService CACHE = new CacheService();
 //

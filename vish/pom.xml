@@ -21,12 +21,22 @@
 
     <dependencies>
         <!-- Compile/runtime dependencies -->
-        <dependency>
+        <!-- <dependency>
             <groupId>com.google.appengine</groupId>
             <artifactId>appengine-api-1.0-sdk</artifactId>
             <version>${appengine.target.version}</version>
-        </dependency>
-        
+        </dependency> -->
+        <dependency>
+		    <groupId>com.google.appengine</groupId>
+		    <artifactId>appengine-jsr107cache</artifactId>
+		    <version>${appengine.target.version}</version>
+		    <scope>runtime</scope>
+		</dependency>
+		<dependency>
+		    <groupId>net.sf.jsr107cache</groupId>
+		    <artifactId>jsr107cache</artifactId>
+		    <version>1.1</version>
+		</dependency>
         <dependency>
 		    <groupId>org.springframework</groupId>
 		    <artifactId>spring-aspects</artifactId>
@@ -107,22 +117,25 @@
 		    <artifactId>spring-beans</artifactId>
 		    <version>${spring.version}</version>
 		</dependency>
-
+        <!-- runtime  dependency-->
 		<dependency>
 		    <groupId>opensymphony</groupId>
 		    <artifactId>sitemesh</artifactId>
 		    <version>2.4.2</version>
+		    <scope>runtime</scope>
 		</dependency>
 		<dependency>
 		    <groupId>com.ckeditor</groupId>
 		    <artifactId>ckeditor-java-core</artifactId>
 		    <version>3.5.3</version>
+		    <scope>runtime</scope>
 		</dependency>
-		<dependency>
+		<!-- <dependency>
 		    <groupId>org.gatein.common</groupId>
 		    <artifactId>common-logging</artifactId>
 		    <version>2.1.0.Final</version>
-		</dependency>		
+		    <scope>runtime</scope>
+		</dependency>	 -->	
 
         <dependency>
             <groupId>javax.jdo</groupId>
@@ -151,12 +164,26 @@
             <groupId>jstl</groupId>
             <artifactId>jstl</artifactId>
             <version>1.2</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <version>1.7.5</version>
+            <scope>runtime</scope>
         </dependency>
+        <dependency>
+		    <groupId>org.slf4j</groupId>
+		    <artifactId>slf4j-log4j12</artifactId>
+		    <version>1.7.5</version>
+		    <scope>runtime</scope>
+		</dependency>
+        <dependency>
+		    <groupId>log4j</groupId>
+		    <artifactId>log4j</artifactId>
+		    <version>1.2.17</version>
+		    <scope>runtime</scope>
+		</dependency>
 
         <!-- Test Dependencies -->
         <dependency>
@@ -225,5 +252,26 @@
             </plugin>
         </plugins>
     </build>
+
+  <profiles>
+    <profile>
+        <id>appengine</id>
+        <repositories>
+            <repository>
+                <id>appengine</id>
+                <url>http://central</url>
+            </repository>
+        </repositories>
+<!--         <pluginRepositories>
+            <pluginRepository>
+                <id>central</id>
+                <url>http://central</url>
+                <releases><enabled>true</enabled></releases>
+                <snapshots><enabled>true</enabled></snapshots>
+            </pluginRepository>
+        </pluginRepositories> -->
+    </profile>
+  </profiles>
+  
 
 </project>

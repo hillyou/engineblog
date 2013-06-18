@@ -4,10 +4,10 @@
     <%@ include file="../common/include.jsp" %>
     <title>Manager Category</title>
 </head>
-<div class="inlineitems">
+<div class="inlineitems adminlist">
 	<c:forEach var="category" items="${session_blog.categories}">
 		<ul>
-			<li>${category.name}</li>
+			<li class="admincategorytitle">${category.name}</li>
 			<li><fmt:formatDate value="${category.createDate}" pattern="MM/dd" /></li>
 			<li><a href="${contextPath}/admin/category/new.html?parent=${category.displayKey}">Create a sub category</a></li>
 			<li><a href="${contextPath}/admin/category/del/${category.displayKey}.html">Delete</a></li>

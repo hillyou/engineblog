@@ -29,7 +29,7 @@ public class ArticleDaoTest{
 
 	private final LocalServiceTestHelper helper = new LocalServiceTestHelper(
 			new LocalDatastoreServiceTestConfig());
-	private static Logger logger=Logger.getLogger(ArticleDaoTest.class.getName());
+	private final static Logger logger=Logger.getLogger(ArticleDaoTest.class.getName());
 	@Resource(name="articleDao")
 	private ArticleDao articleDao;
 	

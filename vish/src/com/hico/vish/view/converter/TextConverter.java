@@ -9,7 +9,7 @@ public class TextConverter implements Converter<String, Text>{
 	@Override
 	public Text convert(String source) {
 		if(source==null) {
-			source="";
+			return new Text("");
 		}
 		return new Text(source);
 	}

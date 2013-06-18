@@ -7,6 +7,12 @@
     text-align: right;
 }
 
+#divlogin a{
+	padding-left: 0;
+    padding-right: 10px;
+    margin: 0;
+}
+
 .message{
 	margin-top:15%;
 	text-align: center;
@@ -25,11 +31,12 @@
 
 .inlineitems ul{
     padding: 0;
+    margin: 0;
 }
 
 .inlineitems li{
 	display: inline;
-    padding: 0 20px;
+    padding: 0 10xp;
 }
 
 .listitems ul{
@@ -39,7 +46,7 @@
 .listitems li{
     display: list-item;
     list-style:none;
-    padding: 0 0 14px 0;
+    
 }
 
 .listitems li ul{

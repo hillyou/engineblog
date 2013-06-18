@@ -18,7 +18,7 @@ body {
 }
 
 #mainpage {
-    width: 900px;
+    width: 990px;
     margin: 0 auto 0 auto;
 /*  background-color: #fbfbfb; */
 }
@@ -49,7 +49,7 @@ body {
 }
 
 #mainbody {
-    padding: 0px 160px 5px 160px;
+    padding: 0px 160px 10px 160px;
     margin: 0px;
     margin: 0px 5px;
 }

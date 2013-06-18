@@ -7,8 +7,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import net.sf.jsr107cache.Cache;
-
 import com.google.appengine.api.xmpp.JID;
 import com.google.appengine.api.xmpp.Message;
 import com.google.appengine.api.xmpp.MessageBuilder;
@@ -17,17 +15,19 @@ import com.google.appengine.api.xmpp.Presence;
 import com.google.appengine.api.xmpp.SendResponse;
 import com.google.appengine.api.xmpp.XMPPService;
 import com.google.appengine.api.xmpp.XMPPServiceFactory;
-import com.hico.vish.service.CacheService;
+import com.hico.vish.service.MessageMonitor;
+import com.hico.vish.service.MessageProcessor;
 
 public class XmppService extends HttpServlet {
 	private static final long serialVersionUID = -1911436328355288719L;
 	private XMPPService xmppService;
-	private Cache cache;
+	private MessageMonitor messageMonitor;
 
 	@Override
 	public void init() {
 		this.xmppService = XMPPServiceFactory.getXMPPService();
-		this.cache=CacheService.getCache();
+		this.messageMonitor=new MessageMonitor();
+		this.messageMonitor.addObserver(new MessageProcessor());
 	}
 
 	public void doGet(HttpServletRequest req, HttpServletResponse res)
@@ -43,6 +43,7 @@ public class XmppService extends HttpServlet {
 	public void doPost(HttpServletRequest req, HttpServletResponse res)
 			throws IOException {
 		Message message=xmppService.parseMessage(req);
+		this.messageMonitor.process(message);
 		processMessage(message, res);
 	}
 
