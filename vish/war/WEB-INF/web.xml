@@ -58,7 +58,7 @@
 	    <servlet-name>xmppService</servlet-name>
 	    <url-pattern>/_ah/xmpp/message/*</url-pattern>
 	  </servlet-mapping>
-	  
+	  <!-- 
 	  <servlet>
         <servlet-name>synchMessageService</servlet-name>
         <servlet-class>com.hico.vish.view.servlet.SynchMessageService</servlet-class>
@@ -66,8 +66,8 @@
     
       <servlet-mapping>
         <servlet-name>synchMessageService</servlet-name>
-        <url-pattern>/admin/message/synch/*</url-pattern>
-      </servlet-mapping>
+        <url-pattern>/admin/message/synch</url-pattern>
+      </servlet-mapping> -->
     
     <filter>
 	     <filter-name>appstats</filter-name>
@@ -133,7 +133,7 @@
 	<security-constraint>
 		<web-resource-collection>
 		    <web-resource-name>common</web-resource-name> 
-			<url-pattern>/user*</url-pattern>
+			<url-pattern>/user/*</url-pattern>
 		</web-resource-collection>
 		<auth-constraint>
 			<role-name>*</role-name>
@@ -146,7 +146,6 @@
 		    <url-pattern>/cron/*</url-pattern>
 			<url-pattern>/appstats/*</url-pattern>
 			<url-pattern>/admin/*</url-pattern>
-			<url-pattern>/admin*</url-pattern>
 		</web-resource-collection>
 		<auth-constraint>
 			<role-name>admin</role-name>

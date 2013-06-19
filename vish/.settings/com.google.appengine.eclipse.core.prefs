@@ -5,3 +5,4 @@ gaeDeployDialogSettings=
 gaeHrdEnabled=true
 googleCloudSqlEnabled=false
 localDevMySqlEnabled=true
+ormEnhancementInclusions=src/com/hico/vish/dao/table/|test/

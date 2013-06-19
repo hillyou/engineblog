@@ -16,18 +16,20 @@ import com.google.appengine.api.xmpp.SendResponse;
 import com.google.appengine.api.xmpp.XMPPService;
 import com.google.appengine.api.xmpp.XMPPServiceFactory;
 import com.hico.vish.service.MessageMonitor;
-import com.hico.vish.service.MessageProcessor;
+import com.hico.vish.service.MessageSaver;
 
 public class XmppService extends HttpServlet {
 	private static final long serialVersionUID = -1911436328355288719L;
 	private XMPPService xmppService;
 	private MessageMonitor messageMonitor;
+	MessageSaver messageSaver;
 
 	@Override
 	public void init() {
 		this.xmppService = XMPPServiceFactory.getXMPPService();
 		this.messageMonitor=new MessageMonitor();
-		this.messageMonitor.addObserver(new MessageProcessor());
+		this.messageSaver=new MessageSaver();
+		this.messageMonitor.addObserver(messageSaver);
 	}
 
 	public void doGet(HttpServletRequest req, HttpServletResponse res)
@@ -66,4 +68,13 @@ public class XmppService extends HttpServlet {
 
 		res.getWriter().println("processed");
 	}
+
+	@Override
+	public void destroy() {
+		this.messageSaver.flush();
+		this.messageMonitor.deleteObservers();
+		this.messageSaver=null;
+	}
+	
+	
 }

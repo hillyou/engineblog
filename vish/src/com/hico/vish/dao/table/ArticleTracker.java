@@ -12,7 +12,6 @@ private static final long serialVersionUID = 1L;
 
 private Key articleKey;
 
-private int viewCount;
 
 
 

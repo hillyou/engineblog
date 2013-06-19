@@ -1,60 +1,62 @@
 package com.hico.vish.service;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
-import net.sf.jsr107cache.Cache;
-import net.sf.jsr107cache.CacheStatistics;
+import javax.annotation.Resource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import com.google.appengine.api.xmpp.Message;
+import com.hico.vish.dao.processor.XMPPMessageDao;
 import com.hico.vish.dao.table.XMPPMessage;
+import com.hico.vish.dao.util.PMF;
 import com.hico.vish.manager.XMPPMessageManager;
 
-public class MessageSaver {
+@Service
+@Resource(name="messageSaver")
+public class MessageSaver implements Observer{
+	private static final MessageCacher INSTANCE = MessageCacher.getInstance();
 	private final static Logger LOGGER=LoggerFactory.getLogger(MessageSaver.class);
-	private static Cache messageCache=CacheService.getCache();
-	@Autowired
-	private XMPPMessageManager messageManager;
+	private static XMPPMessageManager messageManager;
 	private final static int CACHE_LIMIT_LENGTH=100;
-	private final static int CACHE_LIMIT_SIZE=20;
-	
-	public void synchCache() {
-		if(checkCahce()) {
-			saveMessages();
-		}
+//	private final static int CACHE_LIMIT_SIZE=20;
+	static{
+		XMPPMessageDao dao=new XMPPMessageDao();
+		dao.setPersistenceManagerFactory(PMF.getInstance().get());
+		messageManager=new XMPPMessageManager();
+		messageManager.setDao(dao);
 	}
-	
-	public void flush() {
+	public synchronized void flush() {
 		saveMessages();
 	}
 	
 	private void saveMessages() {
-		Set<String> messageKeys=messageCache.keySet();
-		Set<XMPPMessage> messages=new HashSet<XMPPMessage>();
-		for(String key:messageKeys) {
-			Message message=(Message)messageCache.get(key);
-			messages.add(new XMPPMessage(message));
-		}
+		List<XMPPMessage> messages=INSTANCE.getAll();
 		messageManager.saveMessages(messages);
 		LOGGER.info("{} messages have been saved",messages.size());
-		messages.removeAll(messages);
+		INSTANCE.removeAll();
 		LOGGER.debug("removing message from cache after saved into DB");
 	}
 	
 	
 	private boolean checkCahce() {
-		CacheStatistics statistics=messageCache.getCacheStatistics();
-		int count=statistics.getObjectCount();
-		int size=statistics.getStatisticsAccuracy();
-		LOGGER.debug("checking cache information, count {}, size {}",count,size);
-		if(count>CACHE_LIMIT_LENGTH || size>CACHE_LIMIT_SIZE*1024) {
+		List<XMPPMessage> messages=INSTANCE.getAll();
+		int count=messages.size();
+		LOGGER.debug("checking cache information, count {}",count);
+		if(count>CACHE_LIMIT_LENGTH ) {
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	public synchronized void update(Observable o, Object messages) {
+		if(checkCahce()) {
+			saveMessages();
+		}
 	}
 	
 }

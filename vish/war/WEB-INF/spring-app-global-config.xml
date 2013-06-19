@@ -69,6 +69,14 @@
     <bean id="blogManager" class="com.hico.vish.manager.BlogManager">
         <property name="dao" ref="blogDao"></property>
     </bean>
+    
+    <bean id="messageDao" class="com.hico.vish.dao.processor.XMPPMessageDao">
+        <property name="persistenceManagerFactory" ref="persistenceManagerFactory"></property>
+    </bean>
+    
+    <bean id="xmppMessageManager" class="com.hico.vish.manager.XMPPMessageManager">
+        <property name="dao" ref="messageDao"></property>
+    </bean>
 
 	<bean id="messageSource"
 		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
