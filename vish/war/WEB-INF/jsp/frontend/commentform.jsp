@@ -1,6 +1,6 @@
 <div id="commentmessage"></div>
 <div>
-	<form id="commentform"
+<%-- 	<form id="commentform"
 		action="${contextPath}/user/comment/addcomment.html" method="post">
 		<div>
 			<textarea name="content" id="content" rows="5" cols="60"></textarea>
@@ -11,5 +11,5 @@
 			<input type="hidden" name="commentEmail" id="commentEmail" value="${session_user.email}" />
 			<input type="submit"  value="submit"/>
 		</div>
-	</form>
+	</form> --%>
 </div>

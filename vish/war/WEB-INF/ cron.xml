@@ -5,10 +5,11 @@
     <description>Repopulate the cache every 2 minutes</description>
     <schedule>every 2 minutes</schedule>
   </cron>
+  -->
   <cron>
-    <url>/weeklyreport</url>
-    <description>Mail out a weekly report</description>
-    <schedule>every monday 08:30</schedule>
+    <url>/admin/message/flush.html</url>
+    <description>synch cache</description>
+    <schedule>every 1 minutes</schedule>
     <timezone>Asia/Chongqing</timezone>
-  </cron> -->
+  </cron> 
 </cronentries>

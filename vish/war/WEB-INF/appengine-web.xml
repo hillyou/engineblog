@@ -11,6 +11,7 @@
   <!-- inbound services -->
   <inbound-services>
     <service>xmpp_message</service>
+    <service>mail</service>
   </inbound-services>
 
   <!-- Configure serving/caching of GWT files -->

@@ -1,16 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <queue-entries>
 <!--   <queue>
-    <name>default</name>
-    <rate>1/s</rate>
-  </queue>
-  <queue>
-    <name>mail-queue</name>
-    <rate>2000/d</rate>
-    <bucket-size>10</bucket-size>
-  </queue>
-  <queue>
-    <name>background-processing</name>
-    <rate>5/s</rate>
+    <name>synch-cache</name>
+    <rate>5/m</rate>
   </queue> -->
 </queue-entries>

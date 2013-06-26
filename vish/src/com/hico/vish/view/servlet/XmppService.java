@@ -1,11 +1,19 @@
 package com.hico.vish.view.servlet;
 
 import java.io.IOException;
-import java.util.Map;
+import java.util.Properties;
 
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.appengine.api.xmpp.JID;
 import com.google.appengine.api.xmpp.Message;
@@ -20,6 +28,7 @@ import com.hico.vish.service.MessageSaver;
 
 public class XmppService extends HttpServlet {
 	private static final long serialVersionUID = -1911436328355288719L;
+	private final static Logger LOGGER=LoggerFactory.getLogger(XmppService.class);
 	private XMPPService xmppService;
 	private MessageMonitor messageMonitor;
 	MessageSaver messageSaver;
@@ -49,24 +58,25 @@ public class XmppService extends HttpServlet {
 		processMessage(message, res);
 	}
 
-	public void processMessage(Message message, HttpServletResponse res)
-			throws IOException {
-		JID fromId = message.getFromJid();
-		Presence presence = xmppService.getPresence(fromId);
-		String presenceString = presence.isAvailable() ? "" : "not ";
-		SendResponse response = xmppService.sendMessage(new MessageBuilder()
-				.withBody(
-						message.getBody() + " (you are " + presenceString
-								+ "available)").withRecipientJids(fromId)
-				.build());
-
-		for (Map.Entry<JID, SendResponse.Status> entry : response
-				.getStatusMap().entrySet()) {
-			res.getWriter().println(
-					entry.getKey() + "," + entry.getValue() + "<br>");
+	public void processMessage(Message message, HttpServletResponse res) throws IOException{
+		JID recipientJid = message.getRecipientJids()[0];
+		Presence presence = xmppService.getPresence(recipientJid);
+		try {
+			if(presence.isAvailable()) {
+				SendResponse response = xmppService.sendMessage(message);
+				if(response.getStatusMap().get(recipientJid) == SendResponse.Status.SUCCESS) {
+					res.sendRedirect("/message.html?message=Message send successfully.");
+				}else {
+					sendMail(message);
+				}
+			}else {
+				sendMail(message);
+			}
+			res.sendRedirect("/message.html?message=Message send successfully.");
+		}catch(Exception ex){
+			LOGGER.error(ex.getMessage());
+			res.sendRedirect("/message.html?message=Error when trying to processing message.");
 		}
-
-		res.getWriter().println("processed");
 	}
 
 	@Override
@@ -76,5 +86,16 @@ public class XmppService extends HttpServlet {
 		this.messageSaver=null;
 	}
 	
+	private void sendMail(Message message) throws IOException, MessagingException {
+		Properties props = new Properties();
+        Session session = Session.getDefaultInstance(props, null);
+		javax.mail.Message msg = new MimeMessage(session);
+	    msg.setFrom(new InternetAddress(message.getFromJid().getId()));
+	    msg.addRecipient(javax.mail.Message.RecipientType.TO,
+	                     new InternetAddress("hillyou@gmail.com"));
+	    msg.setSubject("Message from "+message.getFromJid().getId());
+	    msg.setText(message.getBody());
+	    Transport.send(msg);
+	}
 	
 }

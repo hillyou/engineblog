@@ -58,6 +58,26 @@
 	    <servlet-name>xmppService</servlet-name>
 	    <url-pattern>/_ah/xmpp/message/*</url-pattern>
 	  </servlet-mapping>
+	  
+	  <servlet>
+        <servlet-name>taskqueueservice</servlet-name>
+        <servlet-class>com.hico.vish.view.servlet.TaskQueueService</servlet-class>
+      </servlet>
+    
+      <servlet-mapping>
+        <servlet-name>taskqueueservice</servlet-name>
+        <url-pattern>/task/*</url-pattern>
+      </servlet-mapping>
+	  
+<!-- 	  <servlet>
+        <servlet-name>mailhandler</servlet-name>
+        <servlet-class>com.hico.vish.view.servlet.MailService</servlet-class>
+      </servlet>
+    
+      <servlet-mapping>
+        <servlet-name>mailhandler</servlet-name>
+        <url-pattern>/_ah/mail/*</url-pattern>
+      </servlet-mapping> -->
 	  <!-- 
 	  <servlet>
         <servlet-name>synchMessageService</servlet-name>
@@ -68,7 +88,24 @@
         <servlet-name>synchMessageService</servlet-name>
         <url-pattern>/admin/message/synch</url-pattern>
       </servlet-mapping> -->
-    
+      
+    <!-- !!! dev server only !!! -->    
+<!-- <filter>
+    <filter-name>_ah_DevSocketFilter</filter-name>
+    <filter-class>
+      com.google.appengine.api.socket.dev.DevSocketFilter
+    </filter-class>
+    <init-param>
+      <param-name>use-native-sockets</param-name>
+      <param-value>true</param-value>
+    </init-param>
+  </filter>
+
+  <filter-mapping>
+    <filter-name>_ah_DevSocketFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping> -->
+  
     <filter>
 	     <filter-name>appstats</filter-name>
 	     <filter-class>com.google.appengine.tools.appstats.AppstatsFilter</filter-class>
@@ -122,6 +159,7 @@
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 
+
 	<jsp-config>
 		<jsp-property-group>
 			<description>Common configuration for all the JSP's</description>
@@ -145,7 +183,7 @@
 		    <web-resource-name>admin</web-resource-name> 
 		    <url-pattern>/cron/*</url-pattern>
 			<url-pattern>/appstats/*</url-pattern>
-			<url-pattern>/admin/*</url-pattern>
+			<url-pattern>/_ah/mail/*</url-pattern>
 		</web-resource-collection>
 		<auth-constraint>
 			<role-name>admin</role-name>

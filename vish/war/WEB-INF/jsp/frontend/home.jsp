@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <head>
+    <meta property="wb:webmaster" content="b029ebc20c181342" />
 	<%@ include file="common/include.jsp" %>
 	<c:set var="articles" value="${ARTICLES}"> </c:set>
 	<title>Welcome to my blog</title>

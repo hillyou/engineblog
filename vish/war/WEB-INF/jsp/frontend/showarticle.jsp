@@ -32,4 +32,5 @@
 		<%@ include file="commentform.jsp" %>
 	</div>
     </c:if> --%>
+    <wb:comments url="auto" brandline="y" width="auto" appkey="1257707402" ralateuid="3541674877" ></wb:comments>
 </div>    

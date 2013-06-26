@@ -18,7 +18,6 @@ import com.hico.vish.dao.table.UserEntity;
 public class LoginFilter implements Filter{
 
 	private final static String FORBIDDEN_URIS="/user|/admin";
-	private final static String REQ_ATTR_MESSAGE="MESSAGE";
 	
 	@Override
 	public void init(FilterConfig config) throws ServletException {
@@ -47,13 +46,13 @@ public class LoginFilter implements Filter{
 				user=(UserEntity)usero;
 			}
 		}
-		for (String forbidden : forbiddens) {
-			if((email==null || user==null || !user.isValidBlogger()) && uri.startsWith(contextPath+forbidden)) {
-				String message="User forbidden,Click <a href=\""+contextPath+"/home.html\">here</a> go to home page.";
-				request.setAttribute(REQ_ATTR_MESSAGE, message);
-				request.getRequestDispatcher("/error.html").forward(request, response);
-//				response.sendRedirect("/error.html?MESSAGE="+message);
-				return;
+		if(uri.indexOf(("/admin/message/flush.html"))==-1) {
+			for (String forbidden : forbiddens) {
+				if((email==null || user==null || !user.isValidBlogger()) && uri.startsWith(contextPath+forbidden)) {
+					String message="User forbidden,Click <a href=\""+contextPath+"/home.html\">here</a> go to home page.";
+					response.sendRedirect("/message.html?message="+message);
+					return;
+				}
 			}
 		}
 		chain.doFilter(req, resp);
