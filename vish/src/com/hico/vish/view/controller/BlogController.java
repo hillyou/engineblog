@@ -46,7 +46,7 @@ public class BlogController extends BaseController{
 	
 	private void loadAllCategoryAndArticles(Model model){
 		Blog blog= (Blog) model.asMap().get("BLOG");
-		model.addAttribute("ARTICLES", blog.getArticles());
+		model.addAttribute("ARTICLES", blog.getUsableArticles());
 	}
 
 	private void loadCategoryAndArticles(Model model){
@@ -59,7 +59,7 @@ public class BlogController extends BaseController{
 		List<Category> all=new ArrayList<Category>();
 		all.add(currentCategory);
 		all.addAll(childCategories);
-		List<Article> categoryArticles=blog.getArticlesUnderCategory(all);
+		List<Article> categoryArticles=blog.getUsableArticlesUnderCategory(all);
 		model.addAttribute("ARTICLES", categoryArticles);
 	}
 	

@@ -13,6 +13,7 @@ import javax.jdo.annotations.Unique;
 
 import com.google.appengine.api.datastore.Key;
 import com.hico.vish.util.EmailUtil;
+import com.hico.vish.util.UserUtil;
 
 @PersistenceCapable(detachable="true")
 @Inheritance(customStrategy = "complete-table")
@@ -49,6 +50,10 @@ public class UserEntity extends StatusEntity{
 	 */
 	public void setUserName(String userName) {
 		this.userName = userName;
+	}
+	
+	public boolean isAdmin(){
+		return UserUtil.isAdmin();
 	}
 	
 	/**

@@ -19,7 +19,8 @@
 }
 
 .categorybar li a{
-    padding: 0 30px;
+    padding: 0 5px;
+    margin: 0 auto 0 auto;
 }
 
 .categorybar li:hover a, li.current a{
@@ -59,6 +60,10 @@
 .post .postcontent{
     font-size: 16px;
     margin-top: 15px;
+}
+
+.post .postcontent p{
+    text-indent: 1cm;
 }
 
 .post .postcontent a{

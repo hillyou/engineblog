@@ -26,7 +26,7 @@ public class BlogDao extends BaseDao<Blog>{
 			transaction.begin();
 			blog=persistenceManager.getObjectById(Blog.class,blogKey);
 			article.setBlog(blog);
-			blog.getArticles().add(article);
+			blog.addArticle(article);
 			transaction.commit();
 		}finally{
 			if(transaction.isActive()) {
@@ -48,7 +48,7 @@ public class BlogDao extends BaseDao<Blog>{
 			transaction.begin();
 			blog=persistenceManager.getObjectById(Blog.class,blogKey);
 			category.setBlog(blog);
-			blog.getCategories().add(category);
+			blog.addCategory(category);
 			transaction.commit();
 		}finally{
 			if(transaction.isActive()) {

@@ -20,7 +20,7 @@
 		   </ul>
 	   </div>
 	   <hr>
-       <div class="bigblock postcontent">${acticle.contentValue}</div>
+       <div class="bigblock postcontent"><article>${acticle.contentValue}</article></div>
     </div>
     
     <div class="commentlist">

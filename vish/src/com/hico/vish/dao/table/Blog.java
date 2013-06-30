@@ -258,6 +258,10 @@ public class Blog extends StatusEntity{
 		return CategoryUtil.getArticlesUnderCategory(articles, categories);
 	}
 	
+	public List<Article> getUsableArticlesUnderCategory(List<Category> categories){
+		return CategoryUtil.getArticlesUnderCategory(getUsableArticles(), categories);
+	}
+	
 	private void getSubCategoryKey(Key key,List<Key> sub){
 		for(Category category:categories){
 			if(category.getParentKey()!=null && category.getParentKey().equals(key)){
