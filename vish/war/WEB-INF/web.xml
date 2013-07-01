@@ -192,7 +192,7 @@
 
 	<!-- Default page to serve -->
 	<welcome-file-list>
-		<welcome-file>index.jsp</welcome-file>
+		<welcome-file>home.html</welcome-file>
 	</welcome-file-list>
 
 </web-app>
