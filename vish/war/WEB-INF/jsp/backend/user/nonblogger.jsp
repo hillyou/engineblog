@@ -10,6 +10,6 @@
         you were not allowed to get here.
     </c:when>
     <c:when test="${session_user.validBlogger && not session_user.hasBlog}">
-        Currenty you do not blog, click <a href="${contextPath}/admin/user/openblog.html">here</a> to crate one blog
+        Currenty you do not blog, click <a href="${contextPath}/admin/user/openblog.html">here</a> to create one blog
     </c:when>
 </c:choose>
