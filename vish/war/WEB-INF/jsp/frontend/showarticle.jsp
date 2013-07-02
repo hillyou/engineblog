@@ -9,7 +9,7 @@
 </head>
 <div class="post">
     <div id="mainarticle">
-       <div class="posttitle">${acticle.title}</div>
+       <h1 class="posttitle">${acticle.title}</h1>
        <hr>
        <div class="inlineitems postinfo">
 	       <ul>

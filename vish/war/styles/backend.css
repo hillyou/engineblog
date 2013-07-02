@@ -1,38 +1,54 @@
-.adminlist{
+.adminlist {
 	padding-left: 10px;
 }
 
-.adminlist ul{
+.adminlist ul {
 	margin-bottom: 10px;
 	padding: 10px 0;
 }
 
-.adminlist li{
-    float:left;
-    margin: 0 10px;
+.adminlist li {
+	float: left;
+	margin: 0 10px;
 }
 
-.adminlist .adminarticletitle{
-	width:300px;
+.adminlist .adminarticletitle {
+	width: 300px;
 }
 
-.adminlist .admincategorytitle{
-	width:200px;
+.adminlist .admincategorytitle {
+	width: 200px;
 }
 
-#divcreatearticle{
+#divcreatearticle {
 	margin-right: 158px;
 }
 
-
-.adminleftitems li{
+.adminleftitems li {
 	margin: 10px 0;
 }
 
-
-#userblogs select{
+.adminleftitems a {
+	padding: 5px;
 }
 
-#userblogs option{
+.adminleftitems a:link {
+	
+} /* 未被访问的链接 */
+.adminleftitems a:visited {
+	
+} /* 已被访问的链接 */
+.adminleftitems a:hover, a.current{
+	border: 1px solid #300;
+} /* 鼠标指针移动到链接上 */
+.adminleftitems a:active {
+	
+} /* 正在被点击的链接 */
+
+#userblogs select {
+	
+}
+
+#userblogs option {
 	
 }

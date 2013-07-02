@@ -23,7 +23,7 @@
     margin: 0 auto 0 auto;
 }
 
-.categorybar li:hover a, li.current a{
+.categorybar a:hover, a.current{
     background-color: #bbb;
     color: #245DC1;
 }
@@ -38,6 +38,7 @@
     font-size: 24px;
     padding-right: 10px;
     margin-bottom: 10px;
+    font-weight: normal;
 }
 
 .post .posttitle a{
