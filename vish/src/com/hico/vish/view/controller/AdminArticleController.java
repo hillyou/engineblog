@@ -1,7 +1,5 @@
 package com.hico.vish.view.controller;
 
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Date;
 import java.util.List;
 
@@ -13,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.appengine.api.datastore.Key;
 import com.hico.vish.dao.table.Article;
@@ -20,6 +19,7 @@ import com.hico.vish.dao.table.Blog;
 import com.hico.vish.dao.table.UserEntity;
 import com.hico.vish.util.KeyUtil;
 import com.hico.vish.view.BaseController;
+import com.hico.vish.view.response.ArticleJsonResponse;
 
 @Controller
 @RequestMapping(value = "/admin/article")
@@ -30,6 +30,15 @@ public class AdminArticleController extends BaseController{
 		UserEntity user=getCurrentUser(model);
 		Blog blog=blogManager.fetchBlogArticle(user.getCurrentBlogKey());
 		List<Article> articles=blog.getUsableArticles();
+		model.addAttribute("ARTICLES", articles);
+		return "backend/article/articlelist";
+	}
+	
+	@RequestMapping("/draftarticle")
+	public String showDraftArticles(Model model) {
+		UserEntity user=getCurrentUser(model);
+		Blog blog=blogManager.fetchBlogArticle(user.getCurrentBlogKey());
+		List<Article> articles=blog.getDraftArticles();
 		model.addAttribute("ARTICLES", articles);
 		return "backend/article/articlelist";
 	}
@@ -84,7 +93,6 @@ public class AdminArticleController extends BaseController{
 	public String saveArticle(Model model,Article article,HttpServletRequest request) {
 		UserEntity owner=getCurrentUser(model);
 		Blog currentBlog=owner.getCurrentBlog();
-//		article.setCreateDate(new Date());
 		article.setPublishDate(new Date());
 		article.setPublished(true);
 		article.setAuthor(owner.getKey());
@@ -100,46 +108,44 @@ public class AdminArticleController extends BaseController{
 	
 	@RequestMapping(value="/updatearticle", method=RequestMethod.POST)
 	public String updateArticle(Model model,Article article) {
-//		UserEntity owner=getCurrentUser(model);
-		//!performance issue
-//		Blog persistent=blogManager.fetchBlogArticle(owner.getCurrentBlogKey());
-//		List<Article> articles=persistent.getArticles();
-//		Article persisted=articles.get(articles.indexOf(article));
 		Article persisted=articleManager.get(article.getKey());
 		persisted.setCategory(article.getCategory());
 		persisted.setTitle(article.getTitle());
 		persisted.setContent(article.getContent());
 		persisted.setKeywords(article.getKeywords());
 		articleManager.update(persisted);
-//		blogManager.update(persistent);
 		model.addAttribute("ARTICLE", persisted);
 		model.addAttribute("MESSAGE", "Update successfully");
 		return "backend/article/update";
 	}
 	
 	@RequestMapping("/ajaxsavearticle")
-	public void saveArticleWithAjax(Model model,Article article,HttpServletRequest request,HttpServletResponse response) {
-		String message="Save successfully";
+	@ResponseBody
+	public ArticleJsonResponse saveArticleWithAjax(Model model,Article article,HttpServletRequest request) {
 		saveArticle(model,article,request);
-		try {
-			response.setContentType("text/plain");
-			PrintWriter printWriter=response.getWriter();
-			printWriter.print(message);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		ArticleJsonResponse jsonresp=new ArticleJsonResponse();
+		String message="Save successfully";
+		jsonresp.setArticleId(article.getDisplayKey());
+		jsonresp.setMessage(message);
+		return jsonresp;
+	}
+	
+	@RequestMapping(value="/ajaxsavedraft")
+	@ResponseBody
+	public ArticleJsonResponse saveDraftWithAjax(Model model,Article article,HttpServletRequest request) {
+		article.setDraft(true);
+		return saveArticleWithAjax(model,article,request);
 	}
 	
 	@RequestMapping("/ajaxupdatearticle")
-	public void updateArticleWithAjax(Model model,Article article,HttpServletResponse response) {
+	@ResponseBody
+	public ArticleJsonResponse updateArticleWithAjax(Model model,Article article) {
 		updateArticle(model,article);
-		try {
-			response.setContentType("text/plain");
-			PrintWriter printWriter=response.getWriter();
-			printWriter.print("Save successfully");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		ArticleJsonResponse jsonresp=new ArticleJsonResponse();
+		String message="Save successfully";
+		jsonresp.setArticleId(article.getDisplayKey());
+		jsonresp.setMessage(message);
+		return jsonresp;
 	}
 	
 }

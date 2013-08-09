@@ -6,8 +6,8 @@ $(document).ready(function(){
 		if(currentURL.indexOf(link)!=-1){
 			$(this).addClass("current");
 		}
-		
 	});
+	
 	
 	
 });

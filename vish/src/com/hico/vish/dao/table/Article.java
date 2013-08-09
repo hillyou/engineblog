@@ -49,6 +49,8 @@ public class Article extends StatusEntity{
 	private Key category;
     @Persistent
 	private String articleId=String.valueOf(createDate.getTime());
+    @Persistent
+    private boolean isDraft;
 	
 	public Article() {
 		
@@ -231,34 +233,6 @@ public class Article extends StatusEntity{
 		this.blog = blog;
 	}
 
-//	/**
-//	 * @return the categoryId
-//	 */
-//	public Key getCategoryId() {
-//		return categoryId;
-//	}
-//
-//	/**
-//	 * @param categoryId the categoryId to set
-//	 */
-//	public void setCategoryId(Key categoryId) {
-//		this.categoryId = categoryId;
-//		setPersistCategory(categoryId);
-//	}
-	
-//	private void setPersistCategory(Key newkey) {
-//		if(newkey!=null && blog!=null && blog.getCategories()!=null) {
-//			List<Category> categories=blog.getCategories();
-//			for (Category category : categories) {
-//				if(category.getKey().equals(newkey)) {
-//					this.category=category;
-//					break;
-//				}
-//			}
-//		}
-//	}
-	
-	
 	public void addComment(Comment comment) {
 		if(comments==null) {
 			comments=new ArrayList<Comment>();
@@ -281,10 +255,25 @@ public class Article extends StatusEntity{
 	}
 	
 	public boolean isUsable() {
-		if(!isDeleted && isValid) {
+		if(!isDeleted && isValid && !isDraft) {
 			return true;
 		}
 		return false;
 	}
 
+	/**
+	 * @return the isDraft
+	 */
+	public boolean isDraft() {
+		return isDraft;
+	}
+
+	/**
+	 * @param isDraft the isDraft to set
+	 */
+	public void setDraft(boolean isDraft) {
+		this.isDraft = isDraft;
+	}
+
+	
  }

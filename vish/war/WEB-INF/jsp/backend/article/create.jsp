@@ -4,6 +4,7 @@
 <head>
 	<%@ include file="../common/include.jsp" %>
 	<link href="${contextPath}/styles/noright.css" rel="stylesheet" type="text/css"/>
+    <script src="${contextPath}/js/autosave.js" type="text/javascript" ></script>
 	<title>Create Article</title>
 </head>
 
@@ -23,6 +24,8 @@
 		  <input type="text" id="keywords" name="keywords">
 		</div>
 		<div>
+		  <input type="hidden" id="key" name="key" value="">
+		  <input type="hidden" id="updateurl" value="${contextPath}/admin/article/createarticle.html">
 		  <input type="submit"/>
 		</div>
 	</form>

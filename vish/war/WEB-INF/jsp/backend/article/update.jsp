@@ -4,14 +4,15 @@
 <head>
     <%@ include file="../common/include.jsp" %>
     <link href="${contextPath}/styles/noright.css" rel="stylesheet" type="text/css"/>
+    <script src="${contextPath}/js/autosave.js" type="text/javascript" ></script>
     <title>Update Article</title>
 </head>
 
 <c:set var="acticle" value="${ARTICLE}"></c:set>
-<div><a href="${contextPath}/admin/article/createarticle.html">write another article</a></div>
+<%-- <div><a href="${contextPath}/admin/article/createarticle.html">write another article</a></div> --%>
 <div>${MESSAGE}</div>
 <div id="divcreatearticle">
-    <form action="${contextPath}/admin/article/updatearticle.html" method="post">
+    <form action="${contextPath}/admin/article/updatearticle.html" method="post" id="articleform">
         <div>Title:<input name="title" class="w80p" type="text" value="${acticle.title}"/></div>
         <div>Content:<textarea id="ckeditor" name="content" rows="50" cols="60">${acticle.contentValue}</textarea></div>
         <div>

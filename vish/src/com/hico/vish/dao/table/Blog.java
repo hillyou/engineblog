@@ -1,14 +1,12 @@
 package com.hico.vish.dao.table;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
 import javax.jdo.annotations.Element;
 import javax.jdo.annotations.FetchGroup;
 import javax.jdo.annotations.Inheritance;
-import javax.jdo.annotations.NotPersistent;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.Unique;
@@ -293,6 +291,21 @@ public class Blog extends StatusEntity{
 	public void setBlogger(UserEntity blogger) {
 		this.blogger = blogger;
 	}
-	
+
+	/**
+	 * @return the draftArticles
+	 */
+	public List<Article> getDraftArticles() {
+		List<Article> drafts=new ArrayList();
+		if(articles!=null) {
+			for(Article article:articles) {
+				if(article.isDraft()) {
+					drafts.add(article);
+				}
+			}
+		}
+		return drafts;
+	}
+
 
 }
