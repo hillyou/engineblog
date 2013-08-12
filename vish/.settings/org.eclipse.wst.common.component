@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project-modules id="moduleCoreId" project-version="1.5.0">
-    <wb-module deploy-name="vish">
-        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
-        <wb-resource deploy-path="/test-classes" source-path="/test"/>
-        <property name="context-root" value="vish"/>
-        <property name="java-output-path" value="/vish/target/classes"/>
-    </wb-module>
-</project-modules>
