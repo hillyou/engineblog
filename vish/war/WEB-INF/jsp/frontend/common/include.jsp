@@ -1,2 +1,0 @@
-<%@ include file="pagevar.jsp" %>
-
