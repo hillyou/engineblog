@@ -10,7 +10,7 @@ import com.google.appengine.api.xmpp.Message;
 @PersistenceCapable(detachable = "true")
 @Inheritance(customStrategy = "complete-table")
 public class XMPPMessage extends StatusEntity {
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 7425401597278149771L;
 	@Persistent
 	private String fromId;
 	@Persistent
