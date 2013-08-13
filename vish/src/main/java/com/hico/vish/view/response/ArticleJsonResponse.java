@@ -1,6 +1,9 @@
 package com.hico.vish.view.response;
 
-public class ArticleJsonResponse {
+import java.io.Serializable;
+
+public class ArticleJsonResponse implements Serializable{
+	private static final long serialVersionUID = -6681001282301365842L;
 
 	private String articleId;
 	

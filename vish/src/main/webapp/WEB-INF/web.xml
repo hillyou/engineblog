@@ -24,7 +24,7 @@
 			<param-name>contextConfigLocation</param-name>
 			<param-value>
 			     /WEB-INF/spring-app-global-config.xml,
-                /WEB-INF/spring-mvc-global-config.xml
+			     /WEB-INF/spring-mvc-global-config.xml
             </param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
@@ -118,7 +118,7 @@
         <filter-name>appstats</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
-    <filter>
+    <!-- <filter>
         <filter-name>encodingFilter</filter-name>
         <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
         <init-param>
@@ -133,23 +133,23 @@
     <filter-mapping>
         <filter-name>encodingFilter</filter-name>
         <url-pattern>/*</url-pattern>
-    </filter-mapping>
-	<filter>
+    </filter-mapping> -->
+<!-- 	<filter>
         <filter-name>statFilter</filter-name>
         <filter-class>com.hico.vish.view.filter.StatFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>statFilter</filter-name>
         <url-pattern>/*</url-pattern>
-    </filter-mapping>
-	<filter>
+    </filter-mapping> -->
+<!-- 	<filter>
         <filter-name>loginFilter</filter-name>
         <filter-class>com.hico.vish.view.filter.LoginFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>loginFilter</filter-name>
         <url-pattern>/*</url-pattern>
-    </filter-mapping>
+    </filter-mapping> -->
 	<filter>
 		<filter-name>sitemesh</filter-name>
 		<filter-class>com.opensymphony.module.sitemesh.filter.PageFilter</filter-class>

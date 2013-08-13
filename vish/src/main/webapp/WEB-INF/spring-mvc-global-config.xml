@@ -13,26 +13,26 @@
 	</context:component-scan>
 
     <mvc:annotation-driven conversion-service="conversionService">
-		<mvc:message-converters register-defaults="false">
+<!-- 		<mvc:message-converters>
 			<bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter" />
-		</mvc:message-converters>
+		</mvc:message-converters> -->
 	</mvc:annotation-driven>
 
-    <bean
+<!--     <bean
         class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
         <property name="messageConverters">
             <list>
                 <bean
-                    class="org.springframework.http.converter.StringHttpMessageConverter">
+                    class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
                     <property name="supportedMediaTypes">
                         <list>
-                            <value>text/html;charset=UTF-8</value>
+                            <value>text/html</value>
                         </list>
                     </property>
                 </bean>
             </list>
         </property>
-    </bean>
+    </bean> -->
 
    <!--  <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping">
     </bean> -->
@@ -74,7 +74,7 @@
 		<property name="defaultLocale" value="en" />
 	</bean>
 
-	<mvc:interceptors>
+<!-- 	<mvc:interceptors>
 	   <bean class="com.hico.vish.view.interceptor.BaseInterceptor"></bean>
 		<bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
 			<property name="paramName" value="language" />
@@ -83,7 +83,7 @@
 	       <mvc:mapping path="/article/showarticle/**"/>
 	       <bean class="com.hico.vish.view.interceptor.ArticleInterceptor"></bean>
 	   </mvc:interceptor>
-	</mvc:interceptors>
+	</mvc:interceptors> -->
 
 <!-- 	<bean id="urlFilenameViewController" class="org.springframework.web.servlet.mvc.UrlFilenameViewController" />
 	<bean id="handlerMapping"

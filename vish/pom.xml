@@ -14,8 +14,8 @@
     
     	<downloadSources>true</downloadSources>
         <appengine.app.version>2</appengine.app.version>
-        <spring.version>3.1.4.RELEASE</spring.version>
-        <appengine.target.version>1.8.1</appengine.target.version>
+        <spring.version>3.2.4.RELEASE</spring.version>
+        <appengine.target.version>1.8.3</appengine.target.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -30,7 +30,6 @@
 		    <groupId>com.google.appengine</groupId>
 		    <artifactId>appengine-jsr107cache</artifactId>
 		    <version>${appengine.target.version}</version>
-		    <scope>runtime</scope>
 		</dependency>
 		<dependency>
 		    <groupId>net.sf.jsr107cache</groupId>
@@ -41,6 +40,11 @@
 		    <groupId>org.springframework</groupId>
 		    <artifactId>spring-aspects</artifactId>
 		    <version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+			<version>${spring.version}</version>
 		</dependency>
 		<!-- <dependency>
 		    <groupId>org.springframework</groupId>
@@ -54,11 +58,6 @@
 		</dependency>
 		<dependency>
 		    <groupId>org.springframework</groupId>
-		    <artifactId>spring-orm</artifactId>
-		    <version>${spring.version}</version>
-		</dependency>
-		<dependency>
-		    <groupId>org.springframework</groupId>
 		    <artifactId>spring-instrument</artifactId>
 		    <version>${spring.version}</version>
 		</dependency> -->
@@ -68,9 +67,9 @@
 		    <version>${spring.version}</version>
 		</dependency>
         <dependency>
-            <groupId>org.codehaus.jackson</groupId>
-            <artifactId>jackson-mapper-asl</artifactId>
-            <version>1.9.11</version>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.2.2</version>
         </dependency>
 <!-- 		<dependency>
 		    <groupId>org.springframework</groupId>
@@ -152,12 +151,12 @@
             <version>${appengine.target.version}</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
+<!--         <dependency>
             <groupId>com.google.appengine</groupId>
             <artifactId>appengine-api-stubs</artifactId>
             <version>${appengine.target.version}</version>
             <scope>test</scope>
-        </dependency>
+        </dependency> -->
         <dependency>
 		    <groupId>org.springframework</groupId>
 		    <artifactId>spring-test</artifactId>
