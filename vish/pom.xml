@@ -151,12 +151,11 @@
             <version>${appengine.target.version}</version>
             <scope>test</scope>
         </dependency>
-<!--         <dependency>
-            <groupId>com.google.appengine</groupId>
-            <artifactId>appengine-api-stubs</artifactId>
-            <version>${appengine.target.version}</version>
-            <scope>test</scope>
-        </dependency> -->
+		<dependency>
+		    <groupId>com.google.appengine</groupId>
+		    <artifactId>appengine-api-stubs</artifactId>
+		    <version>${appengine.target.version}</version>
+		</dependency>
         <dependency>
 		    <groupId>org.springframework</groupId>
 		    <artifactId>spring-test</artifactId>
@@ -219,6 +218,6 @@
         </pluginRepositories> -->
     </profile>
   </profiles>
-  
-
 </project>
+
+<!-- mvn install:install-file -DgroupId=com.google.appengine -DartifactId=appengine-api-stubs -Dpackaging=jar -Dversion=1.8.3 -Dfile=appengine-api-stubs-1.8.3.jar -DgeneratePom=true -->
