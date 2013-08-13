@@ -1,0 +1,60 @@
+appengine:backends_configure
+  Description: Configure the specified backend.
+
+appengine:backends_delete
+  Description: Delete the specified backend.
+
+appengine:backends_rollback
+  Description: Roll back a previously in-progress update.
+
+appengine:backends_start
+  Description: Start the specified backend.
+
+appengine:backends_stop
+  Description: Stop the specified backend.
+
+appengine:backends_update
+  Description: Update the specified backend or all backends.
+
+appengine:devserver
+  Description: Runs the App Engine development server.
+
+appengine:devserver_start
+  Description: Starts the App Engine development server and does not wait.
+
+appengine:devserver_stop
+  Description: Stops the App Engine development server.
+
+appengine:endpoints_get_client_lib
+  Description: App Engine endpoints get-client-lib ... command.
+
+appengine:endpoints_get_discovery_doc
+  Description: App Engine endpoints gen-api-config and gen-discovery-doc
+    combined commands.
+
+appengine:enhance
+  Description: Runs the datanucleus enhancer.
+
+appengine:rollback
+  Description: Rollback an in-progress update.
+
+appengine:set_default_version
+  Description: Set the default serving version.
+
+appengine:update
+  Description: Create or update an app version.
+
+appengine:update_cron
+  Description: Update application cron jobs.
+
+appengine:update_dos
+  Description: Update application DoS protection configuration.
+
+appengine:update_indexes
+  Description: Update application indexes.
+
+appengine:update_queues
+  Description: Update application task queue definitions.
+
+appengine:vacuum_indexes
+  Description: Delete unused indexes from application.
