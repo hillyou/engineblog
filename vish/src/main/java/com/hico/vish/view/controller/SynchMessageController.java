@@ -16,14 +16,14 @@ import com.hico.vish.service.MessageSaver;
 @RequestMapping(value = {"/admin/message/flush"})
 public class SynchMessageController {
 	private final static Logger LOGGER=LoggerFactory.getLogger(SynchMessageController.class);
-	@Autowired
-	private MessageSaver messageSaver;
+//	@Autowired
+//	private MessageSaver messageSaver;
 
 	@RequestMapping
 	public void flush(HttpServletResponse response) {
 		try {
 			LOGGER.info("flush messages from cache into database");
-			messageSaver.flush();
+//			messageSaver.flush();
 			response.getWriter().println("flush succefully");
 		} catch (IOException e) {
 			LOGGER.error(e.getMessage());

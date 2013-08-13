@@ -17,6 +17,7 @@ public class Category extends BaseEntity{
 	@Persistent(defaultFetchGroup = "true")
 	private Sequence position;
 	
+	
 	public Category() {
 	}
 	

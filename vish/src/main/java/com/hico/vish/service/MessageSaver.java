@@ -4,19 +4,16 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.annotation.Resource;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
 
 import com.hico.vish.dao.processor.XMPPMessageDao;
 import com.hico.vish.dao.table.XMPPMessage;
 import com.hico.vish.dao.util.PMF;
 import com.hico.vish.manager.XMPPMessageManager;
 
-@Service
-@Resource(name="messageSaver")
+/*@Service
+@Resource(name="messageSaver")*/
 public class MessageSaver implements Observer{
 	private static final MessageCacher INSTANCE = MessageCacher.getInstance();
 	private final static Logger LOGGER=LoggerFactory.getLogger(MessageSaver.class);
