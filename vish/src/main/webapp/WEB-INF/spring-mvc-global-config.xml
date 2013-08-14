@@ -1,123 +1,85 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
-	xmlns:context="http://www.springframework.org/schema/context"
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:context="http://www.springframework.org/schema/context"
 	xsi:schemaLocation="http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
 		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
 
 	<context:component-scan base-package="com.hico.vish.**.controller">
-		<context:include-filter type="annotation"
-			expression="org.springframework.stereotype.Controller" />
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
 	</context:component-scan>
 
-    <mvc:annotation-driven conversion-service="conversionService">
-		<mvc:message-converters>
-			<bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter" >
-		       <property name="supportedMediaTypes">
-                    <list>
-                        <value>json</value>
-                    </list>
-                </property>
+	<mvc:annotation-driven conversion-service="conversionService" content-negotiation-manager="contentNegotiationManager">
+		<mvc:message-converters register-defaults="false">
+			<bean class="org.springframework.http.converter.StringHttpMessageConverter">
+				<property name="supportedMediaTypes" value="text/plain;charset=UTF-8" />
 			</bean>
+			<bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter" />
 		</mvc:message-converters>
 	</mvc:annotation-driven>
 
-    <!-- <bean
-        class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
-        <property name="messageConverters">
-            <list>
-                <bean
-                    class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
-                    <property name="supportedMediaTypes">
-                        <list>
-                            <value>text/html</value>
-                        </list>
-                    </property>
-                </bean>
-            </list>
-        </property>
-    </bean> -->
+	<bean id="contentNegotiationManager" class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
+		<property name="favorPathExtension" value="false" />
+		<property name="favorParameter" value="false" />
+		<property name="ignoreAcceptHeader" value="false" />
+		<property name="mediaTypes">
+			<value>
+				atom=application/atom+xml
+				html=text/html
+				json=application/json
+				*=*/*
+			</value>
+		</property>
+	</bean>
 
-   <!--  <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping">
-    </bean> -->
+	<!-- <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter"> <property name="messageConverters"> 
+		<list> <bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter"> <property name="supportedMediaTypes"> 
+		<list> <value>text/html</value> </list> </property> </bean> </list> </property> </bean> -->
 
-<!--     <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
-        <property name="customArgumentResolvers">
-              <list>
-                    <bean class="com.hico.vish.view.converter.ArticleResolver"></bean>
-              </list>
-        </property>
-        <property name="messageConverters">
-            <list>
-                <bean
-                    class="org.springframework.http.converter.StringHttpMessageConverter">
-                    <property name="supportedMediaTypes">
-                        <list>
-                            <value>text/html;charset=UTF-8</value>
-                        </list>
-                    </property>
-                </bean>
-            </list>
-        </property>
-    </bean> -->
+	<!-- <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"> </bean> -->
 
-	<bean id="conversionService"
-        class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
-        <property name="converters">
-            <list>
-                <bean class="com.hico.vish.view.converter.KeyConverter" />
-                <bean class="com.hico.vish.view.converter.TextConverter" />
-                <bean class="com.hico.vish.view.converter.ArticleConverter" />
-                <bean class="com.hico.vish.view.converter.CategoryConverter" />
-            </list>
-        </property>
-    </bean>
+	<!-- <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter"> <property name="customArgumentResolvers"> 
+		<list> <bean class="com.hico.vish.view.converter.ArticleResolver"></bean> </list> </property> <property name="messageConverters"> 
+		<list> <bean class="org.springframework.http.converter.StringHttpMessageConverter"> <property name="supportedMediaTypes"> 
+		<list> <value>text/html;charset=UTF-8</value> </list> </property> </bean> </list> </property> </bean> -->
 
-	<bean id="localeResolver"
-		class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
+	<bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+		<property name="converters">
+			<list>
+				<bean class="com.hico.vish.view.converter.KeyConverter" />
+				<bean class="com.hico.vish.view.converter.TextConverter" />
+				<bean class="com.hico.vish.view.converter.ArticleConverter" />
+				<bean class="com.hico.vish.view.converter.CategoryConverter" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
 		<property name="defaultLocale" value="en" />
 	</bean>
 
-<!-- 	<mvc:interceptors>
-	   <bean class="com.hico.vish.view.interceptor.BaseInterceptor"></bean>
-		<bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
-			<property name="paramName" value="language" />
-		</bean>
-	   <mvc:interceptor>
-	       <mvc:mapping path="/article/showarticle/**"/>
-	       <bean class="com.hico.vish.view.interceptor.ArticleInterceptor"></bean>
-	   </mvc:interceptor>
-	</mvc:interceptors> -->
+	<!-- <mvc:interceptors> <bean class="com.hico.vish.view.interceptor.BaseInterceptor"></bean> <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor"> 
+		<property name="paramName" value="language" /> </bean> <mvc:interceptor> <mvc:mapping path="/article/showarticle/**"/> <bean 
+		class="com.hico.vish.view.interceptor.ArticleInterceptor"></bean> </mvc:interceptor> </mvc:interceptors> -->
 
-<!-- 	<bean id="urlFilenameViewController" class="org.springframework.web.servlet.mvc.UrlFilenameViewController" />
-	<bean id="handlerMapping"
-	    class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
-	    <property name="mappings">
-	        <props>
-	            <prop key="/page/**">urlFilenameViewController</prop>
-	        </props>
-	    </property>
-	</bean>
+	<!-- <bean id="urlFilenameViewController" class="org.springframework.web.servlet.mvc.UrlFilenameViewController" /> <bean 
+		id="handlerMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping"> <property name="mappings"> <props> 
+		<prop key="/page/**">urlFilenameViewController</prop> </props> </property> </bean> <mvc:view-controller path="frontend/*" 
+		view-name="frontend/NewFile"/> -->
 
-    <mvc:view-controller path="frontend/*" view-name="frontend/NewFile"/> -->
-
-	<bean id="viewResolver"
-		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<property name="viewClass"
-			value="org.springframework.web.servlet.view.JstlView" />
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
 		<property name="prefix" value="/WEB-INF/jsp/" />
 		<property name="suffix" value=".jsp" />
 	</bean>
-	
-	<bean id="multipartResolver"
-		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		<property name="defaultEncoding" value="utf-8"></property>
-	</bean>	
-	
+	</bean>
+
 	<!-- <mvc:resources location="/frontend/**" mapping="/WEB-INF/jsp/"/> -->
-	
-	<mvc:default-servlet-handler/>
-	
+
+	<mvc:default-servlet-handler />
+
 </beans>

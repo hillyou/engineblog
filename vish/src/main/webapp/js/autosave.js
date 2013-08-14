@@ -24,7 +24,5 @@ $(document).ready(function() {
 			alert(jsonresp.articleId+" <> " + jsonresp.message);
 		});
 	}
-	
-	saveDraft();
-	/*setInterval(saveDraft, 60000);*/
+	setInterval(saveDraft, 60000);
 });

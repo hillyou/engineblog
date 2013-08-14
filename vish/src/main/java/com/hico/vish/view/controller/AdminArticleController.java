@@ -9,7 +9,6 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -131,17 +130,12 @@ public class AdminArticleController extends BaseController{
 		return jsonresp;
 	}
 	
-	@RequestMapping(value="/ajaxsavedraft")
+	@RequestMapping(value="/ajaxsavedraft",produces="application/json;charset=UTF-8")
 	@ResponseBody
-	public ArticleJsonResponse saveDraftWithAjax() {
+	public ArticleJsonResponse saveDraftWithAjax(Model model,Article article,HttpServletRequest request) {
 		LOGGER.info("ajax saving draft article");
-//		article.setDraft(true);
-//		 saveArticleWithAjax(model,article,request);
-		ArticleJsonResponse jsonresp=new ArticleJsonResponse();
-		String message="Save successfully";
-		jsonresp.setArticleId("dddd");
-		jsonresp.setMessage(message);
-		return jsonresp;
+		article.setDraft(true);
+		return saveArticleWithAjax(model,article,request);
 	}
 	
 	@RequestMapping("/ajaxupdatearticle")
