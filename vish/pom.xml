@@ -23,18 +23,18 @@
     <dependencies>
         <!-- Compile/runtime dependencies -->
        
-<!--         <dependency>
+       <!--  <dependency>
             <groupId>com.google.appengine</groupId>
             <artifactId>appengine-java-sdk</artifactId>
             <version>${appengine.target.version}</version>
-        </dependency> --> 
-              
-       <dependency>
+        </dependency>  -->
+        
+            
+        <dependency>
             <groupId>com.google.appengine</groupId>
             <artifactId>appengine-api-1.0-sdk</artifactId>
             <version>${appengine.target.version}</version>
-        </dependency>
-
+        </dependency> 
         <dependency>
 		    <groupId>com.google.appengine</groupId>
 		    <artifactId>appengine-jsr107cache</artifactId>
@@ -45,6 +45,7 @@
 		    <artifactId>jsr107cache</artifactId>
 		    <version>1.1</version>
 		</dependency>
+		
         <dependency>
 		    <groupId>org.springframework</groupId>
 		    <artifactId>spring-aspects</artifactId>
@@ -178,7 +179,7 @@
             <version>1.9.0</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
+       <!--  <dependency>
             <groupId>com.google.appengine</groupId>
             <artifactId>appengine-testing</artifactId>
             <version>${appengine.target.version}</version>
@@ -189,7 +190,7 @@
 		    <artifactId>appengine-api-stubs</artifactId>
 		    <version>${appengine.target.version}</version>
 		     <scope>test</scope>
-		</dependency>
+		</dependency> -->
         <dependency>
 		    <groupId>org.springframework</groupId>
 		    <artifactId>spring-test</artifactId>
@@ -242,14 +243,16 @@
                 <url>http://central</url>
             </repository>
         </repositories>
-<!--         <pluginRepositories>
+		<!--
+         <pluginRepositories>
             <pluginRepository>
-                <id>central</id>
+                <id>mvnrepository</id>
                 <url>http://central</url>
                 <releases><enabled>true</enabled></releases>
                 <snapshots><enabled>true</enabled></snapshots>
             </pluginRepository>
-        </pluginRepositories> -->
+        </pluginRepositories> 
+		-->			
     </profile>
   </profiles>
 </project>
