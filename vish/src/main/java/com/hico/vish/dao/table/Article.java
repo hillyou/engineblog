@@ -270,5 +270,17 @@ public class Article extends StatusEntity{
 		this.isDraft = isDraft;
 	}
 
-	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Article [title=" + title + ", content=" + content
+				+ ", publishDate=" + publishDate + ", modifyDate=" + modifyDate
+				+ ", isPublished=" + isPublished + ", isOpenComment="
+				+ isOpenComment + ", keywords=" + keywords + ", comments="
+				+ comments + ", category=" + category + ", articleId="
+				+ articleId + ", isDraft=" + isDraft + "]";
+	}
+
  }
