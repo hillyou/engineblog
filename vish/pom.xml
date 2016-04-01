@@ -11,7 +11,7 @@
     <artifactId>vish</artifactId>
 
     <properties>
-    	<downloadSources>true</downloadSources>
+        <downloadSources>true</downloadSources>
         <appengine.app.version>2</appengine.app.version>
         <spring.version>3.2.4.RELEASE</spring.version>
         <appengine.target.version>1.8.3</appengine.target.version>
@@ -22,112 +22,112 @@
     <dependencies>
         <!-- Compile/runtime dependencies -->
        
-<!--         <dependency>
+        <!--         <dependency>
             <groupId>com.google.appengine</groupId>
             <artifactId>appengine-java-sdk</artifactId>
             <version>${appengine.target.version}</version>
         </dependency> --> 
               
-       <dependency>
+        <dependency>
             <groupId>com.google.appengine</groupId>
             <artifactId>appengine-api-1.0-sdk</artifactId>
             <version>${appengine.target.version}</version>
         </dependency>
 
         <dependency>
-		    <groupId>com.google.appengine</groupId>
-		    <artifactId>appengine-jsr107cache</artifactId>
-		    <version>${appengine.target.version}</version>
-		</dependency>
-		<dependency>
-		    <groupId>net.sf.jsr107cache</groupId>
-		    <artifactId>jsr107cache</artifactId>
-		    <version>1.1</version>
-		</dependency>
+            <groupId>com.google.appengine</groupId>
+            <artifactId>appengine-jsr107cache</artifactId>
+            <version>${appengine.target.version}</version>
+        </dependency>
         <dependency>
-		    <groupId>org.springframework</groupId>
-		    <artifactId>spring-aspects</artifactId>
-		    <version>${spring.version}</version>
-		</dependency>
- 		<dependency>
+            <groupId>net.sf.jsr107cache</groupId>
+            <artifactId>jsr107cache</artifactId>
+            <version>1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aspects</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
             <groupId>com.google.appengine.orm</groupId>
             <artifactId>datanucleus-appengine</artifactId>
             <version>2.1.2</version>
         </dependency> 
-		<dependency>
+        <dependency>
             <groupId>org.datanucleus</groupId>
             <artifactId>datanucleus-core</artifactId>
             <version>${datanucleus.version}</version>
         </dependency>
-		<dependency>
-			<groupId>org.datanucleus</groupId>
-		    <artifactId>datanucleus-api-jdo</artifactId>
-		    <version>${datanucleus.version}</version>
-	    </dependency>
-	    <dependency>
-		    <groupId>org.datanucleus</groupId>
-		    <artifactId>datanucleus-rdbms</artifactId>
-		    <version>${datanucleus.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-orm</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
-		<!-- <dependency>
-		    <groupId>org.springframework</groupId>
-		    <artifactId>spring-jms</artifactId>
-		    <version>${spring.version}</version>
-		</dependency>
-		<dependency>
-		    <groupId>org.springframework</groupId>
-		    <artifactId>spring-oxm</artifactId>
-		    <version>${spring.version}</version>
-		</dependency>
-		<dependency>
-		    <groupId>org.springframework</groupId>
-		    <artifactId>spring-instrument</artifactId>
-		    <version>${spring.version}</version>
-		</dependency> -->
-		<dependency>
-		    <groupId>org.springframework</groupId>
-		    <artifactId>spring-webmvc</artifactId>
-		    <version>${spring.version}</version>
-		</dependency>
-		<dependency>
-		    <groupId>org.codehaus.jackson</groupId>
-		    <artifactId>jackson-mapper-asl</artifactId>
-		    <version>1.9.13</version>
-		</dependency>
+        <dependency>
+            <groupId>org.datanucleus</groupId>
+            <artifactId>datanucleus-api-jdo</artifactId>
+            <version>${datanucleus.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.datanucleus</groupId>
+            <artifactId>datanucleus-rdbms</artifactId>
+            <version>${datanucleus.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-orm</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <!-- <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jms</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-oxm</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-instrument</artifactId>
+            <version>${spring.version}</version>
+        </dependency> -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-mapper-asl</artifactId>
+            <version>1.9.13</version>
+        </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
             <version>2.2.2</version>
         </dependency>
-<!-- 		<dependency>
-		    <groupId>org.springframework</groupId>
-		    <artifactId>spring-instrument-tomcat</artifactId>
-		    <version>${spring.version}</version>
-		</dependency> -->
+        <!-- 		<dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-instrument-tomcat</artifactId>
+            <version>${spring.version}</version>
+        </dependency> -->
         <!-- runtime  dependency-->
         <dependency>
-		    <groupId>commons-fileupload</groupId>
-		    <artifactId>commons-fileupload</artifactId>
-		    <version>1.3</version>
-		    <scope>runtime</scope>
-		</dependency>
-		<dependency>
-		    <groupId>opensymphony</groupId>
-		    <artifactId>sitemesh</artifactId>
-		    <version>2.4.2</version>
-		    <scope>runtime</scope>
-		</dependency>
-		<dependency>
-		    <groupId>com.ckeditor</groupId>
-		    <artifactId>ckeditor-java-core</artifactId>
-		    <version>3.5.3</version>
-		    <scope>runtime</scope>
-		</dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+            <version>1.3</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>opensymphony</groupId>
+            <artifactId>sitemesh</artifactId>
+            <version>2.4.2</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.ckeditor</groupId>
+            <artifactId>ckeditor-java-core</artifactId>
+            <version>3.5.3</version>
+            <scope>runtime</scope>
+        </dependency>
 
         <dependency>
             <groupId>javax.jdo</groupId>
@@ -159,10 +159,10 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-		    <groupId>org.slf4j</groupId>
-		    <artifactId>slf4j-log4j12</artifactId>
-		    <version>1.7.5</version>
-		</dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>1.7.5</version>
+        </dependency>
 
         <!-- Test Dependencies -->
         <dependency>
@@ -183,24 +183,24 @@
             <version>${appengine.target.version}</version>
             <scope>test</scope>
         </dependency>
-		<dependency>
-		    <groupId>com.google.appengine</groupId>
-		    <artifactId>appengine-api-stubs</artifactId>
-		    <version>${appengine.target.version}</version>
-		     <scope>test</scope>
-		</dependency>
         <dependency>
-		    <groupId>org.springframework</groupId>
-		    <artifactId>spring-test</artifactId>
-		    <version>${spring.version}</version>
-		    <scope>test</scope>
-		</dependency>
+            <groupId>com.google.appengine</groupId>
+            <artifactId>appengine-api-stubs</artifactId>
+            <version>${appengine.target.version}</version>
+            <scope>test</scope>
+        </dependency>
         <dependency>
-		    <groupId>org.springframework</groupId>
-		    <artifactId>spring-mock</artifactId>
-		    <version>2.0.8</version>
-		    <scope>test</scope>
-		</dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${spring.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-mock</artifactId>
+            <version>2.0.8</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -229,36 +229,28 @@
                 <artifactId>appengine-maven-plugin</artifactId>
                 <version>${appengine.target.version}</version>
                 <!-- <configuration>
-			        <jvmFlags>
-			            <jvmFlag>-Xdebug</jvmFlag>
-			            <jvmFlag>-Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=y
-			            </jvmFlag>
-			        </jvmFlags>
-			        <disableUpdateCheck>true</disableUpdateCheck>
-			    </configuration> -->
+                    <jvmFlags>
+                        <jvmFlag>-Xdebug</jvmFlag>
+                        <jvmFlag>-Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=y
+                        </jvmFlag>
+                    </jvmFlags>
+                    <disableUpdateCheck>true</disableUpdateCheck>
+                </configuration> -->
             </plugin>
         </plugins>
     </build>
 
-  <profiles>
-    <profile>
-        <id>appengine</id>
-        <repositories>
-            <repository>
-                <id>appengine</id>
-                <url>http://central</url>
-            </repository>
-        </repositories>
-<!--         <pluginRepositories>
-            <pluginRepository>
-                <id>central</id>
-                <url>http://central</url>
-                <releases><enabled>true</enabled></releases>
-                <snapshots><enabled>true</enabled></snapshots>
-            </pluginRepository>
-        </pluginRepositories> -->
-    </profile>
-  </profiles>
+<!--    <profiles>
+        <profile>
+            <id>appengine</id>
+            <repositories>
+                <repository>
+                    <id>appengine</id>
+                    <url>http://central</url>
+                </repository>
+            </repositories>
+        </profile>
+    </profiles>-->
 </project>
 
 <!-- mvn install:install-file -DgroupId=com.google.appengine -DartifactId=appengine-api-stubs -Dpackaging=jar -Dversion=1.8.3 -Dfile=appengine-api-stubs-1.8.3.jar -DgeneratePom=true -->
